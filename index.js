@@ -1,33 +1,19 @@
 var electron = require('electron');
 var app = electron.app;
-var BrowserWindow = electron.BrowserWindow;
+var Menu = electron.Menu;
+var Tray = electron.Tray;
 
 // Report crashes to server
 electron.crashReporter.start();
 
-// Keep global reference of window object
-var mainWindow = null;
-
-// Quit when all windows are closed
-app.on('window-all-closed', function() {
-	if (process.platform != 'darwin') {
-		app.quit();
-	}
-});
-
+var appIcon = null;
 // Called when Electron has finished initialization
 app.on('ready', function() {
-	// Create browser window
-	mainWindow = new BrowserWindow({width: 800, height: 600});
-
-	// load index.html
-	mainWindow.loadURL('file://' + __dirname + '/index.html');
-
-	// open devtools
-	mainWindow.webContents.openDevTools();
-
-	mainWindow.on('closed', function() {
-		// dereference window object
-		mainWindow = null;
-	});
+	appIcon = new Tray('./icon.png');
+	var contextMenu = Menu.buildFromTemplate([
+		{ label: 'Item1', type: 'radio' },
+		{ label: 'Item2', type: 'radio' }
+	]);
+	appIcon.setToolTip('Nimble');
+	appIcon.setContextMenu(contextMenu);
 });
