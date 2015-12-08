@@ -1,5 +1,5 @@
 {
-  "name": "nimble",
+  "name": "te",
   "version": "0.0.1",
   "description": "A Wolfram|Alpha® OS X menu bar app",
   "main": "index.js",
@@ -12,18 +12,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/madebybright/Nimble.git"
+    "url": "git+https://github.com/madebybright/te.git"
   },
   "keywords": [
     "wolfram",
-    "nimble",
+    "te",
     "osx",
     "menubar"
   ],
   "author": "Josh Trommel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/madebybright/Nimble/issues"
+    "url": "https://github.com/madebybright/te/issues"
   },
-  "homepage": "https://github.com/madebybright/Nimble#readme"
+  "homepage": "https://github.com/madebybright/te#readme"
 }
