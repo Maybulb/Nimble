@@ -1,16 +1,14 @@
-te
+Nimble
 ==
 
-![thank you jamie](http://i.imgur.com/LaNbLd2.png)
-
-An extremely proud and distuinguished Wolfram|Alpha® OS X menu bar app coming spectacularly soon.
+(Tech Teen Voice) An opinionated Wolfram|Alpha® OS X menu bar, built with the wonderful [Electron](http://electron.atom.io/). For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
 
 ## Development
-Te (we might just change the name back to Nimble at this point) won't be totally bundled for a bit, but it'll still be worked on. You should try get it working on your system, and add something cool while you're at it.
+Nimble won't be bundled as an app for a bit but it'll still be worked on. You should try get it working on your system, and add something cool while you're at it.
 
 ```bash
-git clone git@github.com:madebybright/te
-cd te
+git clone git@github.com:madebybright/nimble
+cd Nimble
 npm install
 gulp
 electron .
