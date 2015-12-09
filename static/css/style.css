@@ -1,8 +1,9 @@
 body {
-	background: orange;
-}
+  background: #ff8502; }
 
 input[type=text] {
-	font-size: 2em;
-	width: 90%;
-}
+  font-size: 1.5em;
+  padding: 10px;
+  font-family: Helvetica, sans-serif;
+  width: 90%;
+  outline: none; }

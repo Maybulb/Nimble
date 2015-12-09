@@ -8,7 +8,9 @@
     "menubar": "^2.3.0"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.35.4"
+    "electron-prebuilt": "^0.35.4",
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.0"
   },
   "scripts": {
     "test": "node index.js"
