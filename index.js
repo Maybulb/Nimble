@@ -1,19 +1,19 @@
 var electron = require('electron');
 var app = electron.app;
-var Menu = electron.Menu;
-var Tray = electron.Tray;
+var menubar = require('menubar');
 
-// Report crashes to server
-electron.crashReporter.start();
-
-var appIcon = null;
-// Called when Electron has finished initialization
-app.on('ready', function() {
-	appIcon = new Tray('./icon.png');
-	var contextMenu = Menu.buildFromTemplate([
-		{ label: 'Item1', type: 'radio' },
-		{ label: 'Item2', type: 'radio' }
-	]);
-	appIcon.setToolTip('Nimble');
-	appIcon.setContextMenu(contextMenu);
+var mb = menubar({
+	height:60,
+	width: 480,
+	icon: './static/img/menubar_icon.png',
 });
+
+// mb.on('after-create-window', function() {
+// 	mb.window.openDevTools()
+// })
+
+// mb.tray.setPressedImage('./static/img/menubar_icon_pressed.png');
+
+mb.on('ready', function ready ()  {
+	console.log('Te is ready');
+})

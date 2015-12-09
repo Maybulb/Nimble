@@ -1,0 +1,8 @@
+body {
+	background: orange;
+}
+
+input[type=text] {
+	font-size: 2em;
+	width: 90%;
+}

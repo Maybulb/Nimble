@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "A Wolfram|Alpha® OS X menu bar app",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "menubar": "^2.3.0"
+  },
   "devDependencies": {
     "electron-prebuilt": "^0.35.4"
   },
