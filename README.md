@@ -13,3 +13,6 @@ npm install
 gulp
 electron .
 ```
+
+## Checklist
+- [ ] Convert all JS to Coffee (this seems unnecessary)
