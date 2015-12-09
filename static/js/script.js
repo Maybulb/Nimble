@@ -1,8 +1,14 @@
-var $ = require('jquery');
+(function() {
+  var $;
 
-// This isn't going to work
-$('#input').focus();
+  $ = require('jquery');
 
-$(document).keypress(function(e) {
-	if (e.which == 13) alert('query: ' + $('#input').val());
-})
+  $('#input').focus();
+
+  $(document).keypress(function(e) {
+    if (e.which === 13) {
+      alert('query: ' + $('#input').val());
+    }
+  });
+
+}).call(this);
