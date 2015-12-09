@@ -21,4 +21,5 @@ killall Electron
 
 
 ## Checklist
+- [ ] Improve file structure/skeleton
 - [ ] Convert all JS to Coffee (this seems unnecessary)
