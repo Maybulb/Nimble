@@ -14,6 +14,8 @@ gulp.task('coffee', function() {
 		.pipe(gulp.dest('static/js'))
 });
 
-gulp.task('default', function() {
+gulp.task('compile', ['sass', 'coffee']);
+
+gulp.task('watch', function() {
 	gulp.watch(['static/css/style.sass', 'static/js/script.coffee'], ['sass', 'coffee'])
 })

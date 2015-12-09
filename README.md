@@ -10,9 +10,15 @@ Nimble won't be bundled as an app for a bit but it'll still be worked on. You sh
 git clone git@github.com:madebybright/nimble
 cd Nimble
 npm install
-gulp
-electron .
+npm start
 ```
+
+This'll run a Gulp process in the background so if you want to kill the process once you're done just kill all processes related to Electron.
+
+```bash
+killall Electron
+```
+
 
 ## Checklist
 - [ ] Convert all JS to Coffee (this seems unnecessary)

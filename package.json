@@ -14,7 +14,7 @@
     "gulp-sass": "^2.1.0"
   },
   "scripts": {
-	  "start": "electron ."
+	  "start": "{ gulp compile && gulp watch & electron . & }"
   },
   "repository": {
     "type": "git",

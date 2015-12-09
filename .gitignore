@@ -9,8 +9,8 @@
 .DS_Store
 
 # Ignore compiled CSS and JS
-.css
-.js
+*.css
+*.js
 
 # Logs
 logs
