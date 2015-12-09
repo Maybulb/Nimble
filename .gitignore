@@ -8,6 +8,10 @@
 # his feelings and just not invited him
 .DS_Store
 
+# Ignore compiled CSS and JS
+.css
+.js
+
 # Logs
 logs
 *.log
