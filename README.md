@@ -38,4 +38,3 @@ Control-C every time you make a change and want to see an updated version of Nim
 
 ## Checklist
 - [ ] Improve file structure/skeleton
-- [ ] Convert all JS to Coffee (this seems unnecessary)
