@@ -15,5 +15,5 @@ mb.on('after-create-window', function() {
 })
 
 mb.on('ready', function ready ()  {
-	console.log('Te is ready');
+	console.log('Nimble is ready');
 })
