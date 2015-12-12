@@ -2,11 +2,6 @@ var $ = require('jquery');
 var request = require('request');
 var util = require('util');
 
-function get_type(thing){
-    if(thing===null)return "[object Null]"; // special case
-    return Object.prototype.toString.call(thing);
-}
-
 var baseURL = "https://nimble-backend.herokuapp.com/input?i=%s";
 
 // clean this miserable piece of shit up
