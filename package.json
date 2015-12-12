@@ -4,8 +4,10 @@
   "description": "A Wolfram|Alpha® OS X menu bar app",
   "main": "index.js",
   "dependencies": {
+    "install": "^0.4.1",
     "jquery": "^2.1.4",
     "menubar": "^2.3.0",
+    "npm": "^3.5.2",
     "request": "^2.67.0"
   },
   "devDependencies": {
