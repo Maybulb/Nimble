@@ -34,7 +34,7 @@ npm start
 - [ ] Add content-dynamic window support
 - [ ] Improve file structure/skeleton
 
-# Contribution
+## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
 
 ## License
