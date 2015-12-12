@@ -1,6 +1,6 @@
 Nimble
 ======
-<img align="right" width="20%" style="float:right;padding:20px;" src="https://github.com/madebybright/madebybright.github.io/raw/master/img/nimble/1024.png">
+<img align="right" width="20%" style="float:right;padding:20px;" src="https://github.com/madebybright/madebybright.github.io/raw/master/img/nimble/256.png">
 
 A Wolfram|Alpha® menu bar application, built with the wonderful [Electron](http://electron.atom.io/).
 
