@@ -1,6 +1,6 @@
 Nimble
 ======
-<img align="right" height="260" src="https://github.com/madebybright/madebybright.github.io/raw/master/img/nimble/1024.png">
+<img align="right" width="25%" style="float:right;" src="https://github.com/madebybright/madebybright.github.io/raw/master/img/nimble/1024.png">
 
 A Wolfram|Alpha® menu bar application, built with the wonderful [Electron](http://electron.atom.io/).
 
@@ -34,6 +34,8 @@ npm start
 - [x] Add Random Placeholder Query Suggestions
 - [ ] Add content-dynamic window support
 - [ ] Improve file structure/skeleton
+- [ ] Right click on the icon -> Preferences and Exit
+- [ ] Add search button
 
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
