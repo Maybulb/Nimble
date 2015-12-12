@@ -12,3 +12,5 @@ gulp.task('compile', ['sass']);
 gulp.task('watch', function() {
 	gulp.watch('static/css/*.sass', ['sass'])
 })
+
+gulp.task('default', ['compile']);
