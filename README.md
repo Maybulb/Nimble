@@ -10,7 +10,7 @@ For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.
 Electron and gulp required to be installed on your machine. Clone the repository, install dependencies, run gulp, then run electron in the current directory.
 
 ```bash
-git clone git://git@github.com:madebybright/Nimble
+git clone git@github.com:madebybright/Nimble.git
 
 # cd into the directory and install dependencies
 cd Nimble && npm install
