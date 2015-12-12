@@ -31,7 +31,7 @@ npm start
 
 ## Checklist
 - [ ] Clean up request
-- [ ] Add Random Placeholder Query Suggestions
+- [x] Add Random Placeholder Query Suggestions
 - [ ] Add content-dynamic window support
 - [ ] Improve file structure/skeleton
 
