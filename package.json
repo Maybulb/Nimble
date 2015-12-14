@@ -1,7 +1,7 @@
 {
   "name": "Nimble",
   "version": "0.0.1",
-  "description": "A Wolfram|Alpha® OS X menu bar app",
+  "description": "A Wolfram|Alpha® menu bar app",
   "main": "index.js",
   "dependencies": {
     "font-awesome": "^4.5.0",
@@ -30,7 +30,7 @@
     "osx",
     "menubar"
   ],
-  "author": "Josh Trommel",
+  "author": "Bright, Co.",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/madebybright/nimble/issues"
