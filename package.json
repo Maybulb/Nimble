@@ -12,7 +12,7 @@
     "request": "^2.67.0"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.35.4",
+    "electron-prebuilt": "^0.36.0",
     "gulp": "^3.9.0",
     "gulp-coffee": "^2.3.1",
     "gulp-sass": "^2.1.0"
