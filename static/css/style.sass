@@ -14,10 +14,12 @@ body
 
 div.input
 	display: relative
+	pointer-events: none
 	input[type=text]
 		display: block
 		position: relative
 		border: 0
+		pointer-events: auto
 		font-size: 1.25em
 		padding: 12px 16px
 		font-family: $font-family
@@ -27,10 +29,13 @@ div.input
 		margin: 0 auto
 	i.fa
 		position: absolute
-		top: 10px
-		left: 16px
-		font-size: 1.25em
-		color: black
+		top: 8px
+		right: 16px
+		font-size: 1em
+		padding: 8px
+		border-radius: 50%
+		background: #a9a9a9
+		color: white
 
 h1
 	text-align: center
