@@ -4,6 +4,7 @@
   "description": "A Wolfram|Alpha® OS X menu bar app",
   "main": "index.js",
   "dependencies": {
+    "font-awesome": "^4.5.0",
     "install": "^0.4.1",
     "jquery": "^2.1.4",
     "menubar": "^2.3.0",

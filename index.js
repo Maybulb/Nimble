@@ -3,7 +3,7 @@ var app = electron.app;
 var menubar = require('menubar');
 
 var mb = menubar({
-	height:50,
+	height: 50,
 	width: 380,
 	icon: './static/img/menubar_icon.png',
 	index: 'file://' + __dirname + '/static/index.html'
