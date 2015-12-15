@@ -15,17 +15,7 @@ git clone https://github.com/madebybright/Nimble.git
 # cd into the directory and install dependencies
 cd Nimble && npm install
 
-# Run gulp to compile files
-gulp
-
-# Run electron to start
-electron .
-```
-
-Alternatively, you can skip gulp and electron with npm.
-
-```bash
-# Runs gulp to compile and electron to start
+# Compiles Sass and starts (gulp && electron .)
 npm start
 ```
 
@@ -33,9 +23,9 @@ npm start
 - [x] Fix overflow problem
 - [x] Add Random Placeholder Query Suggestions
 - [x] Add search button
-- [ ] Clean up request
+- [x] Clean up request
 - [ ] Add content-dynamic window support
-- [ ] Improve file structure/skeleton
+- [x] Improve file structure/skeleton
 - [ ] Right click on the icon -> Preferences and Exit
 - [ ] Change initial position of where Nimble loads (the x and y values)
 - [ ] Add math.js support
