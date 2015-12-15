@@ -30,13 +30,20 @@ npm start
 ```
 
 ## Checklist
-- [ ] Clean up request
 - [x] Fix overflow problem
 - [x] Add Random Placeholder Query Suggestions
+- [x] Add search button
+- [ ] Clean up request
 - [ ] Add content-dynamic window support
 - [ ] Improve file structure/skeleton
 - [ ] Right click on the icon -> Preferences and Exit
-- [x] Add search button
+- [ ] Change initial position of where Nimble loads (the x and y values)
+- [ ] Add math.js support
+  - [ ] Allow option for query to be processed with W|A if it's first processed with math.js.
+- [ ] Add error messages
+- [ ] Graphing???
+- [ ] Loading indicator.
+- [ ] Always offer a link to the Wolfram|Alpha page at the bottom.
 
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
