@@ -6,6 +6,18 @@
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
 		<script src="js/script.js"></script>
+		<script type="text/javascript">
+		// seems messy imho
+			$(function() {
+				$("#input").keyup(function() {
+					if (this.value == "") {
+						$(".input button").css("background-color", "#a9a9a9");
+					} else {
+						$(".input button").css("background-color", "black");
+					}
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<div class="input">

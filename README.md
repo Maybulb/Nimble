@@ -44,6 +44,7 @@ npm start
 - [ ] Graphing?
 - [ ] Loading indicator
 - [ ] Always offer a link to the Wolfram|Alpha page at the bottom
+- [ ] Un-round the top border
 
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
