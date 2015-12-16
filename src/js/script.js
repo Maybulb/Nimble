@@ -1,21 +1,18 @@
 var $ = require('jquery');
 var request = require('request');
 var util = require('util');
+var randpaul = require('rand-paul');
 var url = "https://nimble-backend.herokuapp.com/input?i=%s";
 
 $(document).ready(function() {
   $.getJSON('js/suggestions.json', function(json) {
-    $('#input').attr('placeholder', randomValue(json));
+    $('#input').attr('placeholder', randpaul(json));
   })
 })
 
 $(document).keypress(function(event) {
   if (event.which === 13) query();
 });
-
-var randomValue = function(array) {
-  return array[Math.floor(Math.random()*array.length)];
-}
 
 var query = function () {
   var encodedQuery = encodeURIComponent($('#input').val());
