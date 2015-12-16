@@ -1,12 +1,12 @@
 var $ = require('jquery');
 var request = require('request');
 var util = require('util');
-var randpaul = require('rand-paul');
+var rand = require('rand-paul');
 var url = "https://nimble-backend.herokuapp.com/input?i=%s";
 
 $(document).ready(function() {
   $.getJSON('js/suggestions.json', function(json) {
-    $('#input').attr('placeholder', randpaul(json));
+    $('#input').attr('placeholder', rand.paul(json));
   })
 })
 
