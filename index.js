@@ -1,5 +1,6 @@
 var electron = require('electron');
 var app = electron.app;
+var Menu = electron.Menu;
 var menubar = require('menubar');
 
 var mb = menubar({
@@ -15,6 +16,16 @@ mb.on('after-create-window', function() {
 	mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
 })
 
-mb.on('ready', function ready ()  {
+mb.on('ready', function ()  {
 	console.log('Nimble is ready');
+
+	mb.tray.on('right-click', function () {
+		var altMenu = Menu.buildFromTemplate([
+			{ label: 'Preferences', click: function() { alert('Coming Soon')} },
+			{ label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); } }
+		]);
+		console.log('Created altMenu')
+		mb.tray.setContextMenu(altMenu);
+	});
+
 })
