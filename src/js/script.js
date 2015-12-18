@@ -30,15 +30,14 @@ var query = function () {
 
   console.log('Queried with: ' + queryURL)
 
-  progress(request(queryURL), {
-    delay: 1000
-  }).on('progress', function(state) {
-    console.log('progress: ', state.percent)
+  progress(request(queryURL))
+  .on('progress', function(state) {
+    console.log('progress: ' + state.percent)
   }).on('data', function(data) {
     var json = JSON.parse(data);
     var plaintext = json.result.result.plaintext;
     resizeWindow(300);
-    // alert(json.result.input + ": " + plaintext);
+    alert(json.result.input + ": " + plaintext);
   }).on('error', function(err) {
     console.log('Error:' + err)
   })
