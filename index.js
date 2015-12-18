@@ -19,13 +19,22 @@ mb.on('after-create-window', function() {
 mb.on('ready', function ()  {
 	console.log('Nimble is ready');
 
-	mb.tray.on('right-click', function () {
+	mb.tray
+		.on('click', click)
+		.on('right-click', rightClick);
+
+	function click(e, bounds) {
+		console.log('left click');
+		// what am i gonna do with this
+	}
+
+	function rightClick (e, bounds) {
 		var altMenu = Menu.buildFromTemplate([
-			{ label: 'Preferences', click: function() { alert('Coming Soon')} },
+			{ label: 'Preferences', click: function() { console.log('Coming Soon')} },
 			{ label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); } }
 		]);
-		console.log('Created altMenu')
+
 		mb.tray.setContextMenu(altMenu);
-	});
+	}
 
 })
