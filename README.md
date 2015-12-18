@@ -36,6 +36,11 @@ npm start
 - [ ] Always offer a link to the Wolfram|Alpha page at the bottom
 - [ ] Un-round the top border
 
+## Far Future Additions
+Some ideas we've been kicking around that we think might have a spot in future versions of Nimble once we've actually gotten it working.
+
+- Quick timezone conversions (possibly with Moment.js)
+
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
 
