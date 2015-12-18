@@ -1,15 +1,13 @@
 var $ = require('jquery');
 var util = require('util');
 var electron = require('electron');
-var ipc = electron.ipcMain;
+var ipcRenderer = electron.ipcRenderer;
 var request = require('request');
 var progress = require('request-progress');
 var url = "https://nimble-backend.herokuapp.com/input?i=%s";
 
-function resultsReturned(results) {
-  ipc.send('resize', {
-    height: results.getBoundingClient.height + 10;
-  })
+function resizeWindow(h) {
+  ipcRenderer.send('resize', {height: h});
 }
 
 $(document).ready(function() {
@@ -39,7 +37,7 @@ var query = function () {
   }).on('data', function(data) {
     var json = JSON.parse(data);
     var plaintext = json.result.result.plaintext;
-    resultsReturned();
+    resizeWindow(300);
     // alert(json.result.input + ": " + plaintext);
   }).on('error', function(err) {
     console.log('Error:' + err)
