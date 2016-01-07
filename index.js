@@ -11,8 +11,8 @@ var mb = menubar({
 });
 
 mb.on('after-create-window', function() {
-  // mb.window.openDevTools()
-  mb.window.setResizable(false);
+  mb.window.openDevTools()
+  // mb.window.setResizable(false);
 	mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
 })
 
@@ -24,8 +24,7 @@ mb.on('ready', function ()  {
 		.on('right-click', rightClick);
 
 	function click(e, bounds) {
-		console.log('left click');
-		// what am i gonna do with this
+		// Nothing?
 	}
 
 	function rightClick (e, bounds) {

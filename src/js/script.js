@@ -1,7 +1,8 @@
 var $ = require('jquery');
-var request = require('request');
 var util = require('util');
 var rand = require('rand-paul');
+var request = require('request');
+var progress = require('request-progress');
 var url = "https://nimble-backend.herokuapp.com/input?i=%s";
 
 $(document).ready(function() {
@@ -17,12 +18,19 @@ $(document).keypress(function(event) {
 var query = function () {
   var encodedQuery = encodeURIComponent($('#input').val());
   var queryURL = util.format(url, encodedQuery);
-  request(queryURL, function(err, res, body) {
-    if (!err && res.statusCode == 200) {
-      var json = JSON.parse(body);
-      alert(json.result.input + ": " + json.result.result.plaintext);
-    } else {
-      alert('Error parsing: ' + queryURL);
-    }
+
+  console.log('Queried with: ' + queryURL)
+
+  progress(request(queryURL), {
+    delay: 1000
+  }).on('progress', function(state) {
+    console.log('progress: ', state.percent)
+  }).on('data', function(data) {
+    var json = JSON.parse(data);
+    var plaintext = json.result.result.plaintext;
+    alert(json.result.input + ": " + plaintext);
+  }).on('error', function(err) {
+    console.log('Error:' + err)
   })
+
 }
