@@ -1,11 +1,11 @@
-var $ = require('jquery');
-var util = require('util');
-var rand = require('rand-paul');
-var electron = require('electron');
-var ipcRenderer = electron.ipcRenderer;
-var request = require('request');
-var progress = require('request-progress');
-var url = "https://nimble-backend.herokuapp.com/input?i=%s";
+var $ = require('jquery'),
+    util = require('util'),
+    rand = require('rand-paul'),
+    electron = require('electron'),
+    ipcRenderer = electron.ipcRenderer,
+    request = require('request'),
+    progress = require('request-progress'),
+    URL = "https://nimble-backend.herokuapp.com/input?i=%s";
 
 function resizeWindow(h) {
   ipcRenderer.send('resize', {height: h});
@@ -13,7 +13,9 @@ function resizeWindow(h) {
 
 $(document).ready(function() {
   $.getJSON('js/suggestions.json', function(json) {
-    $('#input').attr('placeholder', rand.paul(json));
+    var placeholder = rand.paul(json)
+    $('#input').attr('placeholder', placeholder);
+    console.log('Placeholder set to: ' + placeholder);
   })
 })
 
@@ -23,18 +25,18 @@ $(document).keypress(function(event) {
 
 var query = function () {
   var encodedQuery = encodeURIComponent($('#input').val());
-  var queryURL = util.format(url, encodedQuery);
+  var queryURL = util.format(URL, encodedQuery);
 
   console.log('Queried with: ' + queryURL)
 
   progress(request(queryURL))
   .on('progress', function(state) {
-    console.log('progress: ' + state.percent)
+    console.log('progress: ' + state.percent) // Not working at all ¯\_(ツ)_/¯
   })
   .on('data', function(data) {
     var json = JSON.parse(data);
     var plaintext = json.result.result.plaintext;
-    resizeWindow(300);
+    resizeWindow(300); // Throwing an error at the moment but continuing
     alert(json.result.input + ": " + plaintext);
   })
   .on('error', function(err) {

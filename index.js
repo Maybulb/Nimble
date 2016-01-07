@@ -29,17 +29,7 @@ mb.on('ready', function ()  {
 		.on('click', click)
 		.on('right-click', rightClick);
 
-	function click(e, bounds) {
-		// Nothing?
-	}
-
-	function rightClick (e, bounds) {
-		var altMenu = Menu.buildFromTemplate([
-			{ label: 'Preferences', click: function() { console.log('Coming Soon')} },
-			{ label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); } }
-		]);
-
-		mb.tray.setContextMenu(altMenu);
-	}
+	function click(e, bounds) {}
+	function rightClick (e, bounds) { app.quit() }
 
 })
