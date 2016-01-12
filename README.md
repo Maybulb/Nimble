@@ -24,15 +24,17 @@ npm start
 - [x] Add Random Placeholder Query Suggestions
 - [x] Add search button
 - [x] Clean up request
-- [ ] Add content-dynamic window support :balloon: In Progress
+- [x] Add content-dynamic window support :balloon: In Progress
+  - [ ] Improve with possible animation
 - [x] Improve file structure/skeleton
-- [ ] Right click on the icon -> Preferences and Exit :balloon: In Progress
+- [x] Right click icon to exit
+  - [ ] Provide mini menu for Preferences and Exit
 - [ ] Change initial position of where Nimble loads (the x and y values)
 - [ ] Add math.js support
   - [ ] Allow option for query to be processed with W|A if it's first processed with math.js
 - [ ] Add error messages
 - [ ] Graphing?
-- [ ] Loading indicator :balloon: In Progress
+- [ ] Indeterminate Loading indicator :balloon: In Progress
 - [ ] Always offer a link to the Wolfram|Alpha page at the bottom
 - [ ] Un-round the top border
 
