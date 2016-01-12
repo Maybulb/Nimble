@@ -36,7 +36,7 @@ var query = function () {
   .on('data', function(data) {
     var json = JSON.parse(data);
     var plaintext = json.result.result.plaintext;
-    resizeWindow(300); // Throwing an error at the moment but continuing
+    resizeWindow(300);
     alert(json.result.input + ": " + plaintext);
   })
   .on('error', function(err) {

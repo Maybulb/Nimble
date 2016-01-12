@@ -12,8 +12,7 @@ var mb = menubar({
 });
 
 ipc.on('resize', function(event, arg) {
-	console.log('test')
-	mb.window.setSize(mb.window.getSize().width, arg.height)
+	mb.window.setSize(mb.window.getSize()[0], arg.height)
 });
 
 mb.on('after-create-window', function() {
