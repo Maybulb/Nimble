@@ -12,15 +12,15 @@ var mb = menubar({
 });
 
 ipc.on('resize', function(event, arg) {
-	console.log("Resizing window to " + mb.window.getSize()[0] + " x " + arg.height)
-	mb.window.setSize(mb.window.getSize()[0], arg.height)
+	console.log("Resizing window to " + mb.window.getSize()[0] + " x " + arg.height);
+	mb.window.setSize(mb.window.getSize()[0], arg.height);
 });
 
 mb.on('after-create-window', function() {
-  mb.window.openDevTools({detach: true})
+  mb.window.openDevTools({detach: true});
   // mb.window.setResizable(false);
 	mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
-})
+});
 
 mb.on('ready', function ()  {
 	console.log('Nimble is ready');
@@ -31,5 +31,4 @@ mb.on('ready', function ()  {
 
 	function click(e, bounds) {}
 	function rightClick (e, bounds) { app.quit() }
-
-})
+});
