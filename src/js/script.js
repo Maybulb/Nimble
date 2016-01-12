@@ -7,7 +7,8 @@ var $ = require('jquery'),
     progress = require('request-progress'),
     URL = "https://nimble-backend.herokuapp.com/input?i=%s";
 
-function resizeWindow(h) {
+function resizeWindow() {
+  var h = $("body").height();
   ipcRenderer.send('resize', {height: h});
 }
 
@@ -36,8 +37,8 @@ var query = function () {
   .on('data', function(data) {
     var json = JSON.parse(data);
     var plaintext = json.result.result.plaintext;
-    resizeWindow(300);
-    alert(json.result.input + ": " + plaintext);
+    $(".output").text(plaintext)
+    resizeWindow();
   })
   .on('error', function(err) {
     console.log('Error:' + err)
