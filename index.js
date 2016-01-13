@@ -20,6 +20,11 @@ ipc.on('progress', function(event, arg) {
 	mb.window.setProgress(arg.p);
 });
 
+// console.log handler
+ipc.on('node_console', function(event, arg) {
+	console.log(arg.m)
+});
+
 mb.on('after-create-window', function() {
   // mb.window.openDevTools({detach: true});
   mb.window.setResizable(false);
@@ -31,8 +36,14 @@ mb.on('ready', function ()  {
 
 	mb.tray
 		.on('click', click)
-		.on('right-click', rightClick);
+		.on('right-click', rightClick)
+		.on('click', devTools);
 
 	function click(e, bounds) {}
+	function devTools(e, bound) {
+		if (e.shiftKey) {
+			mb.window.openDevTools({detach: true})
+		}
+	}
 	function rightClick (e, bounds) { app.quit() }
 });
