@@ -34,22 +34,22 @@ var query = function () {
   var encodedQuery = encodeURIComponent(input);
   var queryURL = util.format(URL, encodedQuery);
   var result;
-  
+
   // in this try block, we check if things work
   try {
-    if(input === "What is Nimble?" || input === "What is Nimble" || input === "what is Nimble?" || input === "what is nimble" || input === "what is Nimble" || input === "What is nimble" || input === "What is nimble?") {
+    if (input === "What is Nimble?" || input === "What is Nimble" || input === "what is Nimble?" || input === "what is nimble" || input === "what is Nimble" || input === "What is nimble" || input === "What is nimble?") {
       // if user asks what nimble is, tell them
-      result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright.</a> We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
+      result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright</a>. We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
     } else {
       result = math.eval(input);
     }
-    
+
     $(".output").html(result);
     resizeWindow();
   } catch(e) {
     // if input isn't math throw error and use wolfram code
     console.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
-    
+
     progress(request(queryURL))
     .on('progress', function(state) {
       ipcRenderer.send('progress', {p: state.percentage});
@@ -57,7 +57,7 @@ var query = function () {
     .on('data', function(data) {
       var json = JSON.parse(data);
       result = json.result.result.plaintext;
-      
+
       $(".output").text(result);
       resizeWindow();
     })
