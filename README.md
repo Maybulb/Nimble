@@ -48,3 +48,5 @@ Want to make a contribution? Fork the repo, add your changes, and submit a pull 
 
 ## License
 [LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE)
+
+![Tag](http://i.imgur.com/etWLNKJ.gif) ![Tag](http://i.imgur.com/c4J95hH.gif) ![Tag](http://i.imgur.com/Sl7UbNI.gif) ![Tag](http://i.imgur.com/xaoeuKp.gif)
