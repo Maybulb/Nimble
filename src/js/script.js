@@ -7,6 +7,10 @@ var $ = require('jquery'),
     progress = require('request-progress'),
     math = require("mathjs"),
     URL = "https://nimble-backend.herokuapp.com/input?i=%s";
+    remote = electron.remote;
+    MenuItem = remote.MenuItem;
+    Menu = remote.Menu;
+    Shell = electron.shell;
 
 function resizeWindow() {
   var h = $("body").height();
@@ -26,15 +30,21 @@ $(document).keypress(function(event) {
 });
 
 var query = function () {
-  var encodedQuery = encodeURIComponent($('#input').val());
+  var input = $('#input').val();
+  var encodedQuery = encodeURIComponent(input);
   var queryURL = util.format(URL, encodedQuery);
   var result;
   
-  // try to evaluate w/ mathjs
+  // in this try block, we check if things work
   try {
-    result = math.eval($('#input').val());
+    if(input === "What is Nimble?" || input === "What is Nimble" || input === "what is Nimble?" || input === "what is nimble" || input === "what is Nimble" || input === "What is nimble" || input === "What is nimble?") {
+      // if user asks what nimble is, tell them
+      result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright.</a> We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
+    } else {
+      result = math.eval(input);
+    }
     
-    $(".output").text(result);
+    $(".output").html(result);
     resizeWindow();
   } catch(e) {
     // if input isn't math throw error and use wolfram code
@@ -42,7 +52,7 @@ var query = function () {
     
     progress(request(queryURL))
     .on('progress', function(state) {
-      console.log('progress: ' + state.percent); // Not working at all ¯\_(ツ)_/¯
+      ipcRenderer.send('progress', {p: state.percentage});
     })
     .on('data', function(data) {
       var json = JSON.parse(data);
@@ -57,7 +67,4 @@ var query = function () {
   }
 
   console.log('Queried with: ' + queryURL);
-
-  
-
 }

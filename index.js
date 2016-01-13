@@ -1,6 +1,5 @@
 var electron = require('electron');
 var app = electron.app;
-var Menu = electron.Menu;
 var ipc = electron.ipcMain;
 var menubar = require('menubar');
 
@@ -14,6 +13,11 @@ var mb = menubar({
 ipc.on('resize', function(event, arg) {
 	console.log("Resizing window to " + mb.window.getSize()[0] + " x " + arg.height);
 	mb.window.setSize(mb.window.getSize()[0], arg.height);
+});
+
+ipc.on('progress', function(event, arg) {
+	console.log("Load progress " + arg.p)
+	mb.window.setProgress(arg.p);
 });
 
 mb.on('after-create-window', function() {
