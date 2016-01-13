@@ -17,11 +17,23 @@ function resizeWindow() {
   ipcRenderer.send('resize', {height: h});
 }
 
+// error forwarding
+window.onerror = function(e) {
+  window.log("Error \"" + e + "\" caught. Being forwarded to Node.js console.")
+  ipcRenderer.send('node_console', {m: e})
+}
+// please use window.log instead of console.log, as it forwards it to the backend (node.js console)
+// therefore bugs are easier to troubleshoot :)
+window.log = function(log) {
+  ipcRenderer.send('node_console', {m: log})
+  console.log(log)
+}
+
 $(document).ready(function() {
   $.getJSON('js/suggestions.json', function(json) {
     var placeholder = rand.paul(json);
     $('#input').attr('placeholder', placeholder);
-    console.log('Placeholder set to: ' + placeholder);
+    window.log('Placeholder set to: ' + placeholder);
   });
 });
 
@@ -48,7 +60,7 @@ var query = function () {
     resizeWindow();
   } catch(e) {
     // if input isn't math throw error and use wolfram code
-    console.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
+    window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
 
     progress(request(queryURL))
     .on('progress', function(state) {
@@ -62,9 +74,9 @@ var query = function () {
       resizeWindow();
     })
     .on('error', function(err) {
-      console.log('Error:' + err);
+      window.log('Error:' + err);
     });
   }
 
-  console.log('Queried with: ' + queryURL);
+  window.log('Queried with: ' + queryURL);
 }
