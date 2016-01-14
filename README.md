@@ -7,7 +7,7 @@ A Wolfram|Alpha® menu bar application, built with the wonderful [Electron](http
 For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
 
 ## Development
-Electron and gulp required to be installed on your machine. Clone the repository, install dependencies, run gulp, then run electron in the project directory.
+Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`). Clone the repository, install dependencies, run gulp, then run electron in the project directory.
 
 ```bash
 git clone https://github.com/madebybright/Nimble.git
