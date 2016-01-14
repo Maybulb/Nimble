@@ -28,13 +28,8 @@ ipc.on('node_console', function(event, arg) {
 mb.on('after-create-window', function() {
   // mb.window.openDevTools({detach: true});
   mb.window.setResizable(false);
-<<<<<<< HEAD
-  mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
-})
-=======
 	mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
 });
->>>>>>> development
 
 mb.on('ready', function ()  {
 	console.log('Nimble is ready');
