@@ -22,6 +22,7 @@ npm start
 ## Checklist
 - [x] Fix overflow problem
 - [x] Add Random Placeholder Query Suggestions
+  - [ ] Make it fade between placeholders every few seconds or so(?)
 - [x] Add search button
 - [x] Clean up request
 - [x] Add content-dynamic window support :balloon: In Progress
