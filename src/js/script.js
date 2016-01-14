@@ -22,6 +22,7 @@ window.onerror = function(e) {
   window.log("Error \"" + e + "\" caught. Being forwarded to Node.js console.")
   ipcRenderer.send('node_console', {m: e})
 }
+
 // please use window.log instead of console.log, as it forwards it to the backend (node.js console)
 // therefore bugs are easier to troubleshoot :)
 window.log = function(log) {
@@ -43,8 +44,6 @@ $(document).keypress(function(event) {
 
 var query = function () {
   var input = $('#input').val();
-  var encodedQuery = encodeURIComponent(input);
-  var queryURL = util.format(URL, encodedQuery);
   var result;
 
   // in this try block, we check if things work
@@ -61,6 +60,8 @@ var query = function () {
   } catch(e) {
     // if input isn't math throw error and use wolfram code
     window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
+    var encodedQuery = encodeURIComponent(input);
+    var queryURL = util.format(URL, encodedQuery);
 
     progress(request(queryURL))
     .on('progress', function(state) {
@@ -68,7 +69,7 @@ var query = function () {
     })
     .on('data', function(data) {
       var json = JSON.parse(data);
-      result = json.result.result.plaintext;
+      result = json.results[0].subpods[0].text;
 
       $(".output").text(result);
       resizeWindow();
@@ -76,7 +77,7 @@ var query = function () {
     .on('error', function(err) {
       window.log('Error:' + err);
     });
-  }
 
-  window.log('Queried with: ' + queryURL);
+    window.log('Queried with: ' + queryURL);
+  }
 }
