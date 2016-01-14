@@ -1,5 +1,10 @@
 $nimble-orange: #FF8C12
+$bright-yellow: #FFCA30
 $font-family: 'BlinkMacSystemFont', system, -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", "Lucida Grande"
+
+hr
+	background: white
+	border: 1px solid white
 
 body, html
 	width: 100%
@@ -11,6 +16,21 @@ body, html
 
 body
 	background: $nimble-orange
+
+div.output
+	display: block
+	position: relative
+	border: 0
+	pointer-events: auto
+	font-size: 1.125em
+	padding: 12px 16px
+	font-family: $font-family
+	letter-spacing: 0.5px
+	width: calc(100% - 32px - 42px)
+	outline: none
+	z-index: 1
+	color: white
+	overflow: auto
 
 div.input
 	display: relative
@@ -47,3 +67,6 @@ div.input
 
 h1
 	text-align: center
+
+a
+	color: $bright-yellow

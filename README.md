@@ -24,15 +24,17 @@ npm start
 - [x] Add Random Placeholder Query Suggestions
 - [x] Add search button
 - [x] Clean up request
-- [ ] Add content-dynamic window support
+- [x] Add content-dynamic window support :balloon: In Progress
+  - [ ] Improve with possible animation
 - [x] Improve file structure/skeleton
-- [ ] Right click on the icon -> Preferences and Exit
-- [ ] Change initial position of where Nimble loads (the x and y values)
-- [ ] Add math.js support
+- [x] Right click icon to exit
+  - [ ] Provide mini menu for Preferences and Exit
+- [ ] (Maybe?) Change initial position of where Nimble loads (the x and y values)
+- [x] Add math.js support (should work but not yet tested, that's on @trmml and @gthn)
   - [ ] Allow option for query to be processed with W|A if it's first processed with math.js
 - [ ] Add error messages
 - [ ] Graphing?
-- [ ] Loading indicator
+- [ ] Indeterminate Loading indicator :balloon: In Progress
 - [ ] Always offer a link to the Wolfram|Alpha page at the bottom
 - [ ] Un-round the top border
 
@@ -46,3 +48,5 @@ Want to make a contribution? Fork the repo, add your changes, and submit a pull 
 
 ## License
 [LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE)
+
+![Tag](http://i.imgur.com/etWLNKJ.gif) ![Tag](http://i.imgur.com/c4J95hH.gif) ![Tag](http://i.imgur.com/Sl7UbNI.gif) ![Tag](http://i.imgur.com/xaoeuKp.gif)
