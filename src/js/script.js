@@ -69,7 +69,7 @@ var query = function () {
     })
     .on('data', function(data) {
       var json = JSON.parse(data);
-      result = json.results[0].subpods[0].text;
+      result = json[1].subpods[0].text;
 
       $(".output").text(result);
       resizeWindow();
