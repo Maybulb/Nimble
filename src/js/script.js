@@ -69,19 +69,8 @@ var query = function () {
     })
     .on('data', function(data) {
       var json = JSON.parse(data);
-      var type;
       
-      // check if primary method of output is defined
-      switch (json[0].primary) {
-        case null:
-          type = "text";
-          break;
-        default:
-          type = json[0].primary;
-          break;
-      }
-      
-      result = json[0].subpods[0][type];
+      result = json[1].subpods[0].text;
 
       $(".output").text(result);
       resizeWindow();
