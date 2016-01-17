@@ -11,7 +11,7 @@ body, html
 	overflow: hidden
 
 body
-	background: $nimble-orange
+	background: white
 
 div.output
 	display: block
@@ -27,14 +27,17 @@ div.output
 	z-index: 1
 	color: white
 	overflow: auto
+	color: black
 
 div.input
 	display: relative
 	width: 100%
-	background: white
+	background: $nimble-orange
+	color: white
 	input[type=text]
 		display: block
 		position: relative
+		background: transparent
 		border: 0
 		pointer-events: auto
 		font-size: 1em
@@ -43,9 +46,11 @@ div.input
 		width: calc(100% - 32px - 42px)
 		outline: none
 		z-index: 1
+		color: white
 	// making the placeholder text darker than the greyed-out button looks nice af
 	input[type=text]::-webkit-input-placeholder
-		color: #898989
+		opacity: 0.75
+		color: white
 	button
 		font: normal normal normal 14px/1 FontAwesome /* real talk this is weird */
 		font-weight: normal
@@ -58,16 +63,12 @@ div.input
 		outline: 0
 		padding: 8px
 		border-radius: 50%
-		background: #a9a9a9
+		opacity: 0.7
+		background: white
 		transition: 0.25s /* fadey */
-		color: white
+		color: $nimble-orange
 		z-index: 2
-	button:hover
-		background: #000
-		transition: 0.25s
-	button:active
-		background: $nimble-orange
-		transition: 0.25s
+		border: none
 
 h1
 	text-align: center
