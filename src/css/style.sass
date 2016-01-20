@@ -3,79 +3,86 @@ $bright-yellow: #FFCA30
 $font-family: 'BlinkMacSystemFont', system, -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", "Lucida Grande"
 
 body, html
-	width: 100%
-	display: block
-	padding: 0
-	margin: 0
-	border: 0
-	overflow: hidden
+    width: 100%
+    display: block
+    padding: 0
+    margin: 0
+    border: 0
+    overflow: hidden
 
 body
-	background: white
+    background: white
 
 div.output
-	display: block
-	position: relative
-	border: 0
-	pointer-events: auto
-	font-size: 1m
-	padding: 12px 16px
-	font-family: $font-family
-	letter-spacing: 0.5px
-	width: calc(100% - 32px - 42px)
-	outline: none
-	z-index: 1
-	color: white
-	overflow: auto
-	color: black
+    display: block
+    position: relative
+    border: 0
+    pointer-events: auto
+    font-size: 1m
+    padding: 12px 16px
+    font-family: $font-family
+    letter-spacing: 0.5px
+    width: calc(100% - 32px - 42px)
+    outline: none
+    z-index: 1
+    overflow: auto
 
 div.input
-	display: relative
-	width: 100%
-	background: $nimble-orange
-	color: white
-	input[type=text]
-		display: block
-		position: relative
-		background: transparent
-		border: 0
-		pointer-events: auto
-		font-size: 1em
-		padding: 12px 16px
-		font-family: $font-family
-		width: calc(100% - 32px - 42px)
-		outline: none
-		z-index: 1
-		color: white
-	// making the placeholder text darker than the greyed-out button looks nice af
-	input[type=text]::-webkit-input-placeholder
-		opacity: 0.75
-		color: white
-	button
-		font: normal normal normal 14px/1 FontAwesome /* real talk this is weird */
-		font-weight: normal
-		position: absolute
-		margin: 0
-		top: 6px
-		right: 14px
-		font-size: 14px
-		border: 0
-		outline: 0
-		padding: 8px
-		border-radius: 50%
-		opacity: 0.7
-		background: white
-		transition: 0.25s /* fadey */
-		color: $nimble-orange
-		z-index: 2
-		border: none
+    display: relative
+    width: 100%
+    background: $nimble-orange
+    color: white
+    input[type=text]
+        display: block
+        position: relative
+        background: transparent
+        border: 0
+        pointer-events: auto
+        font-size: 1em
+        padding: 12px 16px
+        font-family: $font-family
+        width: calc(100% - 32px - 42px)
+        outline: none
+        z-index: 1
+        color: white
+    // making the placeholder text darker than the greyed-out button looks nice af
+    input[type=text]::-webkit-input-placeholder
+        opacity: 0.75
+        color: white
+    button
+        font: normal normal normal 14px/1 FontAwesome /* real talk this is weird */
+        font-weight: normal
+        position: absolute
+        margin: 0
+        top: 6px
+        right: 14px
+        font-size: 14px
+        border: 0
+        outline: 0
+        padding: 8px
+        border-radius: 50%
+        opacity: 0.7
+        background: white
+        transition: 0.25s /* fadey */
+        color: $nimble-orange
+        z-index: 2
+        border: none
 
 h1
-	text-align: center
+    text-align: center
 
 a
-	color: #fff3e5
+    color: #fff3e5
 
 hr
-	background: white
-	border: 1px solid white
+    background: black
+    border: 1px solid black
+
+#image-output
+    // please style this @gthn to your fancy
+    // tweak it until images work. this is the image itself
+    // should center align and be a block... also padding/width/something is off for the output because the images/text are/is cut off
+    // idk you're the designer figure it out lol
+
+    display: block
+    margin: auto

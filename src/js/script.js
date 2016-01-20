@@ -28,7 +28,8 @@ function speak(text) {
 // resize window to respond to content
 function resizeWindow() {
   var h = $("body").height();
-  ipcRenderer.send('resize', {height: h});
+  var w = $("body").width();
+  ipcRenderer.send('resize', {height: h, width: w});
 }
 
 // error forwarding
@@ -69,7 +70,6 @@ var query = function () {
     }
 
     $(".output").html(result);
-    speak(result)
     resizeWindow();
   } catch(e) {
     // if input isn't math throw error and use wolfram code
@@ -83,12 +83,14 @@ var query = function () {
     })
     .on('data', function(data) {
       var json = JSON.parse(data);
-      
-      result = json[1].subpods[0].text;
+      result = json[1].subpods[0];
 
-      $(".output").text(result);
-      speak("I believe the answer to your question is " + result)
-      resizeWindow();
+      $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+
+      $("#image-output").load(function() {
+        window.log("Image is ready, resizing window.")
+        resizeWindow();
+      });
     })
     .on('error', function(err) {
       window.log('Error:' + err);

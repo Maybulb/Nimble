@@ -11,8 +11,8 @@ var mb = menubar({
 });
 
 ipc.on('resize', function(event, arg) {
-	console.log("Resizing window to " + mb.window.getSize()[0] + " x " + arg.height);
-	mb.window.setSize(mb.window.getSize()[0], arg.height);
+	console.log("Resizing window to " + arg.width + " x " + arg.height);
+	mb.window.setSize(arg.width, arg.height);
 });
 
 // console.log handler
