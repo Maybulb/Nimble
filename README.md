@@ -2,7 +2,7 @@ Nimble
 ======
 <img align="right" width="20%" style="float:right;padding:20px;" src="https://github.com/madebybright/madebybright.github.io/raw/master/img/nimble/256.png">
 
-A Wolfram|Alpha® menu bar application, built with the wonderful [Electron](http://electron.atom.io/).
+The cross-platform personal assistant that just works. Built with the wonderful [Electron](http://electron.atom.io/), as well as many useful libraries.
 
 For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
 
@@ -31,7 +31,7 @@ npm start
 - [x] Right click icon to exit
   - [ ] Provide mini menu for Preferences and Exit
 - [ ] (Maybe?) Change initial position of where Nimble loads (the x and y values)
-- [x] Add math.js support (should work but not yet tested, that's on @trmml and @gthn)
+- [x] Add math.js support
   - [ ] Allow option for query to be processed with W|A if it's first processed with math.js
 - [ ] Add error messages
 - [ ] Graphing?
@@ -46,6 +46,13 @@ Some ideas we've been kicking around that we think might have a spot in future v
 
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
+
+## Special Thanks To...
+- Stephen Wolfram, for creating the wonderfully frustrating [Wolfram|Alpha®](http://www.wolframalpha.com/)
+- All of the wonderful open source software we use with Nimble, viewable in [package.json](https://github.com/madebybright/Nimble/blob/master/package.json)
+    - Specifically, we'd like to thank the packages [math.js](http://mathjs.org/), [menubar](https://github.com/maxogden/menubar), and [wolfram-alpha](https://www.npmjs.com/package/wolfram-alpha) for making the bulk of this project possible.
+- Lastly, we'd like to thank everyone who's supported us from day one.
+    - Ethan would like to thank Lucas Steuber of [LanguageCraft](http://portlandlanguagecraft.com/), Willow Bumby of [Cosmic Labs](http://cosmiclabs.io), as well as the rest of the Bright team, Trevor, Logan, Aaron, and [/r/webdev](http://reddit.com/r/webdev) on Reddit.
 
 ## License
 [LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE)
