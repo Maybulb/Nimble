@@ -21,8 +21,7 @@ ipc.on('node_console', function(event, arg) {
 });
 
 mb.on('after-create-window', function() {
-  // mb.window.openDevTools({detach: true});
-  mb.window.setResizable(false);
+	mb.window.setResizable(false);
 	mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
 });
 
@@ -35,7 +34,7 @@ mb.on('ready', function ()  {
 	function click(e, bounds) {}
 	function devTools(e, bound) {
 		if (e.shiftKey) {
-			mb.window.openDevTools({detach: true})
+			mb.window.openDevTools({detach: true}) // This is throwing an error?
 		}
 	}
 	function rightClick (e, bounds) { app.quit() }
