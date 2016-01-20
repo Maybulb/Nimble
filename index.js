@@ -15,11 +15,6 @@ ipc.on('resize', function(event, arg) {
 	mb.window.setSize(mb.window.getSize()[0], arg.height);
 });
 
-ipc.on('progress', function(event, arg) {
-	console.log("Load progress " + arg.p)
-	mb.window.setProgress(arg.p);
-});
-
 // console.log handler
 ipc.on('node_console', function(event, arg) {
 	console.log(arg.m)
@@ -32,8 +27,6 @@ mb.on('after-create-window', function() {
 });
 
 mb.on('ready', function ()  {
-	console.log('Nimble is ready');
-
 	mb.tray
 		.on('click', click)
 		.on('right-click', rightClick)
