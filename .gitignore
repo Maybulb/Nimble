@@ -38,3 +38,7 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+
+*.map
+
+.sass-cache/b9a2ed9f659e436c1b59ca2205e2c9d804b2a8e2/style.sassc
