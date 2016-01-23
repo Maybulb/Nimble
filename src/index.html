@@ -43,14 +43,15 @@
 					},
 					{
 						label: 'Wolfram|Alpha Link',
-						accelerator: "CmdOrCtrl+C+L",
+						accelerator: "CmdOrCtrl+L",
 						click: function() { 
 							clipboardCopy.link() 
 						}
 					},
 					{
-						label: "Image",
-						accelerator: "CmdOrCtrl+C+I",
+						label: "Image (in progress...)",
+						enabled: false,
+						accelerator: "CmdOrCtrl+I",
 						click: function() {
 							clipboardCopy.image()
 						}
@@ -61,7 +62,11 @@
 				label: "Share",
 				submenu: [
 					{
-						label: "Coming soon..."
+						label: "Twitter",
+						accelerator: "CmdOrCtrl+Shift+T",
+						click: function() {
+							shareButton.twitter()
+						}
 					}
 				]
 			}

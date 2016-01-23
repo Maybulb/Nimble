@@ -9,7 +9,8 @@ var $ = require('jquery'),
     URL = "https://nimble-backend.herokuapp.com/input?i=%s",
     Shell = electron.shell,
     msg = new SpeechSynthesisUtterance(),
-    clipboard = electron.clipboard;
+    clipboard = electron.clipboard,
+    nativeImage = electron.nativeImage;
 
 function speak(text) {
   msg.voiceURI = 'native';
@@ -25,16 +26,22 @@ function speak(text) {
 
 var clipboardCopy = {
   link: function () {
-    window.log("Link " + window.json.origin_url + " has been copied to the clipboard.")
-    clipboard.writeText(window.json.origin_url);
+    clipboard.writeText(window.json[window.json.length - 1]["origin_url"]);
   },
   text: function () {
-    window.log("Plaintext result " + window.json[1].subpods[0].text + "has been copied to the clipboard.")
     clipboard.writeText(window.json[1].subpods[0].text);
   },
   image: function () {
-    window.log("Image result " + window.json[1].subpods[0].image + " has been copied to the clipboard.")
-    clipboard.writeImage(window.json[1].subpods[0].image)
+    // send with ipc to index.js
+    var image = nativeImage.createFromPath(webContents.downloadURL(window.json[1].subpods[0].image))
+    clipboard.writeImage(image);
+  }
+}
+
+var shareButton = {
+  twitter: function () {
+    var tweet = $("#input").val() + ":\n" + window.json[1].subpods[0].image + " via @nimbledotapp";
+    Shell.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweet))
   }
 }
 
