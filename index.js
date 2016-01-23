@@ -12,7 +12,30 @@ var mb = menubar({
 
 ipc.on('resize', function(event, arg) {
 	console.log("Resizing window to " + arg.width + " x " + arg.height);
-	mb.window.setSize(arg.width, arg.height);
+
+	// this is the animation code that crashes
+	/*
+	var h = mb.window.getSize()[1];
+	while(h !== arg.height) {
+		setTimeout(function () {
+			if(h > arg.height) {
+				h--;
+			} else if (h < arg.height) {
+				h++;
+			}
+
+			console.log(h)
+			mb.window.setSize(mb.window.getSize()[0], h)
+		}, 1)
+	}
+	*/
+
+	mb.window.setBounds({
+		x: mb.window.getPosition()[0],
+		y: mb.window.getPosition()[1],
+		width: arg.width,
+		height: arg.height
+	});
 });
 
 // console.log handler
@@ -37,5 +60,7 @@ mb.on('ready', function ()  {
 			mb.window.openDevTools({detach: true}) // This is throwing an error?
 		}
 	}
-	function rightClick (e, bounds) { app.quit() }
+	function rightClick (e, bounds) { 
+		app.quit();
+	}
 });

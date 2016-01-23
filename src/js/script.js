@@ -6,12 +6,10 @@ var $ = require('jquery'),
     request = require('request'),
     progress = require('request-progress'),
     math = require("mathjs"),
-    URL = "https://nimble-backend.herokuapp.com/input?i=%s";
-    remote = electron.remote;
-    MenuItem = remote.MenuItem;
-    Menu = remote.Menu;
-    Shell = electron.shell;
-    msg = new SpeechSynthesisUtterance();
+    URL = "https://nimble-backend.herokuapp.com/input?i=%s",
+    Shell = electron.shell,
+    msg = new SpeechSynthesisUtterance(),
+    clipboard = electron.clipboard;
 
 function speak(text) {
   msg.voiceURI = 'native';
@@ -23,6 +21,21 @@ function speak(text) {
 
   window.log("Nimble just said \"" + text + "\" using the Speech Synthesizer.")
   speechSynthesis.speak(msg);
+}
+
+var clipboardCopy = {
+  link: function () {
+    window.log("Link " + window.json.origin_url + " has been copied to the clipboard.")
+    clipboard.writeText(window.json.origin_url);
+  },
+  text: function () {
+    window.log("Plaintext result " + window.json[1].subpods[0].text + "has been copied to the clipboard.")
+    clipboard.writeText(window.json[1].subpods[0].text);
+  },
+  image: function () {
+    window.log("Image result " + window.json[1].subpods[0].image + " has been copied to the clipboard.")
+    clipboard.writeImage(window.json[1].subpods[0].image)
+  }
 }
 
 // resize window to respond to content
@@ -82,8 +95,8 @@ var query = function () {
       // figure something out here lol
     })
     .on('data', function(data) {
-      var json = JSON.parse(data);
-      result = json[1].subpods[0];
+      window.json = JSON.parse(data);
+      result = window.json[1].subpods[0];
 
       $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
 
