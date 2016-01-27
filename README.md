@@ -22,20 +22,21 @@ npm start
 ## Checklist
 - [x] Fix overflow problem
 - [x] Add Random Placeholder Query Suggestions
-  - [ ] Make it fade between placeholders every few seconds or so(?)
+  - [x] Make it fade between placeholders every few seconds or so (no animation, impossible)
 - [x] Add search button
 - [x] Clean up request
 - [x] Add content-dynamic window support :balloon: In Progress
   - [ ] Improve with possible animation
 - [x] Improve file structure/skeleton
 - [x] Right click icon to exit
-  - [ ] Provide mini menu for Preferences and Exit
+  - [x] Provide mini menu for Preferences and Exit
 - [ ] (Maybe?) Change initial position of where Nimble loads (the x and y values)
 - [x] Add math.js support
   - [ ] Allow option for query to be processed with W|A if it's first processed with math.js
-- [ ] Add error messages
-- [ ] Graphing?
-- [ ] Indeterminate Loading indicator :balloon: In Progress
+- [x] Add error messages
+	- [ ] Style error messages (@gthn)
+- [x] Graphing?
+- [x] Indeterminate Loading indicator
 - [ ] Always offer a link to the Wolfram|Alpha page at the bottom
 - [ ] Un-round the top border
 
