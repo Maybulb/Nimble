@@ -13,156 +13,161 @@ var $ = require('jquery'),
     nativeImage = electron.nativeImage;
 
 function speak(text) {
-  msg.voiceURI = 'native';
-  msg.volume = 1; // 0 to 1
-  msg.rate = 0.8; // 0.1 to 10
-  msg.pitch = 1; //0 to 2
-  msg.text = text;
-  msg.lang = 'en-UK';
+    msg.voiceURI = 'native';
+    msg.volume = 1; // 0 to 1
+    msg.rate = 0.8; // 0.1 to 10
+    msg.pitch = 1; //0 to 2
+    msg.text = text;
+    msg.lang = 'en-UK';
 
-  window.log("Nimble just said \"" + text + "\" using the Speech Synthesizer.")
-  speechSynthesis.speak(msg);
+    window.log("Nimble just said \"" + text + "\" using the Speech Synthesizer.")
+    speechSynthesis.speak(msg);
 }
 
 var clipboardCopy = {
-  link: function () {
-    clipboard.writeText(window.json[window.json.length - 1]["origin_url"]);
-  },
-  text: function () {
-    clipboard.writeText(window.json[1].subpods[0].text);
-  },
-  image: function () {
-    // send with ipc to index.js, for now a WIP
-    var image = nativeImage.createFromPath(webContents.downloadURL(window.json[1].subpods[0].image))
-    clipboard.writeImage(image);
-  }
+    link: function() {
+        clipboard.writeText(window.json[window.json.length - 1]["origin_url"]);
+    },
+    text: function() {
+        clipboard.writeText(window.json[1].subpods[0].text);
+    },
+    image: function() {
+        // send with ipc to index.js, for now a WIP
+        var image = nativeImage.createFromPath(webContents.downloadURL(window.json[1].subpods[0].image))
+        clipboard.writeImage(image);
+    }
 }
 
 var shareButton = {
-  twitter: function () {
-    var tweet = $("#input").val() + ":\n" + window.json[1].subpods[0].image + " via @nimbledotapp";
-    Shell.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweet))
-  }
+    twitter: function() {
+        var tweet = $("#input").val() + ":\n" + window.json[1].subpods[0].image + " via @nimbledotapp";
+        Shell.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweet))
+    }
 }
 
 // resize window to respond to content
 function resizeWindow() {
-  var h = $("body").height();
-  var w = $("body").width();
-  ipcRenderer.send('resize', {height: h, width: w});
+    var h = $("body").height();
+    var w = $("body").width();
+    ipcRenderer.send('resize', {
+        height: h,
+        width: w
+    });
 }
 
 // error forwarding
 window.onerror = function(e) {
-  ipcRenderer.send('node_console', {m: e})
+    ipcRenderer.send('node_console', {
+        m: e
+    })
 }
 
 // please use window.log instead of console.log, as it forwards it to the backend (node.js console)
 // therefore bugs are easier to troubleshoot :)
 window.log = function(log) {
-  ipcRenderer.send('node_console', {m: log})
-  console.log(log)
+    ipcRenderer.send('node_console', {
+        m: log
+    })
+    console.log(log)
 }
 
 $(document).ready(function() {
-  $.getJSON('js/suggestions.json', function(json) {
-    var placeholder = rand.paul(json);
-    $('#input').attr('placeholder', placeholder);
-    window.log('Placeholder set to: ' + placeholder);
-  });
+    $.getJSON('js/suggestions.json', function(json) {
+        var placeholder = rand.paul(json);
+        $('#input').attr('placeholder', placeholder);
+        window.log('Placeholder set to: ' + placeholder);
+    });
 });
 
 $(document).keypress(function(event) {
-  if (event.which === 13) query();
+    if (event.which === 13) query();
 });
 
-var query = function () {
-  var input = $('#input').val();
-  var result;
+var query = function() {
+    var input = $('#input').val();
+    var result;
 
-  // in this try block, we check if things work
-  try {
-    if (input === "What is Nimble?" || input === "What is Nimble" || input === "what is Nimble?" || input === "what is nimble" || input === "what is Nimble" || input === "What is nimble" || input === "What is nimble?") {
-      // if user asks what nimble is, tell them
-      result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright</a>. We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
-    } else {
-      result = math.eval(input);
+    // in this try block, we check if things work
+    try {
+        if (input === "What is Nimble?" || input === "What is Nimble" || input === "what is Nimble?" || input === "what is nimble" || input === "what is Nimble" || input === "What is nimble" || input === "What is nimble?") {
+            // if user asks what nimble is, tell them
+            result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright</a>. We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
+        } else {
+            result = math.eval(input);
+        }
+
+        $(".output").html(result);
+        resizeWindow();
+    } catch (e) {
+        // if input isn't math throw error and use wolfram code
+        window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
+        var encodedQuery = encodeURIComponent(input);
+        var queryURL = util.format(URL, encodedQuery);
+
+        // loader
+        $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'></div>");
+        $('#loader').loaders();
+        resizeWindow();
+
+        progress(request(queryURL))
+            .on('progress', function(state) {
+                // figure something out here lol
+            })
+            .on('data', function(data) {
+                try {
+                    window.json = JSON.parse(data);
+                    result = window.json[1].subpods[0];
+
+                    $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+
+                    $("#image-output").load(function() {
+                        window.log("Image is ready, resizing window.")
+                        resizeWindow();
+                    });
+                } catch (e) {
+                    // try again if error
+                    window.log('Attempting request one more time...');
+                    retry(queryURL)
+                }
+            })
+            .on('error', function(err) {
+                window.log('Error:' + err);
+                window.log('Attempting request one more time...');
+
+                // try again
+                retry(queryURL);
+            });
+
+        window.log('Queried with: ' + queryURL);
     }
-
-    $(".output").html(result);
-    resizeWindow();
-  } catch(e) {
-    // if input isn't math throw error and use wolfram code
-    window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
-    var encodedQuery = encodeURIComponent(input);
-    var queryURL = util.format(URL, encodedQuery);
-
-    // loader
-    $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'></div>");
-    $('#loader').loaders();
-    resizeWindow();
-
-    progress(request(queryURL))
-    .on('progress', function(state) {
-      // figure something out here lol
-    })
-    .on('data', function(data) {
-      try {
-        window.json = JSON.parse(data);
-        result = window.json[1].subpods[0];
-
-        $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-
-        $("#image-output").load(function() {
-          window.log("Image is ready, resizing window.")
-          resizeWindow();
-        });
-      } 
-      catch (e) {
-        // try again if error
-        window.log('Attempting request one more time...');
-        retry(queryURL)
-      }
-    })
-    .on('error', function(err) {
-      window.log('Error:' + err);
-      window.log('Attempting request one more time...');
-
-      // try again
-      retry(queryURL);
-    });
-
-    window.log('Queried with: ' + queryURL);
-  }
 }
 
 function retry(queryURL) {
-  // @gthn, design this as you need to.
-  // also implement google and try again as links
-  var errorMsg = "We're sorry. We couldn't find the answer to your question. If you'd like, we can Google it for you, or you can try again.";
-  
-  progress(request(queryURL)).on("data", function(data) {
-    // if there's another error, just give up
-    try {
-      window.json = JSON.parse(data);
-      result = window.json[1].subpods[0];
+    // @gthn, design this as you need to.
+    // also implement google and try again as links
+    var errorMsg = "We're sorry. We couldn't find the answer to your question. If you'd like, we can Google it for you, or you can try again.";
 
-      $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+    progress(request(queryURL)).on("data", function(data) {
+            // if there's another error, just give up
+            try {
+                window.json = JSON.parse(data);
+                result = window.json[1].subpods[0];
 
-      $("#image-output").load(function() {
-        window.log("Image is ready, resizing window.")
-        resizeWindow();
-      });
-    } 
-    catch (e) {
-      window.log("Request attempted twice, either invalid or just undefined.")
-      $(".output").html(errorMsg)
-      resizeWindow();
-    }
-    })
-  .on('error', function(err) {
-    window.log("Request attempted twice, either invalid or just undefined.")
-    $(".output").html(errorMsg)
-    resizeWindow();
-  });
+                $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+
+                $("#image-output").load(function() {
+                    window.log("Image is ready, resizing window.")
+                    resizeWindow();
+                });
+            } catch (e) {
+                window.log("Request attempted twice, either invalid or just undefined.")
+                $(".output").html(errorMsg)
+                resizeWindow();
+            }
+        })
+        .on('error', function(err) {
+            window.log("Request attempted twice, either invalid or just undefined.")
+            $(".output").html(errorMsg)
+            resizeWindow();
+        });
 }
