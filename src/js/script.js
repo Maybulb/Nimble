@@ -46,9 +46,20 @@ var shareButton = {
 }
 
 // resize window to respond to content
-function resizeWindow() {
+function resizeWindow(other) {
     var h = $("body").height();
-    var w = $("body").width();
+    var w;
+
+    // if not resizing width to fit an image (when parameter "other" isn't true) then just resize to body width
+    // this is a temporary fix for oversized images until we figure something else out...
+    // basically if you're not putting an image inside the output just put true as a parameter of resizeWindow()
+    if (other === false || other === undefined) {
+        w = $("#image-output").width() + 32;
+    } else if (other === true) {
+        w = $("body").width();
+    }
+    
+
     ipcRenderer.send('resize', {
         height: h,
         width: w
@@ -97,7 +108,7 @@ var query = function() {
         }
 
         $(".output").html(result);
-        resizeWindow();
+        resizeWindow(true);
     } catch (e) {
         // if input isn't math throw error and use wolfram code
         window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
@@ -107,7 +118,7 @@ var query = function() {
         // loader
         $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'></div>");
         $('#loader').loaders();
-        resizeWindow();
+        resizeWindow(true);
 
         progress(request(queryURL))
             .on('progress', function(state) {
@@ -125,14 +136,14 @@ var query = function() {
                         resizeWindow();
                     });
                 } catch (e) {
+                    window.log(e.toString())
+
                     // try again if error
-                    window.log('Attempting request one more time...');
                     retry(queryURL)
                 }
             })
             .on('error', function(err) {
-                window.log('Error:' + err);
-                window.log('Attempting request one more time...');
+                window.log(err.toString())
 
                 // try again
                 retry(queryURL);
@@ -143,11 +154,14 @@ var query = function() {
 }
 
 function retry(queryURL) {
+    window.log("Error was thrown. Attempting to query again...");
+
     // @gthn, design this as you need to.
     // also implement google and try again as links
     var errorMsg = "We're sorry. We couldn't find the answer to your question. If you'd like, we can Google it for you, or you can try again.";
 
-    progress(request(queryURL)).on("data", function(data) {
+    progress(request(queryURL))
+        .on("data", function(data) {
             // if there's another error, just give up
             try {
                 window.json = JSON.parse(data);
@@ -160,14 +174,14 @@ function retry(queryURL) {
                     resizeWindow();
                 });
             } catch (e) {
-                window.log("Request attempted twice, either invalid or just undefined.")
                 $(".output").html(errorMsg)
-                resizeWindow();
+                resizeWindow(true);
+                throw e;
             }
         })
         .on('error', function(err) {
-            window.log("Request attempted twice, either invalid or just undefined.")
             $(".output").html(errorMsg)
-            resizeWindow();
+            resizeWindow(true);
+            throw err;
         });
 }
