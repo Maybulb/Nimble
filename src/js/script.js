@@ -55,6 +55,11 @@ function resizeWindow(other) {
     // basically if you're not putting an image inside the output just put true as a parameter of resizeWindow()
     if (other === false || other === undefined) {
         w = $("#image-output").width() + 32;
+
+        // if the width isn't oversized just roll with it
+        if (w < 348) {
+            w = $("body").width();
+        }
     } else if (other === true) {
         w = $("body").width();
     }
