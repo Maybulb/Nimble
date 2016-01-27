@@ -87,6 +87,19 @@ hr
     margin: 0 auto
 
 #loader div
+    // should either be border color or background color depending on the loader
     border-color: $nimble-orange
-    display: block
-    margin: auto
+    border-width: 3px
+    background-color: #FFA341
+    display: flex
+    justify-content: center
+    align-items: center
+
+    // font can be changed, system font is wonky for this though
+    font-family: "Impact", sans-serif;
+    font-weight: bold;
+
+#loader
+    text-align: center
+    color: white
+    font-size: 3em

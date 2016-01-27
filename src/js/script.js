@@ -130,8 +130,7 @@ var query = function() {
         var queryURL = util.format(URL, encodedQuery);
 
         // loader
-        $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'></div>");
-        $('#loader').loaders();
+        $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'><div><span>=</span></div></div>");
         resizeWindow(true);
 
         progress(request(queryURL))
