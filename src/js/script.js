@@ -88,11 +88,20 @@ window.log = function(log) {
 }
 
 $(document).ready(function() {
+    // set placeholder
     $.getJSON('js/suggestions.json', function(json) {
         var placeholder = rand.paul(json);
         $('#input').attr('placeholder', placeholder);
-        window.log('Placeholder set to: ' + placeholder);
     });
+
+    window.setInterval(function() {
+        // new placeholder every 10 seconds
+        $.getJSON('js/suggestions.json', function(json) {
+            var placeholder = rand.paul(json);
+            $('#input').attr('placeholder', placeholder);
+        });
+    }, 10000)
+    
 });
 
 $(document).keypress(function(event) {
