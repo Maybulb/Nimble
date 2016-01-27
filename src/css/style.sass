@@ -22,11 +22,16 @@ div.interpret
     color: white
 
 // is it too late now to say sorry
-div.sorry:before
-    content: "\f119"
+div.sorry
     font: normal normal normal 14px/1 FontAwesome
+    color: $nimble-orange
     font-size: 72px
-    margin: 0 auto
+    text-align: center
+    margin: 12px 0 6px 0
+
+p.err
+    text-align: center
+    line-height: 1.4
 
 div.output
     display: block
@@ -110,6 +115,7 @@ hr
     display: flex
     justify-content: center
     align-items: center
+    margin: 30px
 
     // font can be changed, system font is wonky for this though
     font-family: "Impact", sans-serif

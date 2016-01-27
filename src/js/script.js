@@ -173,7 +173,7 @@ function retry(queryURL) {
 
     // @gthn, design this as you need to.
     // also implement google and try again as links
-    var errorMsg = "<div class=\"sorry\"></div><br/><br/>Sorry! I can't find the answer.<br/>Try looking it up on <a>Google</a> or <a>Wolfram|Alpha</a>.";
+    var errorMsg = "<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Look it up on <a>Google</a> or <a>Wolfram|Alpha</span></p>.";
 
     progress(request(queryURL))
         .on("data", function(data) {
