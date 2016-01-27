@@ -167,6 +167,8 @@ var query = function() {
 }
 
 function retry(queryURL) {
+    var input = $('#input').val();
+    var result;
     window.log("Error was thrown. Attempting to query again...");
 
     // @gthn, design this as you need to.
@@ -179,8 +181,10 @@ function retry(queryURL) {
             try {
                 window.json = JSON.parse(data);
                 result = window.json[1].subpods[0];
+                var inputInterpretation = window.json[0].subpods[0].text;
 
                 $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+                $("#queryInterpretation").text(inputInterpretation);
 
                 $("#image-output").load(function() {
                     window.log("Image is ready, resizing window.")
