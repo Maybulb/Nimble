@@ -40,7 +40,7 @@ var clipboardCopy = {
 
 var shareButton = {
     twitter: function() {
-        var tweet = $("#input").val() + ":\n" + window.json[1].subpods[0].image + " via @nimbledotapp";
+        var tweet = $("#input").val() + ":\n" + window.json[1].subpods[0].image + " (via @nimbledotapp)";
         Shell.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweet))
     }
 }
@@ -63,7 +63,7 @@ function resizeWindow(other) {
     } else if (other === true) {
         w = $("body").width();
     }
-    
+
 
     ipcRenderer.send('resize', {
         height: h,
@@ -101,7 +101,7 @@ $(document).ready(function() {
             $('#input').attr('placeholder', placeholder);
         });
     }, 10000)
-    
+
 });
 
 $(document).keypress(function(event) {
@@ -130,7 +130,7 @@ var query = function() {
         var queryURL = util.format(URL, encodedQuery);
 
         // loader
-        $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'><div><span>=</span></div></div>");
+        $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'><div><span></span></div></div>");
         resizeWindow(true);
 
         progress(request(queryURL))
@@ -171,7 +171,7 @@ function retry(queryURL) {
 
     // @gthn, design this as you need to.
     // also implement google and try again as links
-    var errorMsg = "We're sorry. We couldn't find the answer to your question. If you'd like, we can Google it for you, or you can try again.";
+    var errorMsg = "<div class=\"sorry\"></div><br/><br/>Sorry! I can't find the answer.<br/>Try looking it up on <a>Google</a> or <a>Wolfram|Alpha</a>.";
 
     progress(request(queryURL))
         .on("data", function(data) {

@@ -5,16 +5,19 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
-		
+
 		<!-- loaders.css -->
 		<link rel="stylesheet" href="../node_modules/loaders.css/loaders.min.css">
 		<script src="js/script.js"></script>
-		
+
 	</head>
 	<body>
 		<div class="input">
 			<input type="text" id="input" autofocus>
 			<button type="button" onclick="query()">&#61442;</button>
+		</div>
+		<div class="interpret">
+			<em>Interpreted as:</em> query interpretation
 		</div>
 		<div class="output"> <!-- temporary -->
 		</div>
@@ -42,17 +45,17 @@
 				label: "Copy",
 				submenu: [
 					{
-						label: 'Plain Text', 
+						label: 'Plain Text',
 						accelerator: "CmdOrCtrl+C",
-						click: function() { 
-							clipboardCopy.text() 
+						click: function() {
+							clipboardCopy.text()
 						}
 					},
 					{
 						label: 'Wolfram|Alpha Link',
 						accelerator: "CmdOrCtrl+L",
-						click: function() { 
-							clipboardCopy.link() 
+						click: function() {
+							clipboardCopy.link()
 						}
 					},
 					{

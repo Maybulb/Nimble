@@ -13,6 +13,21 @@ body, html
 body
     background: white
 
+div.interpret
+    background: lighten($nimble-orange, 15%)
+    font-family: $font-family
+    font-size: 14px
+    padding: 6px 16px
+    width: calc(100% - 32px)
+    color: white
+
+// is it too late now to say sorry
+div.sorry:before
+    content: "\f119"
+    font: normal normal normal 14px/1 FontAwesome
+    font-size: 72px
+    margin: 0 auto
+
 div.output
     display: block
     position: relative
@@ -72,7 +87,7 @@ h1
     text-align: center
 
 a
-    color: #fff3e5
+    color: $nimble-orange
 
 hr
     background: black
