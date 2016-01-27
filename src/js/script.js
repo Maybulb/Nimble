@@ -2,6 +2,7 @@ var $ = require('jquery'),
     util = require('util'),
     rand = require('rand-paul'),
     electron = require('electron'),
+    format = require('string-format'),
     ipcRenderer = electron.ipcRenderer,
     request = require('request'),
     progress = require('request-progress'),
@@ -145,7 +146,7 @@ var query = function() {
 
                     $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
                     $("#queryInterpretation").text(inputInterpretation);
-                    
+
                     $("#image-output").load(function() {
                         window.log("Image is ready, resizing window.")
                         resizeWindow();
@@ -170,12 +171,16 @@ var query = function() {
 
 function retry(queryURL) {
     var input = $('#input').val();
+    var encodedInput = encodeURIComponent(input);
+    var googleQuery = "https://www.google.ca/#q=" + encodedInput;
+    var wolframQuery = "http://www.wolframalpha.com/input/?i=" + encodedInput;
     var result;
     window.log("Error was thrown. Attempting to query again...");
 
     // @gthn, design this as you need to.
     // also implement google and try again as links
-    var errorMsg = "<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Look it up on <a>Google</a> or <a>Wolfram|Alpha</span></p>.";
+    var errorMsg = format("<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Look it up on <a href='#' onclick='Shell.openExternal(\"{}\")'>Google</a> or <a href='#' onclick='Shell.openExternal(\"{}\")'>WolframAlpha</a>.</p>", googleQuery, wolframQuery);
+    window.log(errorMsg)
 
     progress(request(queryURL))
         .on("data", function(data) {
