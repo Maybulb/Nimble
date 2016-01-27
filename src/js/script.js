@@ -141,9 +141,11 @@ var query = function() {
                 try {
                     window.json = JSON.parse(data);
                     result = window.json[1].subpods[0];
+                    var inputInterpretation = window.json[0].subpods[0].text;
 
                     $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-
+                    $("#queryInterpretation").text(inputInterpretation);
+                    
                     $("#image-output").load(function() {
                         window.log("Image is ready, resizing window.")
                         resizeWindow();
