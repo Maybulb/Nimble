@@ -30,7 +30,7 @@ npm start
 - [x] Improve file structure/skeleton
 - [x] Right click icon to exit
   - [x] Provide mini menu for Preferences and Exit
-- [ ] (Maybe?) Change initial position of where Nimble loads (the x and y values)
+- [ ] Change initial position of where Nimble loads (the x and y values) [Maybe?]
 - [x] Add math.js support
   - [ ] Allow option for query to be processed with W|A if it's first processed with math.js
 - [x] Add error messages
