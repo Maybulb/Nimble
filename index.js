@@ -11,7 +11,7 @@ var mb = menubar({
 });
 
 ipc.on('resize', function(event, arg) {
-	console.log("Resizing window to " + arg.width + " x " + arg.height);
+	console.log("Resizing window to " + arg.width + " x " + arg.height + "\n");
 
 	// this is the animation code that crashes
 	/*
@@ -40,7 +40,7 @@ ipc.on('resize', function(event, arg) {
 
 // console.log handler
 ipc.on('node_console', function(event, arg) {
-	console.log(arg.m)
+	console.log(arg.m + "\n")
 });
 
 mb.on('after-create-window', function() {

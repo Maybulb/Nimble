@@ -32,7 +32,7 @@ var clipboardCopy = {
     clipboard.writeText(window.json[1].subpods[0].text);
   },
   image: function () {
-    // send with ipc to index.js
+    // send with ipc to index.js, for now a WIP
     var image = nativeImage.createFromPath(webContents.downloadURL(window.json[1].subpods[0].image))
     clipboard.writeImage(image);
   }
@@ -97,11 +97,53 @@ var query = function () {
     var encodedQuery = encodeURIComponent(input);
     var queryURL = util.format(URL, encodedQuery);
 
+    // loader
+    $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'></div>");
+    $('#loader').loaders();
+    resizeWindow();
+
     progress(request(queryURL))
     .on('progress', function(state) {
       // figure something out here lol
     })
     .on('data', function(data) {
+      try {
+        window.json = JSON.parse(data);
+        result = window.json[1].subpods[0];
+
+        $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+
+        $("#image-output").load(function() {
+          window.log("Image is ready, resizing window.")
+          resizeWindow();
+        });
+      } 
+      catch (e) {
+        // try again if error
+        window.log('Attempting request one more time...');
+        retry(queryURL)
+      }
+    })
+    .on('error', function(err) {
+      window.log('Error:' + err);
+      window.log('Attempting request one more time...');
+
+      // try again
+      retry(queryURL);
+    });
+
+    window.log('Queried with: ' + queryURL);
+  }
+}
+
+function retry(queryURL) {
+  // @gthn, design this as you need to.
+  // also implement google and try again as links
+  var errorMsg = "We're sorry. We couldn't find the answer to your question. If you'd like, we can Google it for you, or you can try again.";
+  
+  progress(request(queryURL)).on("data", function(data) {
+    // if there's another error, just give up
+    try {
       window.json = JSON.parse(data);
       result = window.json[1].subpods[0];
 
@@ -111,11 +153,16 @@ var query = function () {
         window.log("Image is ready, resizing window.")
         resizeWindow();
       });
+    } 
+    catch (e) {
+      window.log("Request attempted twice, either invalid or just undefined.")
+      $(".output").html(errorMsg)
+      resizeWindow();
+    }
     })
-    .on('error', function(err) {
-      window.log('Error:' + err);
-    });
-
-    window.log('Queried with: ' + queryURL);
-  }
+  .on('error', function(err) {
+    window.log("Request attempted twice, either invalid or just undefined.")
+    $(".output").html(errorMsg)
+    resizeWindow();
+  });
 }
