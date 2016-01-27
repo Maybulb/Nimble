@@ -30,12 +30,24 @@ ipc.on('resize', function(event, arg) {
     }
     */
 
-    mb.window.setBounds({
-        x: mb.window.getPosition()[0],
-        y: mb.window.getPosition()[1],
-        width: arg.width,
-        height: arg.height
-    });
+    console.log(global.screenSize);
+
+    if (arg.height > 500) {
+        // if height is way too big, then just set it short and scroll
+        mb.window.setBounds({
+            x: mb.window.getPosition()[0],
+            y: mb.window.getPosition()[1],
+            width: arg.width,
+            height: 500
+        });
+    } else {
+        mb.window.setBounds({
+            x: mb.window.getPosition()[0],
+            y: mb.window.getPosition()[1],
+            width: arg.width,
+            height: arg.height
+        });
+    }
 });
 
 // console.log handler
@@ -49,6 +61,10 @@ mb.on('after-create-window', function() {
 });
 
 mb.on('ready', function() {
+    // screen size
+    var screen = electron.screen;
+    global.screenSize = screen.getPrimaryDisplay().size;
+
     mb.tray
         .on('click', click)
         .on('right-click', rightClick)
@@ -59,8 +75,8 @@ mb.on('ready', function() {
     function devTools(e, bound) {
         if (e.shiftKey) {
             mb.window.openDevTools({
-                    detach: true
-                }) // This is throwing an error?
+                detach: true
+            }) // This is throwing an error, if you don't load Nimble by clicking on it
         }
     }
 
