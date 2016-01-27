@@ -58,7 +58,7 @@ function resizeWindow(other) {
 
         // if the width isn't oversized just roll with it
         if (w < 348) {
-            w = $("body").width();
+            w = 380; // default
         }
     } else if (other === true) {
         w = $("body").width();
