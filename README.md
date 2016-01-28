@@ -63,7 +63,7 @@ If you're bundling it, make sure to package it beforehand so that the `.app` exi
 - [x] Indeterminate Loading indicator
 - [ ] Always offer a link to the Wolfram|Alpha page at the bottom
 - [ ] Un-round the top border
-
+- [ ] Add auto-updating ([Electron provides a module built on Squirrel](https://github.com/atom/electron/blob/master/docs/api/auto-updater.md))
 ## Far Future Additions
 Some ideas we've been kicking around that we think might have a spot in future versions of Nimble once we've actually gotten it working.
 
