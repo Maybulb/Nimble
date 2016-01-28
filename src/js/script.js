@@ -3,15 +3,15 @@ var $ = require('jquery'),
     rand = require('rand-paul'),
     electron = require('electron'),
     format = require('string-format'),
-    ipcRenderer = electron.ipcRenderer,
-    request = require('request'),
-    progress = require('request-progress'),
+    key = require('./js/key.json'),
+    wolfram = require('wolfram-alpha').createClient(key.api, {maxwidth: 348}),
     math = require("mathjs"),
-    URL = "https://nimble-backend.herokuapp.com/input?i=%s",
     Shell = electron.shell,
     msg = new SpeechSynthesisUtterance(),
     clipboard = electron.clipboard,
-    nativeImage = electron.nativeImage;
+    nativeImage = electron.nativeImage,
+    ipcRenderer = electron.ipcRenderer,
+    URL = "https://nimble-backend.herokuapp.com/input?i=%s";
 
 function speak(text) {
     msg.voiceURI = 'native';
@@ -136,43 +136,40 @@ var query = function() {
         $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'><div><span></span></div></div>");
         resizeWindow(true);
 
-        progress(request(queryURL))
-            .on('progress', function(state) {
-                // figure something out here lol
-            })
-            .on('data', function(data) {
-                try {
-                    window.json = JSON.parse(data);
-                    result = window.json[1].subpods[0];
-                    var inputInterpretation = window.json[0].subpods[0].text;
+        wolfram.query(input, function(err, result) {
+          try {
+            // I CAnnot
+              window.json = JSON.parse(result);
+              result = window.json[1].subpods[0];
+              var inputInterpretation = window.json[0].subpods[0].text;
 
-                    $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-                    $("#queryInterpretation").text(inputInterpretation);
+              $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+              $("#queryInterpretation").text(inputInterpretation);
 
-                    $("#image-output").load(function() {
-                        window.log("Image is ready, resizing window.");
-                        $(".interpret").css("display", "block"); // only show once everything is ready
-                        resizeWindow();
-                    });
-                } catch (e) {
-                    window.log(e.toString())
+              $("#image-output").load(function() {
+                  window.log("Image is ready, resizing window.");
+                  $(".interpret").css("display", "block"); // only show once everything is ready
+                  resizeWindow();
+              });
+          } catch (e) {
+              window.log(e.toString())
 
-                    // try again if error
-                    retry(queryURL)
-                }
-            })
-            .on('error', function(err) {
-                window.log(err.toString())
+              // try again if error
+              retry(input)
+          }
+          if (err) {
+            window.log(err.toString())
 
-                // try again
-                retry(queryURL);
-            });
+            // try again
+            retry(input);
+          }
+        })
 
         window.log('Queried with: ' + queryURL);
     }
 }
 
-function retry(queryURL) {
+function retry(input) {
     var input = $('#input').val();
     var encodedInput = encodeURIComponent(input);
     var googleQuery = "https://www.google.ca/#q=" + encodedInput;
@@ -184,32 +181,31 @@ function retry(queryURL) {
     // also implement google and try again as links
     var errorMsg = format("<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Look it up on <a href='#' onclick='Shell.openExternal(\"{}\")'>Google</a> or <a href='#' onclick='Shell.openExternal(\"{}\")'>WolframAlpha</a>.</p>", googleQuery, wolframQuery);
 
-    progress(request(queryURL))
-        .on("data", function(data) {
-            // if there's another error, just give up
-            try {
-                window.json = JSON.parse(data);
-                result = window.json[1].subpods[0];
-                var inputInterpretation = window.json[0].subpods[0].text;
+    wolfram.query(input, function(err, result) {
+      try {
+        window.log(result)
+        window.json = JSON.parse(result);
+        result = window.json[1].subpods[0];
+        var inputInterpretation = window.json[0].subpods[0].text;
 
-                $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-                $("#queryInterpretation").text(inputInterpretation);
+        $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+        $("#queryInterpretation").text(inputInterpretation);
 
-                $("#image-output").load(function() {
-                    window.log("Image is ready, resizing window.")
-                    $(".interpret").css("display", "block");
-                    resizeWindow();
-                });
-            } catch (e) {
-                $(".interpret").css("display", "none");
-                $(".output").html(errorMsg)
-                resizeWindow(true);
-                throw e;
-            }
-        })
-        .on('error', function(err) {
-            $(".output").html(errorMsg)
-            resizeWindow(true);
-            throw err;
+        $("#image-output").load(function() {
+            window.log("Image is ready, resizing window.");
+            $(".interpret").css("display", "block"); // only show once everything is ready
+            resizeWindow();
         });
+      } catch (e) {
+        $(".interpret").css("display", "none");
+        $(".output").html(errorMsg)
+        resizeWindow(true);
+        throw e;
+      }
+      if (err) {
+        $(".output").html(errorMsg)
+        resizeWindow(true);
+        throw err;
+      }
+    })
 }

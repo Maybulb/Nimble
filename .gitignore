@@ -8,6 +8,9 @@
 # his feelings and just not invited him
 .DS_Store
 
+# this has caused me pain
+key.json
+
 # Ignore compiled CSS
 *.css
 
