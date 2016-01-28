@@ -26,7 +26,7 @@ Create `src/js/key.json` for your key.
 }
  ```
 
-Run electron in the project directory.
+Run electron in the project directory to get it up and running.
 
 ## Packaging/Bundling
 If you'd like to package Nimble as an app, or bundle it as a DMG, you can use our gulp tasks.
@@ -36,7 +36,7 @@ gulp package # nimble -> .app
 gulp bundle # nimble -> .app -> .dmg
 ```
 
-If you're going to bundle Nimble, remember to package  before hand.
+ before hand.
 
 ```
 
