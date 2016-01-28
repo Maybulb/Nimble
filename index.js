@@ -6,7 +6,7 @@ var menubar = require('menubar');
 var mb = menubar({
     height: 42,
     width: 380,
-    icon: './src/img/menubar_icon.png',
+    icon: './assets/img/menubar_icon.png',
     index: 'file://' + __dirname + '/src/index.html'
 });
 
