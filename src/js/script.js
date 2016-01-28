@@ -139,7 +139,7 @@ var query = function() {
         wolfram.query(input, function(err, result) {
           try {
             // I CAnnot
-              window.json = JSON.parse(result);
+              window.json = result;
               result = window.json[1].subpods[0];
               var inputInterpretation = window.json[0].subpods[0].text;
 
@@ -184,7 +184,7 @@ function retry(input) {
     wolfram.query(input, function(err, result) {
       try {
         window.log(result)
-        window.json = JSON.parse(result);
+        window.json = result;
         result = window.json[1].subpods[0];
         var inputInterpretation = window.json[0].subpods[0].text;
 
