@@ -68,7 +68,7 @@ ipc.on('node_console', function(event, arg) {
 
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
-    mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
+    mb.tray.setPressedImage('./assets/img/menubar_icon_pressed.png');
 
     mb.window.setBounds({
         x: mb.window.getPosition()[0],
