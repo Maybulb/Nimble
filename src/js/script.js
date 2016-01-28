@@ -41,7 +41,7 @@ var clipboardCopy = {
 
 var shareButton = {
     twitter: function() {
-        var tweet = $("#input").val() + ":\n" + window.json[1].subpods[0].image + " (via @nimbledotapp)";
+        var tweet = $("#input").val() + ":\n" + window.json[window.json.length - 1]["origin_url"] + " (via @nimbledotapp)";
         Shell.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweet))
     }
 }
