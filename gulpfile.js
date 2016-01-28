@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
 		sass = require('gulp-sass'),
 		packager = require('electron-packager');
+
 require('shelljs/global');
 
 gulp.task('sass', function() {
@@ -9,15 +10,10 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest('src/css'))
 })
 
-gulp.task('compile', ['sass']);
+gulp.task('default', ['sass']);
+//create gulp task "production"/"prod" for both package and build
 
-gulp.task('watch', function() {
-	gulp.watch('src/css/*.sass', ['sass'])
-})
-
-gulp.task('default', ['compile']);
-
-gulp.task('package', function() {
+gulp.task('package', function() {7
 	var opts = {
 		"arch": "x64",
 		"dir": "./",
@@ -27,14 +23,14 @@ gulp.task('package', function() {
 		"out": "./",
 		"version": "0.36.5",
 	}
-	packager(opts, function done (err, appPath) {
+	return packager(opts, function done (err, appPath) {
 		if (err) throw err;
 		console.log("Nimble packaged at " + appPath);
 	})
 });
 
 gulp.task('build', function() {
-	// run this as a script because electron-builder doesn't offer it any other way
+	// run this as a script because electron-builder doesn't offer it source
 	var script = "electron-builder Nimble-darwin-x64/Nimble.app/ --platform=osx --out=./Nimble-darwin-x64 --config=config.json";
 	exec(script);
 });
