@@ -6,7 +6,7 @@ var menubar = require('menubar');
 var mb = menubar({
     height: 42,
     width: 380,
-    icon: './assets/img/menubar_icon.png',
+    icon: __dirname + '/assets/img/menubar_icon.png',
     index: 'file://' + __dirname + '/src/index.html'
 });
 
@@ -68,7 +68,7 @@ ipc.on('node_console', function(event, arg) {
 
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
-    mb.tray.setPressedImage('./assets/img/menubar_icon_pressed.png');
+    mb.tray.setPressedImage(__dirname + '/assets/img/menubar_icon_pressed.png');
 
     mb.window.setBounds({
         x: mb.window.getPosition()[0],
