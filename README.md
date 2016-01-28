@@ -28,6 +28,11 @@ Create `src/js/key.json` for your key.
 
 Run electron in the project directory to get it up and running.
 
+```
+# Compiles Sass and starts (gulp && electron .)
+npm start
+```
+
 ## Packaging/Bundling
 If you'd like to package Nimble as an app, or bundle it as a DMG, you can use our gulp tasks.
 
@@ -36,13 +41,7 @@ gulp package # nimble -> .app
 gulp bundle # nimble -> .app -> .dmg
 ```
 
- before hand.
-
-```
-
-# Compiles Sass and starts (gulp && electron .)
-npm start
-```
+If you're bundling it, make sure to package it beforehand so that the `.app` exists for the disk image.
 
 ## Checklist
 - [x] Fix overflow problem
