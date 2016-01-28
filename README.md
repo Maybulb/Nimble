@@ -7,13 +7,38 @@ The cross-platform personal assistant that just works. Built with the wonderful 
 For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
 
 ## Development
-Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`). Clone the repository, install dependencies, run gulp, then run electron in the project directory.
+Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`). You'll also need a [Wolfram Alpha API Key](http://products.wolframalpha.com/api/).
+
+Clone the repository, install dependencies, then run gulp.
 
 ```bash
 git clone https://github.com/madebybright/Nimble.git
 
 # cd into the directory and install dependencies
 cd Nimble && npm install
+```
+
+Create `src/js/key.json` for your key.
+
+```js
+{
+  "api": "KEY"
+}
+ ```
+
+Run electron in the project directory.
+
+## Packaging/Bundling
+If you'd like to package Nimble as an app, or bundle it as a DMG, you can use our gulp tasks.
+
+```bash
+gulp package # nimble -> .app
+gulp bundle # nimble -> .app -> .dmg
+```
+
+If you're going to bundle Nimble, remember to package  before hand.
+
+```
 
 # Compiles Sass and starts (gulp && electron .)
 npm start
