@@ -4,14 +4,14 @@ var ipc = electron.ipcMain;
 var menubar = require('menubar');
 
 var mb = menubar({
-    height: 50,
+    height: 42,
     width: 380,
     icon: './src/img/menubar_icon.png',
     index: 'file://' + __dirname + '/src/index.html'
 });
 
 ipc.on('resize', function(event, arg) {
-    console.log("Resizing window to " + arg.width + " x " + arg.height + "\n");
+    
 
     // this is the animation code that crashes
     /*
@@ -30,7 +30,10 @@ ipc.on('resize', function(event, arg) {
     }
     */
 
-    console.log(global.screenSize);
+    var finalDim = {
+        height: null,
+        width: null
+    };
 
     if (arg.height > 500) {
         // if height is way too big, then just set it short and scroll
@@ -40,6 +43,9 @@ ipc.on('resize', function(event, arg) {
             width: arg.width,
             height: 500
         });
+
+        finalDim.height = 500;
+        finalDim.width = arg.width;
     } else {
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
@@ -47,7 +53,12 @@ ipc.on('resize', function(event, arg) {
             width: arg.width,
             height: arg.height
         });
+
+        finalDim.height = arg.height;
+        finalDim.width = arg.width;
     }
+
+    console.log("Resizing window to " + finalDim.width + " x " + finalDim.height + "\n");
 });
 
 // console.log handler
@@ -58,6 +69,13 @@ ipc.on('node_console', function(event, arg) {
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
     mb.tray.setPressedImage('./src/img/menubar_icon_pressed.png');
+
+    mb.window.setBounds({
+        x: mb.window.getPosition()[0],
+        y: mb.window.getPosition()[1],
+        width: 380,
+        height: 42
+    });
 });
 
 mb.on('ready', function() {

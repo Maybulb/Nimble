@@ -122,6 +122,7 @@ var query = function() {
             result = math.eval(input);
         }
 
+        $(".interpret").css("display", "none");
         $(".output").html(result);
         resizeWindow(true);
     } catch (e) {
@@ -131,6 +132,7 @@ var query = function() {
         var queryURL = util.format(URL, encodedQuery);
 
         // loader
+        $(".interpret").css("display", "none");
         $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'><div><span></span></div></div>");
         resizeWindow(true);
 
@@ -148,7 +150,8 @@ var query = function() {
                     $("#queryInterpretation").text(inputInterpretation);
 
                     $("#image-output").load(function() {
-                        window.log("Image is ready, resizing window.")
+                        window.log("Image is ready, resizing window.");
+                        $(".interpret").css("display", "block"); // only show once everything is ready
                         resizeWindow();
                     });
                 } catch (e) {
@@ -180,7 +183,6 @@ function retry(queryURL) {
     // @gthn, design this as you need to.
     // also implement google and try again as links
     var errorMsg = format("<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Look it up on <a href='#' onclick='Shell.openExternal(\"{}\")'>Google</a> or <a href='#' onclick='Shell.openExternal(\"{}\")'>WolframAlpha</a>.</p>", googleQuery, wolframQuery);
-    window.log(errorMsg)
 
     progress(request(queryURL))
         .on("data", function(data) {
@@ -195,9 +197,11 @@ function retry(queryURL) {
 
                 $("#image-output").load(function() {
                     window.log("Image is ready, resizing window.")
+                    $(".interpret").css("display", "block");
                     resizeWindow();
                 });
             } catch (e) {
+                $(".interpret").css("display", "none");
                 $(".output").html(errorMsg)
                 resizeWindow(true);
                 throw e;

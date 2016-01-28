@@ -20,6 +20,7 @@ div.interpret
     padding: 6px 16px
     width: calc(100% - 32px)
     color: white
+    display: none
 
 // is it too late now to say sorry
 div.sorry
@@ -44,8 +45,9 @@ div.output
     letter-spacing: 0.5px
     outline: none
     z-index: 1
-    overflow-x: scroll
-    max-height: 500px
+    overflow-y: scroll
+    // 380 is the magic number
+    max-height: 380px
 
 div.input
     display: relative
