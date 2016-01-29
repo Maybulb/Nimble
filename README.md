@@ -1,6 +1,6 @@
 Nimble
 ======
-<img align="right" width="20%" style="float:right;padding:20px;" src="https://github.com/madebybright/nimble/raw/master/assets/256.png">
+<img align="right" width="20%" style="float:right;padding:20px;" src="https://raw.githubusercontent.com/madebybright/Nimble/master/assets/512.png">
 
 The cross-platform personal assistant that just works. Built with the wonderful [Electron](http://electron.atom.io/), as well as many useful libraries.
 
