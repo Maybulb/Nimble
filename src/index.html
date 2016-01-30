@@ -26,10 +26,19 @@
 		<script src="../node_modules/loaders.css/loaders.css.js"></script>
 
 		<script>
-		window.options = require("../options.json") || {
-			"mathjs": true,
-			"speech": false
-		};
+		try {
+			window.options = require("../options.json") || {
+				"mathjs": true,
+				"speech": false
+			};
+		} catch (e) {
+			window.options = {
+				"mathjs": true,
+				"speech": false
+			};
+
+			ipcRenderer.send("save_options", JSON.stringify(window.options));
+		}
 
 		const remote = require('electron').remote;
 		const Menu = remote.Menu;

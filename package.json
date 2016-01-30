@@ -1,6 +1,6 @@
 {
   "name": "Nimble",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Wolfram|Alpha® menu bar app",
   "main": "index.js",
   "dependencies": {
