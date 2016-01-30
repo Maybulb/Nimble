@@ -26,15 +26,10 @@
 		<script src="../node_modules/loaders.css/loaders.css.js"></script>
 
 		<script>
-		$(function() {
-			$("#input").keyup(function() {
-				if (this.value == "") {
-					$(".input button").css("opacity", "0.7");
-				} else {
-					$(".input button").css("opacity", "1");
-				}
-			});
-		});
+		window.options = require("../options.json") || {
+			"mathjs": true,
+			"speech": false
+		};
 
 		const remote = require('electron').remote;
 		const Menu = remote.Menu;
@@ -46,14 +41,14 @@
 				submenu: [
 					{
 						label: 'Plain Text',
-						accelerator: "CmdOrCtrl+C",
+						accelerator: "Shift+CmdOrCtrl+C",
 						click: function() {
 							clipboardCopy.text()
 						}
 					},
 					{
 						label: 'Wolfram|Alpha Link',
-						accelerator: "CmdOrCtrl+L",
+						accelerator: "Shift+CmdOrCtrl+L",
 						click: function() {
 							clipboardCopy.link()
 						}
@@ -61,7 +56,7 @@
 					{
 						label: "Image (in progress...)",
 						enabled: false,
-						accelerator: "CmdOrCtrl+I",
+						accelerator: "Shift+CmdOrCtrl+I",
 						click: function() {
 							clipboardCopy.image()
 						}
@@ -79,14 +74,48 @@
 						}
 					}
 				]
+			},
+			{
+				type: "separator"
+			},
+			{
+				label: "Quit",
+				accelerator: "CmdOrCtrl+W",
+				role: "close",
+				click: function() {
+					app.quit()
+				}
+			},
+			{
+				label: "Preferences",
+				submenu: [
+					{
+						label: "Do simpler math offline with Math.js?",
+						sublabel: "This saves a lot of time, but may not always give you the right answer.",
+						type: "checkbox",
+						checked: window.options.mathjs,
+						click: function() {
+							preferences.save();
+						}
+					},
+					{
+						label: "Speech (alpha)",
+						type: "checkbox",
+						checked: window.options.speech,
+						click: function() {
+							preferences.save();
+						}
+					}
+				]
 			}
 		]
 
-		var contextmenu = new Menu.buildFromTemplate(menuItems);
+		var menuthing = new Menu.buildFromTemplate(window.menuItems);
+
 		var output = document.getElementsByClassName("output")[0];
 		output.addEventListener('contextmenu', function (e) {
 		  e.preventDefault();
-		  contextmenu.popup(remote.getCurrentWindow());
+		  menuthing.popup(remote.getCurrentWindow());
 		}, false);
 		</script>
 	</body>

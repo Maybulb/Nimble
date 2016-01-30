@@ -49,3 +49,5 @@ node_modules
 src/js/key.json
 
 bugfixes.md
+
+options.json

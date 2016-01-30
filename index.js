@@ -2,6 +2,7 @@ var electron = require('electron');
 var app = electron.app;
 var ipc = electron.ipcMain;
 var menubar = require('menubar');
+var fs = require("fs");
 
 var mb = menubar({
     height: 42,
@@ -66,6 +67,16 @@ ipc.on('node_console', function(event, arg) {
     console.log(arg.m + "\n")
 });
 
+ipc.on('save_options', function(event, arg) {
+    fs.writeFile(__dirname + "/options.json", arg, function(err) {
+        if(err) {
+            console.log(err);
+        }
+
+        console.log("Options were saved.");
+    });
+});
+
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
     mb.tray.setPressedImage(__dirname + '/assets/img/menubar_icon_pressed.png');
@@ -93,8 +104,8 @@ mb.on('ready', function() {
     function devTools(e, bound) {
         if (e.shiftKey) {
             mb.window.openDevTools({
-                detach: true
-            }) // This is throwing an error, if you don't load Nimble by clicking on it
+                    detach: true
+                }) // This is throwing an error, if you don't load Nimble by clicking on it
         }
     }
 
