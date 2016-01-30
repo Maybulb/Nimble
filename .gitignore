@@ -44,7 +44,7 @@ node_modules
 
 *.map
 
-.sass-cache/b9a2ed9f659e436c1b59ca2205e2c9d804b2a8e2/style.sassc
+.sass-cache/
 
 src/js/key.json
 

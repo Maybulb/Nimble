@@ -166,8 +166,14 @@ var query = function() {
         }
 
         $(".interpret").css("display", "none");
+
         $(".output").html(result);
         backdoor.resizeWindow(true);
+
+        // speak result if speech is on
+        if(window.options.speech === true) {
+            backdoor.speak($('.output').text())
+        }
     } catch (e) {
         // if input isn't math throw error and use wolfram code
         window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
