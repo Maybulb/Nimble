@@ -1,131 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Nimble</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
+<head>
+    <title>Nimble</title>
+    <meta charset="utf-8">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet"><!-- loaders.css -->
+    <link href="../node_modules/loaders.css/loaders.min.css" rel="stylesheet">
+    <script src="js/script.js">
+    </script>
+</head>
+<body>
+    <div class="input">
+        <input autofocus="" id="input" type="text"> <button onclick="query()" type="button">&#61442;</button>
+    </div>
+    <div class="interpret">
+        <em>Interpreted as:</em> <span id="queryInterpretation">query interpretation</span>
+    </div>
+    <div class="output">
+        <!-- temporary -->
+    </div><!-- scripts -->
+    <script src="../node_modules/loaders.css/loaders.css.js">
+    </script> 
+    <script>
+    try {
+        window.options = require("../options.json") || {
+            "mathjs": true,
+            "speech": false
+        };
+    } catch (e) {
+        window.options = {
+            "mathjs": true,
+            "speech": false
+        };
 
-		<!-- loaders.css -->
-		<link rel="stylesheet" href="../node_modules/loaders.css/loaders.min.css">
-		<script src="js/script.js"></script>
+        ipcRenderer.send("save_options", JSON.stringify(window.options));
+    }
 
-	</head>
-	<body>
-		<div class="input">
-			<input type="text" id="input" autofocus>
-			<button type="button" onclick="query()">&#61442;</button>
-		</div>
-		<div class="interpret">
-			<em>Interpreted as:</em> <span id="queryInterpretation">query interpretation</span>
-		</div>
-		<div class="output"> <!-- temporary -->
-		</div>
+    const remote = require('electron').remote;
+    const Menu = remote.Menu;
+    const MenuItem = remote.MenuItem;
 
-		<!-- scripts -->
-		<script src="../node_modules/loaders.css/loaders.css.js"></script>
+    var menuItems = [{
+        label: 'Edit',
+        submenu: [{
+            label: 'Undo',
+            accelerator: 'CmdOrCtrl+Z',
+            role: 'undo'
+        }, {
+            label: 'Redo',
+            accelerator: 'Shift+CmdOrCtrl+Z',
+            role: 'redo'
+        }, {
+            type: 'separator'
+        }, {
+            label: 'Cut',
+            accelerator: 'CmdOrCtrl+X',
+            role: 'cut'
+        }, {
+            label: 'Copy',
+            accelerator: 'CmdOrCtrl+C',
+            role: 'copy'
+        }, {
+            label: 'Paste',
+            accelerator: 'CmdOrCtrl+V',
+            role: 'paste'
+        }, {
+            label: 'Select All',
+            accelerator: 'CmdOrCtrl+A',
+            role: 'selectall'
+        }, {
+            type: "separator"
+        }, {
+            label: "Plain Text",
+            accelerator: "CmdOrCtrl+Shift+C",
+            click: function() {
+                clipboardCopy.text()
+            }
+        }, {
+            label: 'Wolfram|Alpha Link',
+            accelerator: "CmdOrCtrl+Shift+L",
+            click: function() {
+                clipboardCopy.link()
+            }
+        }, {
+            label: "Image (in progress...)",
+            enabled: false,
+            accelerator: "CmdOrCtrl+Shift+I",
+            click: function() {
+                clipboardCopy.image()
+            }
+        }]
+    }, {
+        label: 'View',
+        submenu: [{
+            label: 'Reload',
+            accelerator: 'CmdOrCtrl+R',
+            click: function(item, focusedWindow) {
+                if (focusedWindow)
+                    focusedWindow.reload();
+            }
+        }]
+    }, {
+        label: 'Window',
+        role: 'window',
+        submenu: [{
+            label: 'Minimize',
+            accelerator: 'CmdOrCtrl+M',
+            role: 'minimize'
+        }, {
+            label: 'Close',
+            accelerator: 'CmdOrCtrl+W',
+            role: 'close'
+        }, ]
+    }, {
+        label: 'Help',
+        role: 'help',
+        submenu: [{
+            label: 'Learn More',
+            click: function() {
+                require('electron').shell.openExternal('http://madebybright.com')
+            }
+        }, ]
+    }, {
+        label: "Share",
+        submenu: [{
+            label: "Twitter",
+            accelerator: "CmdOrCtrl+Shift+T",
+            click: function() {
+                shareButton.twitter()
+            }
+        }]
+    }, {
+        label: "Preferences",
+        submenu: [{
+            label: "Do simpler math offline with Math.js?",
+            sublabel: "This saves a lot of time, but may not always give you the right answer.",
+            type: "checkbox",
+            checked: window.options.mathjs,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Speech (alpha)",
+            type: "checkbox",
+            checked: window.options.speech,
+            click: function() {
+                preferences.save();
+            }
+        }]
+    }];
 
-		<script>
-		try {
-			window.options = require("../options.json") || {
-				"mathjs": true,
-				"speech": false
-			};
-		} catch (e) {
-			window.options = {
-				"mathjs": true,
-				"speech": false
-			};
+    var menuthing = new Menu.buildFromTemplate(menuItems);
 
-			ipcRenderer.send("save_options", JSON.stringify(window.options));
-		}
-
-		const remote = require('electron').remote;
-		const Menu = remote.Menu;
-		const MenuItem = remote.MenuItem;
-
-		var menuItems = [
-			{
-				label: "Copy",
-				submenu: [
-					{
-						label: 'Plain Text',
-						accelerator: "CmdOrCtrl+Shift+C",
-						click: function() {
-							clipboardCopy.text()
-						}
-					},
-					{
-						label: 'Wolfram|Alpha Link',
-						accelerator: "CmdOrCtrl+Shift+L",
-						click: function() {
-							clipboardCopy.link()
-						}
-					},
-					{
-						label: "Image (in progress...)",
-						enabled: false,
-						accelerator: "CmdOrCtrl+Shift+I",
-						click: function() {
-							clipboardCopy.image()
-						}
-					}
-				]
-			},
-			{
-				label: "Share",
-				submenu: [
-					{
-						label: "Twitter",
-						accelerator: "CmdOrCtrl+Shift+T",
-						click: function() {
-							shareButton.twitter()
-						}
-					}
-				]
-			},
-			{
-				type: "separator"
-			},
-			{
-				label: "Quit",
-				accelerator: "CmdOrCtrl+W",
-				role: "close",
-				click: function() {
-					app.quit()
-				}
-			},
-			{
-				label: "Preferences",
-				submenu: [
-					{
-						label: "Do simpler math offline with Math.js?",
-						sublabel: "This saves a lot of time, but may not always give you the right answer.",
-						type: "checkbox",
-						checked: window.options.mathjs,
-						click: function() {
-							preferences.save();
-						}
-					},
-					{
-						label: "Speech (alpha)",
-						type: "checkbox",
-						checked: window.options.speech,
-						click: function() {
-							preferences.save();
-						}
-					}
-				]
-			}
-		]
-
-		var menuthing = new Menu.buildFromTemplate(window.menuItems);
-
-		var output = document.getElementsByClassName("output")[0];
-		output.addEventListener('contextmenu', function (e) {
-		  e.preventDefault();
-		  menuthing.popup(remote.getCurrentWindow());
-		}, false);
-		</script>
-	</body>
+    var output = document.getElementsByClassName("output")[0];
+    output.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        menuthing.popup(remote.getCurrentWindow());
+    }, false);
+    </script>
+</body>
 </html>
