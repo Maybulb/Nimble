@@ -3,6 +3,7 @@ var app = electron.app;
 var ipc = electron.ipcMain;
 var menubar = require('menubar');
 var fs = require("fs");
+var globalShortcut = electron.globalShortcut;
 
 var mb = menubar({
     height: 42,
@@ -90,26 +91,40 @@ mb.on('after-create-window', function() {
 });
 
 mb.on('ready', function() {
+    // global hotkeys to show/hide Nimble
+    // Feel free to change the accelerators, I'm not sure if I like them but they'll make due
+    globalShortcut.register('CmdOrCtrl+Shift+S', function() {
+        mb.showWindow();
+    });
+    globalShortcut.register('CmdOrCtrl+Shift+H', function() {
+        mb.hideWindow();
+    })
+
     // screen size
     var screen = electron.screen;
     global.screenSize = screen.getPrimaryDisplay().size;
 
+
     mb.tray
         .on('click', click)
         .on('right-click', rightClick)
-        .on('click', devTools);
 
-    function click(e, bounds) {}
-
-    function devTools(e, bound) {
+    function click(e, bounds) {
         if (e.shiftKey) {
+            // This is throwing an error, if you don't load Nimble by clicking on it
             mb.window.openDevTools({
-                    detach: true
-                }) // This is throwing an error, if you don't load Nimble by clicking on it
+                detach: true
+            })
         }
     }
 
+    // In the future it'd be nice if right clicking would show the menu instead of quitting
+    // We'd have some trouble getting this right, though
     function rightClick(e, bounds) {
         app.quit();
     }
 });
+
+mb.on('will-quit', function() {
+    globalShortcut.unregisterAll();
+})
