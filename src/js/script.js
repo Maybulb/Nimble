@@ -160,7 +160,7 @@ var query = function() {
             // if user asks what nimble is, tell them
             result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright</a>. We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
         } else if (window.options.mathjs === true) {
-            result = math.eval(input);
+            result = math.eval(input).toString();
         } else if (window.options.mathjs === false) {
             throw(new Error("Math.js has been disabled by the user."))
         }
