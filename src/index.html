@@ -9,7 +9,7 @@
     <script src="js/script.js">
     </script>
 </head>
-<body>
+<body id="body-thing-idk">
     <div class="input">
         <input autofocus="" id="input" type="text"> <button onclick="query()" type="button">&#61442;</button>
     </div>
@@ -151,9 +151,10 @@
     }];
 
     var menuthing = new Menu.buildFromTemplate(menuItems);
+    var menuthingGlobal = Menu.setApplicationMenu(menuthing);
 
-    var output = document.getElementsByClassName("output")[0];
-    output.addEventListener('contextmenu', function(e) {
+    var body = document.getElementById("body-thing-idk");
+    body.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         menuthing.popup(remote.getCurrentWindow());
     }, false);
