@@ -96,6 +96,7 @@ var backdoor = {
         var newText = text.replace(unicode, function(match, p1, p2) {
             return "&#" + parseInt(p1, 16).toString(10) + ";";
         });
+
         return newText;
     }
 }
@@ -132,7 +133,6 @@ window.log = function(log) {
 
 // check if everything is alright before querying wolfram
 function preQuery() {
-    var blankInput = Boolean();
     if ($('#input').val() !== "") {
         query();
     } else if ($('#input').val() === "") {
