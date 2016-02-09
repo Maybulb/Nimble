@@ -20,7 +20,6 @@ div.interpret
     padding: 6px 16px
     width: calc(100% - 32px)
     color: white
-    display: none
 
 // is it too late now to say sorry
 div.sorry
@@ -85,6 +84,8 @@ div.input
         border: 0
         outline: 0
         padding: 8px
+        width: 30px
+        max-height: 30px
         border-radius: 50%
         opacity: 0.7
         background: white
@@ -92,6 +93,7 @@ div.input
         color: $nimble-orange
         z-index: 2
         border: none
+        overflow: hidden
 
 h1
     text-align: center
@@ -112,28 +114,13 @@ hr
     display: block
     margin: 0 auto
 
-#loader div
-    // should either be border color or background color depending on the loader
-    border-color: $nimble-orange
-    border-width: 3px
-    background-color: #FFA341
-    display: flex
-    justify-content: center
-    align-items: center
-    margin: 30px
+.animateLoader
+    -webkit-animation: spin 0.75s ease-in-out infinite alternate
+    -webkit-transform-origin: center
 
-    // font can be changed, system font is wonky for this though
-    font-family: "Impact", sans-serif
-    font-weight: bold
+@-webkit-keyframes spin
+    from
+        -webkit-transform: rotate(0deg)
 
-#loader
-    text-align: center
-    color: white
-    font-size: 3em
-
-    display: flex
-    justify-content: center
-    align-items: center
-
-    // disable selecting of text
-    -webkit-user-select: none
+    to
+        -webkit-transform: rotate(360deg)

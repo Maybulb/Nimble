@@ -11,14 +11,17 @@
 </head>
 <body id="body-thing-idk">
     <div class="input">
-        <input autofocus="" id="input" type="text"> <button onclick="query()" type="button">&#61442;</button>
+        <input autofocus="" id="input" type="text">
+        <button onclick="preQuery()" type="button">
+            <i class="fa fa-search"></i>
+        </button>
     </div>
     <div class="interpret">
         <em>Interpreted as:</em> <span id="queryInterpretation">query interpretation</span>
     </div>
     <div class="output">
         <!-- temporary -->
-    </div><!-- scripts -->
+    </div>
     <script src="../node_modules/loaders.css/loaders.css.js">
     </script> 
     <script>
@@ -26,13 +29,15 @@
         window.options = require("../options.json") || {
             "mathjs": true,
             "speech": false,
-            "startup": true
+            "startup": true,
+            "center": false
         };
     } catch (e) {
         window.options = {
             "mathjs": true,
             "speech": false,
-            "startup": true
+            "startup": true,
+            "center": false
         };
     } finally {
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -73,7 +78,7 @@
         }, {
             type: "separator"
         }, {
-            label: "Plain Text",
+            label: "Plain Text Result",
             accelerator: "CmdOrCtrl+Shift+C",
             click: function() {
                 clipboardCopy.text()
@@ -93,16 +98,6 @@
             }
         }]
     }, {
-        label: 'View',
-        submenu: [{
-            label: 'Reload',
-            accelerator: 'CmdOrCtrl+R',
-            click: function(item, focusedWindow) {
-                if (focusedWindow)
-                    focusedWindow.reload();
-            }
-        }]
-    }, {
         label: 'Window',
         role: 'window',
         submenu: [{
@@ -113,7 +108,20 @@
             label: 'Close',
             accelerator: 'CmdOrCtrl+W',
             role: 'close'
-        }, ]
+        }, {
+            label: 'Reload',
+            accelerator: 'CmdOrCtrl+R',
+            click: function(item, focusedWindow) {
+                if (focusedWindow)
+                    focusedWindow.reload();
+            }
+        }, {
+            label: "Toggle Nimble (Global)",
+            accelerator: "CmdOrCtrl+Shift+=",
+            click: function() {
+                ipcRenderer.send("toggleview");
+            }
+        }]
     }, {
         label: 'Help',
         role: 'help',
@@ -122,7 +130,7 @@
             click: function() {
                 require('electron').shell.openExternal('http://madebybright.com')
             }
-        }, ]
+        }]
     }, {
         label: "Share",
         submenu: [{
@@ -152,6 +160,13 @@
             label: "Run Nimble on start-up?",
             type: "checkbox",
             checked: window.options.startup,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Show Nimble in the center of your screen?",
+            type: "checkbox",
+            checked: window.options.center,
             click: function() {
                 preferences.save();
             }

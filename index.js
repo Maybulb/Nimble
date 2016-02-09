@@ -10,7 +10,8 @@ var mb = menubar({
     height: 42,
     width: 380,
     icon: __dirname + '/assets/img/menubar_iconTemplate.png',
-    index: 'file://' + __dirname + '/src/index.html'
+    index: 'file://' + __dirname + '/src/index.html',
+    "preload-window": true
 });
 
 ipc.on('resize', function(event, arg) {
@@ -44,7 +45,8 @@ ipc.on('resize', function(event, arg) {
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: 500
+            height: 500,
+            animate: true
         });
 
         finalDim.height = 500;
@@ -54,7 +56,8 @@ ipc.on('resize', function(event, arg) {
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: arg.height
+            height: arg.height,
+            animate: true
         });
 
         finalDim.height = arg.height;
@@ -62,6 +65,28 @@ ipc.on('resize', function(event, arg) {
     }
 
     console.log("Resizing window to " + finalDim.width + " x " + finalDim.height + "\n");
+});
+
+ipc.on("toggleview", function(event) {
+    var position = [mb.window.getPosition()[0], mb.window.getPosition()[1]];
+        
+    if(mb.window.isVisible() === true) {
+        mb.hideWindow();
+    } else if (mb.window.isVisible() === false) {
+        mb.showWindow();
+    }
+
+    mb.window.setPosition(position[0], position[1]);
+})
+
+ipc.on("reset-window", function(event) {
+    mb.window.setBounds({
+        x: mb.window.getPosition()[0],
+        y: mb.window.getPosition()[1],
+        width: 380,
+        height: 42,
+        animate: true
+    });
 });
 
 // console.log handler
@@ -82,24 +107,45 @@ ipc.on('save_options', function(event, arg) {
     global.options = JSON.parse(arg);
 
     // things to do
-    startup();
+    optfunc.startup();
+    optfunc.position();
 });
 
-function startup() {
-    var nimbleAutoLauncher = new AutoLaunch({
-        name: 'Nimble',
-        path: '/Applications/Nimble.app',
-    });
+// various functions that make options work
+var optfunc = {
+    startup: function() {
+        var nimbleAutoLauncher = new AutoLaunch({
+            name: 'Nimble',
+            path: '/Applications/Nimble.app',
+        });
 
-    // startup?
-    if (global.options.startup === true) {
-        console.log("Loading Nimble on startup: on.\n")
-        nimbleAutoLauncher.enable();
-    } else {
-        console.log("Loading Nimble on startup: off.\n")
-        nimbleAutoLauncher.disable();
+        // startup?
+        if (global.options.startup === true) {
+            console.log("Loading Nimble on startup: on.\n")
+            nimbleAutoLauncher.enable();
+        } else {
+            console.log("Loading Nimble on startup: off.\n")
+            nimbleAutoLauncher.disable();
+        }
+
+        return null
+    },
+    position: function() {
+        if(global.options.center === true) {
+            mb.setOption("window-position", "center");
+            mb.positioner.move("center");
+        } else if (global.options.center === false) {
+            mb.setOption("window-position", "trayCenter");
+            if (global.bounds) {
+                mb.positioner.move("trayCenter", global.bounds)
+            }
+        }
+
+        return null
     }
 }
+
+
 
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
@@ -109,23 +155,9 @@ mb.on('after-create-window', function() {
         x: mb.window.getPosition()[0],
         y: mb.window.getPosition()[1],
         width: 380,
-        height: 42
+        height: 42,
+        animate: true
     });
-});
-
-mb.on('ready', function() {
-    // global hotkeys to show/hide Nimble
-    // Feel free to change the accelerators, I'm not sure if I like them but they'll make due
-    globalShortcut.register('CmdOrCtrl+Shift+S', function() {
-        mb.showWindow();
-    });
-    globalShortcut.register('CmdOrCtrl+Shift+H', function() {
-        mb.hideWindow();
-    })
-
-    // screen size
-    var screen = electron.screen;
-    global.screenSize = screen.getPrimaryDisplay().size;
 
     mb.tray
         .on('click', click)
@@ -133,20 +165,44 @@ mb.on('ready', function() {
 
     function click(e, bounds) {
         if (e.shiftKey) {
-            // This is throwing an error, if you don't load Nimble by clicking on it
             mb.window.openDevTools({
                 detach: true
             })
         }
+
+        global.bounds = bounds;
     }
 
-    // In the future it'd be nice if right clicking would show the menu instead of quitting
-    // We'd have some trouble getting this right, though
     function rightClick(e, bounds) {
         app.quit();
     }
+
+    // global hotkey to toggle nimble
+    globalShortcut.register('CmdOrCtrl+Shift+=', function() {
+        var position = [mb.window.getPosition()[0], mb.window.getPosition()[1]];
+        
+        if(mb.window.isVisible() === true) {
+            mb.hideWindow();
+        } else if (mb.window.isVisible() === false) {
+            mb.showWindow();
+        }
+
+        mb.window.setPosition(position[0], position[1]);
+    });
+});
+
+mb.on("after-show", function() {
+    if (mb.window) {
+        mb.window.webContents.send("window-open");
+    }
+})
+
+mb.on('ready', function() {
+    // screen size
+    var screen = electron.screen;
+    global.screenSize = screen.getPrimaryDisplay().size;
 });
 
 mb.on('will-quit', function() {
     globalShortcut.unregisterAll();
-})
+});

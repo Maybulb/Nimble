@@ -46,7 +46,8 @@ var preferences = {
         window.options = {
             mathjs: submenu[0].checked,
             speech: submenu[1].checked,
-            startup: submenu[2].checked
+            startup: submenu[2].checked,
+            center: submenu[3].checked
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -63,7 +64,7 @@ var backdoor = {
         // this is a temporary fix for oversized images until we figure something else out...
         // basically if you're not putting an image inside the output just put true as a parameter of backdoor.resizeWindow()x
         if (other === false || other === undefined) {
-            w = $("#image-output").width() + 32;
+            w = $("output").width();
 
             // if the width isn't oversized just roll with it
             if (w < 348) {
@@ -92,11 +93,24 @@ var backdoor = {
         speechSynthesis.speak(msg);
     },
     unicodeRegex: function(text) {
-        var newText = text.replace(unicode, function(match, p1) {
-            var finalText = "&#" + parseInt(p1, 16).toString(10) + ";";
+        var newText = text.replace(unicode, function(match, p1, p2) {
+            return "&#" + parseInt(p1, 16).toString(10) + ";";
         });
-        window.log(text);
         return newText;
+    }
+}
+
+var loader = function(state) {
+    if (state === true) {
+        $("div.input i").slideUp(200, function() {
+            $("div.input i").attr("class", "fa fa-refresh").attr("disabled", "disabled").addClass("animateLoader");
+        }).slideDown(500);
+        ipcRenderer.send("reset-window");
+    } else {
+        $("div.input i").slideUp(200, function() {
+            $("div.input i").attr("class", "fa fa-search").removeAttr("disabled").removeClass("animateLoader");
+        }).slideDown(500);
+        backdoor.resizeWindow(false);
     }
 }
 
@@ -116,10 +130,12 @@ window.log = function(log) {
     console.log(log)
 }
 
-$(document).keypress(function(event) {
-    if (event.which === 13 && $('#input').val() !== "") {
+// check if everything is alright before querying wolfram
+function preQuery() {
+    var blankInput = Boolean();
+    if ($('#input').val() !== "") {
         query();
-    } else if (event.which === 13 && $('#input').val() === "") {
+    } else if ($('#input').val() === "") {
         // save current placeholder
         var currentPlaceholder = $("#input").attr('placeholder');
         
@@ -130,6 +146,12 @@ $(document).keypress(function(event) {
         window.setTimeout(function() {
             $('#input').attr('placeholder', currentPlaceholder);
         }, 3000);
+    }
+}
+
+$(document).keypress(function(event) {
+    if(event.which === 13) {
+        preQuery();
     }
 });
 
@@ -156,6 +178,11 @@ $(document).ready(function() {
             $(".input button").css("opacity", "1");
         }
     });
+
+    // on window open select the input for conveinence
+    ipcRenderer.on("window-open", function() {
+        $("#input").focus().select();
+    });
 });
 
 // main shit here boys
@@ -163,20 +190,21 @@ var query = function() {
     var input = $('#input').val();
     var result;
 
-    // in this try block, we check if things work
+    // in this try block, we try mathjs
     try {
-        if (input === "What is Nimble?" || input === "What is Nimble" || input === "what is Nimble?" || input === "what is nimble" || input === "what is Nimble" || input === "What is nimble" || input === "What is nimble?") {
-            // if user asks what nimble is, tell them
-            result = "Nimble is Wolfram|Alpha for your menubar. It is designed, coded, and crafted by <a href='#' onclick='Shell.openExternal(\"http://madebybright.com\")'>Bright</a>. We really hope you enjoy Nimble, and we tirelessly work on it as much as we can.<hr/>Nimble is built on Electron and Mathjs, as well as our blood, sweat, and keystrokes."
-        } else if (window.options.mathjs === true) {
-            result = math.eval(input).toString();
+        if (window.options.mathjs === true) {
+            result = math.eval(input);
+            if (math.typeof(result) === "Function") {
+                throw(new Error("Math.js is sending us a function again..."));
+            } else {
+                result = result.toString();
+            }
         } else if (window.options.mathjs === false) {
             throw(new Error("Math.js has been disabled by the user."))
         }
 
-        $(".interpret").css("display", "none");
-
         $(".output").html(result);
+        $(".interpret").css("display", "none");
         backdoor.resizeWindow(true);
 
         // speak result if speech is on
@@ -195,9 +223,7 @@ var query = function() {
         };
 
         // loader
-        $(".interpret").css("display", "none");
-        $(".output").html("<div class='loader-inner ball-scale-ripple' id='loader'><div><span></span></div></div>");
-        backdoor.resizeWindow(true);
+        loader(true);
 
         wolfram.query(input, function(err, queryResult) {
             try {
@@ -207,12 +233,12 @@ var query = function() {
                 var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
                 $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+                $(".interpret").css("display", "block");
                 $("#queryInterpretation").html(inputInterpretation);
 
                 $("#image-output").load(function() {
                     window.log("Image is ready, resizing window.");
-                    $(".interpret").css("display", "block"); // only show once everything is ready
-                    backdoor.resizeWindow();
+                    loader(false);
                     
                     if(window.options.speech === true) {
                         backdoor.speak(result.text)
@@ -257,8 +283,7 @@ var retry = function(input) {
 
             $("#image-output").load(function() {
                 window.log("Image is ready, resizing window.");
-                $(".interpret").css("display", "block"); // only show once everything is ready
-                backdoor.resizeWindow();
+                loader(false);
                 
                 if(window.options.speech === true) {
                     backdoor.speak(result.text)
@@ -267,6 +292,7 @@ var retry = function(input) {
         } catch (e) {
             $(".interpret").css("display", "none");
             $(".output").html(errorMsg)
+            loader(false);
             backdoor.resizeWindow(true);
             throw e;
         }
@@ -274,6 +300,7 @@ var retry = function(input) {
         if (err) {
             $(".output").html(errorMsg)
             backdoor.resizeWindow(true);
+            loader(false);
             throw err;
         }
     });
