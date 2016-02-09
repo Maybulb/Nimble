@@ -18,12 +18,11 @@ gulp.task('package', function() {7
 		"arch": "x64",
 		"dir": "./",
 		"platform": "darwin",
-		"build-version": "1.0.0",
+		"build-version": "1.0.2",
 		"icon": "assets/512.ico",
 		"out": "./",
 		"version": "0.36.5",
 		"prune": true, // prunes development packages off
-		"overwrite": true
 	}
 	return packager(opts, function done (err, appPath) {
 		if (err) throw err;
