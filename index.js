@@ -4,6 +4,7 @@ var ipc = electron.ipcMain;
 var menubar = require('menubar');
 var fs = require("fs");
 var globalShortcut = electron.globalShortcut;
+var AutoLaunch = require('auto-launch');
 
 var mb = menubar({
     height: 42,
@@ -74,9 +75,31 @@ ipc.on('save_options', function(event, arg) {
             console.log(err);
         }
 
-        console.log("Options were saved.");
+        console.log("Options were saved.\n");
     });
+
+    // make options available here too
+    global.options = JSON.parse(arg);
+
+    // things to do
+    startup();
 });
+
+function startup() {
+    var nimbleAutoLauncher = new AutoLaunch({
+        name: 'Nimble',
+        path: '/Applications/Nimble.app',
+    });
+
+    // startup?
+    if (global.options.startup === true) {
+        console.log("Loading Nimble on startup: on.\n")
+        nimbleAutoLauncher.enable();
+    } else {
+        console.log("Loading Nimble on startup: off.\n")
+        nimbleAutoLauncher.disable();
+    }
+}
 
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
@@ -103,7 +126,6 @@ mb.on('ready', function() {
     // screen size
     var screen = electron.screen;
     global.screenSize = screen.getPrimaryDisplay().size;
-
 
     mb.tray
         .on('click', click)

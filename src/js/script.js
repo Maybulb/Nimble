@@ -44,7 +44,8 @@ var preferences = {
 
         window.options = {
             mathjs: submenu[0].checked,
-            speech: submenu[1].checked
+            speech: submenu[1].checked,
+            startup: submenu[2].checked
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options));

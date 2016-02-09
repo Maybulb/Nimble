@@ -22,6 +22,8 @@ gulp.task('package', function() {7
 		"icon": "assets/512.ico",
 		"out": "./",
 		"version": "0.36.5",
+		"prune": true, // prunes development packages off
+		"overwrite": true
 	}
 	return packager(opts, function done (err, appPath) {
 		if (err) throw err;

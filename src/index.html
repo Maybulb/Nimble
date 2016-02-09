@@ -25,14 +25,16 @@
     try {
         window.options = require("../options.json") || {
             "mathjs": true,
-            "speech": false
+            "speech": false,
+            "startup": true
         };
     } catch (e) {
         window.options = {
             "mathjs": true,
-            "speech": false
+            "speech": false,
+            "startup": true
         };
-
+    } finally {
         ipcRenderer.send("save_options", JSON.stringify(window.options));
     }
 
@@ -134,16 +136,22 @@
         label: "Preferences",
         submenu: [{
             label: "Do simpler math offline with Math.js?",
-            sublabel: "This saves a lot of time, but may not always give you the right answer.",
             type: "checkbox",
             checked: window.options.mathjs,
             click: function() {
                 preferences.save();
             }
         }, {
-            label: "Speech (alpha)",
+            label: "Speech (experimental)",
             type: "checkbox",
             checked: window.options.speech,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Run Nimble on start-up?",
+            type: "checkbox",
+            checked: window.options.startup,
             click: function() {
                 preferences.save();
             }
