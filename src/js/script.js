@@ -13,14 +13,15 @@ var $ = require('jquery'),
     clipboard = electron.clipboard,
     nativeImage = electron.nativeImage,
     ipcRenderer = electron.ipcRenderer,
-    URL = "https://nimble-backend.herokuapp.com/input?i=%s";
+    URL = "https://nimble-backend.herokuapp.com/input?i=%s",
+    unicode = /(?:\\:)(([a-z]|[0-9])+)/g;
 
 var clipboardCopy = {
     link: function() {
         clipboard.writeText(window.links.wolfram);
     },
     text: function() {
-        clipboard.writeText(window.json[1].subpods[0].text);
+        clipboard.writeText(backdoor.unicodeRegex(window.json[1].subpods[0].text));
     },
     image: function() {
         // send with ipc to index.js, for now a WIP
@@ -89,6 +90,13 @@ var backdoor = {
         window.log("Nimble just said \"" + text + "\" using the Speech Synthesizer.")
         speechSynthesis.cancel();
         speechSynthesis.speak(msg);
+    },
+    unicodeRegex: function(text) {
+        var newText = text.replace(unicode, function(match, p1) {
+            var finalText = "&#" + parseInt(p1, 16).toString(10) + ";";
+        });
+        window.log(text);
+        return newText;
     }
 }
 
@@ -196,10 +204,10 @@ var query = function() {
                 window.json = queryResult;
                 result = window.json[1].subpods[0];
 
-                var inputInterpretation = window.json[0].subpods[0].text;
+                var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
                 $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-                $("#queryInterpretation").text(inputInterpretation);
+                $("#queryInterpretation").html(inputInterpretation);
 
                 $("#image-output").load(function() {
                     window.log("Image is ready, resizing window.");
@@ -242,10 +250,10 @@ var retry = function(input) {
         try {
             window.json = queryResult;
             result = window.json[1].subpods[0];
-            var inputInterpretation = window.json[0].subpods[0].text;
+            var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
             $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-            $("#queryInterpretation").text(inputInterpretation);
+            $("#queryInterpretation").html(inputInterpretation);
 
             $("#image-output").load(function() {
                 window.log("Image is ready, resizing window.");
