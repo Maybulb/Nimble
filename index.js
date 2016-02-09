@@ -64,6 +64,8 @@ ipc.on('resize', function(event, arg) {
         finalDim.width = arg.width;
     }
 
+    optfunc.position();
+
     console.log("Resizing window to " + finalDim.width + " x " + finalDim.height + "\n");
 });
 
@@ -87,6 +89,8 @@ ipc.on("reset-window", function(event) {
         height: 42,
         animate: true
     });
+
+    optfunc.position();
 });
 
 // console.log handler
