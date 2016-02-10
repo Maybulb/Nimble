@@ -203,13 +203,13 @@ var query = function() {
             throw(new Error("Math.js has been disabled by the user."))
         }
 
-        $(".output").html(result);
-        $(".interpret").css("display", "none");
+        $("#output").html(result);
+        $(".interpret, #wolfram-credit").css("display", "none");
         backdoor.resizeWindow(true);
 
         // speak result if speech is on
         if(window.options.speech === true) {
-            backdoor.speak($('.output').text())
+            backdoor.speak($('#output').text())
         }
     } catch (e) {
         // if input isn't math throw error and use wolfram code
@@ -232,8 +232,9 @@ var query = function() {
 
                 var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
-                $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-                $(".interpret").css("display", "block");
+                $("#output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+                $(".interpret, #wolfram-credit").css("display", "block");
+                $("#wolframlink").attr("onclick", "Shell.openExternal(\"" + window.links.wolfram + "\");");
                 $("#queryInterpretation").html(inputInterpretation);
 
                 $("#image-output").load(function() {
@@ -278,7 +279,7 @@ var retry = function(input) {
             result = window.json[1].subpods[0];
             var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
-            $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+            $("#output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
             $("#queryInterpretation").html(inputInterpretation);
 
             $("#image-output").load(function() {
@@ -290,15 +291,15 @@ var retry = function(input) {
                 }
             });
         } catch (e) {
-            $(".interpret").css("display", "none");
-            $(".output").html(errorMsg)
+            $(".interpret, #wolfram-credit").css("display", "none");
+            $("#output").html(errorMsg)
             loader(false);
             backdoor.resizeWindow(true);
             throw e;
         }
 
         if (err) {
-            $(".output").html(errorMsg)
+            $("#output").html(errorMsg)
             backdoor.resizeWindow(true);
             loader(false);
             throw err;

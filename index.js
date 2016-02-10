@@ -39,17 +39,17 @@ ipc.on('resize', function(event, arg) {
         width: null
     };
 
-    if (arg.height > 500) {
+    if (arg.height > 533) {
         // if height is way too big, then just set it short and scroll
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: 500,
+            height: 533,
             animate: true
         });
 
-        finalDim.height = 500;
+        finalDim.height = 533;
         finalDim.width = arg.width;
     } else {
         mb.window.setBounds({
