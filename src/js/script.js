@@ -21,7 +21,11 @@ var clipboardCopy = {
         clipboard.writeText(window.links.wolfram);
     },
     text: function() {
-        clipboard.writeText(backdoor.unicodeRegex(window.json[1].subpods[0].text));
+        if ($("#image-output").length) {
+            clipboard.writeText(backdoor.unicodeRegex(window.json[1].subpods[0].text));
+        } else {
+            clipboard.writeText($("#output").text())
+        }
     },
     image: function() {
         // send with ipc to index.js, for now a WIP
@@ -183,12 +187,26 @@ $(document).ready(function() {
     ipcRenderer.on("window-open", function() {
         $("#input").focus().select();
     });
+
+    // on right click
+    ipcRenderer.on("tray-rightclick", function() {
+        // pop up menu
+        menuthing.popup(remote.getCurrentWindow());
+    });
 });
 
 // main shit here boys
 var query = function() {
     var input = $('#input').val();
     var result;
+
+    var encodedQuery = encodeURIComponent(input);
+    var queryURL = util.format(URL, encodedQuery);
+
+    window.links = {
+        google: "https://www.google.ca/#q=" + encodedQuery,
+        wolfram: "http://www.wolframalpha.com/input/?i=" + encodedQuery
+    };
 
     // in this try block, we try mathjs
     try {
@@ -214,13 +232,6 @@ var query = function() {
     } catch (e) {
         // if input isn't math throw error and use wolfram code
         window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
-        var encodedQuery = encodeURIComponent(input);
-        var queryURL = util.format(URL, encodedQuery);
-
-        window.links = {
-            google: "https://www.google.ca/#q=" + encodedQuery,
-            wolfram: "http://www.wolframalpha.com/input/?i=" + encodedQuery
-        };
 
         // loader
         loader(true);

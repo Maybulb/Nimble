@@ -77,7 +77,7 @@ ipc.on("toggleview", function(event) {
     }
 
     mb.window.setPosition(position[0], position[1], true);
-})
+});
 
 ipc.on("reset-window", function(event) {
     mb.window.setBounds({
@@ -174,7 +174,7 @@ mb.on('after-create-window', function() {
     }
 
     function rightClick(e, bounds) {
-        app.quit();
+        mb.window.webContents.send("tray-rightclick");
     }
 
     // global hotkey to toggle nimble

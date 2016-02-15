@@ -16,12 +16,14 @@
             <i class="fa fa-search"></i>
         </button>
     </div>
+
     <div class="interpret">
         <em>Interpreted as:</em> <span id="queryInterpretation">query interpretation</span>
     </div>
-    <div class="output">
+
+    <div class="output" id="outputParent">
         <div id="output">
-            <!-- hello -->
+            <!-- this is where output goes -->
         </div>
     </div>
 
@@ -82,28 +84,22 @@
             label: 'Select All',
             accelerator: 'CmdOrCtrl+A',
             role: 'selectall'
-        }, {
-            type: "separator"
-        }, {
-            label: "Plain Text Result",
-            accelerator: "CmdOrCtrl+Shift+C",
-            click: function() {
-                clipboardCopy.text()
+        }],
+    }, {
+        label: 'Help',
+        role: 'help',
+        submenu: [{
+                label: 'Learn More',
+                click: function() {
+                    require('electron').shell.openExternal('http://madebybright.com')
+                }
+            }, {
+                label: 'Contact Support',
+                click: function() {
+                    require('electron').shell.openExternal('mailto:info@madebybright.com')
+                }
             }
-        }, {
-            label: 'Wolfram|Alpha Link',
-            accelerator: "CmdOrCtrl+Shift+L",
-            click: function() {
-                clipboardCopy.link()
-            }
-        }, {
-            label: "Image (in progress...)",
-            enabled: false,
-            accelerator: "CmdOrCtrl+Shift+I",
-            click: function() {
-                clipboardCopy.image()
-            }
-        }]
+        ]
     }, {
         label: 'Window',
         role: 'window',
@@ -116,35 +112,10 @@
             accelerator: 'CmdOrCtrl+W',
             role: 'close'
         }, {
-            label: 'Reload',
-            accelerator: 'CmdOrCtrl+R',
-            click: function(item, focusedWindow) {
-                if (focusedWindow)
-                    focusedWindow.reload();
-            }
-        }, {
             label: "Toggle Nimble (Global)",
             accelerator: "CmdOrCtrl+Shift+=",
             click: function() {
                 ipcRenderer.send("toggleview");
-            }
-        }]
-    }, {
-        label: 'Help',
-        role: 'help',
-        submenu: [{
-            label: 'Learn More',
-            click: function() {
-                require('electron').shell.openExternal('http://madebybright.com')
-            }
-        }]
-    }, {
-        label: "Share",
-        submenu: [{
-            label: "Twitter",
-            accelerator: "CmdOrCtrl+Shift+T",
-            click: function() {
-                shareButton.twitter()
             }
         }]
     }, {
@@ -180,13 +151,52 @@
         }]
     }];
 
+    var outputMenuItems = [{
+        label: "Share",
+        submenu: [{
+            label: "Twitter",
+            accelerator: "CmdOrCtrl+Shift+T",
+            click: function() {
+                shareButton.twitter()
+            }
+        }, {
+            label: "Copy Plain Text Result",
+            accelerator: "CmdOrCtrl+Shift+C",
+            click: function() {
+                clipboardCopy.text()
+            }
+        }, {
+            label: 'Copy Wolfram|Alpha® Link',
+            accelerator: "CmdOrCtrl+Shift+L",
+            click: function() {
+                clipboardCopy.link()
+            }
+        }, {
+            label: "Image (in progress...)",
+            enabled: false,
+            accelerator: "CmdOrCtrl+Shift+I",
+            click: function() {
+                clipboardCopy.image()
+            }
+        }]
+    }, {
+        type: "separator"
+    }];
+
+    var outputMenu = new Menu.buildFromTemplate(outputMenuItems.concat(menuItems));
     var menuthing = new Menu.buildFromTemplate(menuItems);
     var menuthingGlobal = Menu.setApplicationMenu(menuthing);
 
-    var body = document.getElementById("body-thing-idk");
-    body.addEventListener('contextmenu', function(e) {
+    var output = document.getElementById("outputParent");
+
+    $(".input, .interpret, #wolfram-credit").bind('contextmenu', function(e) {
         e.preventDefault();
         menuthing.popup(remote.getCurrentWindow());
+    });
+
+    output.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        outputMenu.popup(remote.getCurrentWindow());
     }, false);
     </script>
 </body>
