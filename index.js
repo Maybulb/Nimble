@@ -45,9 +45,8 @@ ipc.on('resize', function(event, arg) {
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: 533,
-            animate: true
-        });
+            height: 533
+        }, true);
 
         finalDim.height = 533;
         finalDim.width = arg.width;
@@ -56,9 +55,8 @@ ipc.on('resize', function(event, arg) {
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: arg.height,
-            animate: true
-        });
+            height: arg.height
+        }, true);
 
         finalDim.height = arg.height;
         finalDim.width = arg.width;
@@ -78,7 +76,7 @@ ipc.on("toggleview", function(event) {
         mb.showWindow();
     }
 
-    mb.window.setPosition(position[0], position[1]);
+    mb.window.setPosition(position[0], position[1], true);
 })
 
 ipc.on("reset-window", function(event) {
@@ -87,8 +85,7 @@ ipc.on("reset-window", function(event) {
         y: mb.window.getPosition()[1],
         width: 380,
         height: 42,
-        animate: true
-    });
+    }, true);
 
     optfunc.position();
 });
@@ -160,8 +157,7 @@ mb.on('after-create-window', function() {
         y: mb.window.getPosition()[1],
         width: 380,
         height: 42,
-        animate: true
-    });
+    }, true);
 
     mb.tray
         .on('click', click)
@@ -191,7 +187,7 @@ mb.on('after-create-window', function() {
             mb.showWindow();
         }
 
-        mb.window.setPosition(position[0], position[1]);
+        mb.window.setPosition(position[0], position[1], true);
     });
 });
 
