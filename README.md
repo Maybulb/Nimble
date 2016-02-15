@@ -2,7 +2,7 @@ Nimble
 ======
 <img align="right" width="20%" style="float:right;padding:20px;" src="https://raw.githubusercontent.com/madebybright/Nimble/master/assets/512.png">
 
-The cross-platform personal assistant that just works. Built with the wonderful [Electron](http://electron.atom.io/), as well as many useful libraries.
+The cross-platform personal assistant that just works. Built with the wonderful [Electron](http://electron.atom.io/), as well as many useful libraries. [Follow us on Twitter for updates](https://twitter.com/madebybright).
 
 For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
 
@@ -38,7 +38,7 @@ If you'd like to package Nimble as an app, or bundle it as a DMG, you can use ou
 
 ```bash
 gulp package # nimble -> .app
-gulp bundle # nimble -> .app -> .dmg
+gulp bundle # .app -> .dmg
 ```
 
 If you're bundling it, make sure to package it beforehand so that the `.app` exists for the disk image.
@@ -52,16 +52,15 @@ If you're bundling it, make sure to package it beforehand so that the `.app` exi
 - [x] Improve file structure/skeleton
 - [x] Right click icon to exit
   - [x] Provide mini menu for Preferences and Exit
-- [ ] Change initial position of where Nimble loads (the x and y values) [Maybe?]
 - [x] Add math.js support
-  - [ ] Allow option for query to be processed with W|A if it's first processed with math.js
+  - [x] Allow option for query to be processed with W|A if it's first processed with math.js
 - [x] Add error messages
 	- [x] Style error messages (@gthn)
 - [x] Graphing?
 - [x] Indeterminate Loading indicator
-- [ ] Always offer a link to the Wolfram|Alpha page at the bottom
-- [ ] Un-round the top border
 - [ ] Add auto-updating ([Electron provides a module built on Squirrel](https://github.com/atom/electron/blob/master/docs/api/auto-updater.md))
+- [ ] Change initial position of where Nimble loads (the x and y values) [Maybe?]
+- [ ] Always offer a link to the Wolfram|Alpha page at the bottom
 
 ## Far Future Additions
 Some ideas we've been kicking around that we think might have a spot in future versions of Nimble once we've actually gotten it working.
@@ -76,9 +75,9 @@ Want to make a contribution? Fork the repo, add your changes, and submit a pull 
 - All of the wonderful open source software we use with Nimble, viewable in [package.json](https://github.com/madebybright/Nimble/blob/master/package.json)
     - Specifically, we'd like to thank the packages [math.js](http://mathjs.org/), [menubar](https://github.com/maxogden/menubar), and [wolfram-alpha](https://www.npmjs.com/package/wolfram-alpha) for making the bulk of this project possible.
 - Lastly, we'd like to thank everyone who's supported us from day one.
-    - Ethan would like to thank Lucas Steuber of [LanguageCraft](http://portlandlanguagecraft.com/), Willow Bumby of [Cosmic Labs](http://cosmiclabs.io), as well as the rest of the Bright team, Trevor, Logan, Aaron, and [/r/webdev](http://reddit.com/r/webdev) on Reddit.
+    - Ethan would like to thank Lucas Steuber of [LanguageCraft](http://portlandlanguagecraft.com/), as well as the rest of the Bright team, Trevor, Logan, Aaron, and [/r/webdev](http://reddit.com/r/webdev) on Reddit.
 
 ## License
-[LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE)
+[LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE.md)
 
 ![Tag](http://i.imgur.com/etWLNKJ.gif) ![Tag](http://i.imgur.com/c4J95hH.gif) ![Tag](http://i.imgur.com/Sl7UbNI.gif) ![Tag](http://i.imgur.com/xaoeuKp.gif)
