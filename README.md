@@ -59,13 +59,14 @@ If you're bundling it, make sure to package it beforehand so that the `.app` exi
 - [x] Graphing?
 - [x] Indeterminate Loading indicator
 - [ ] Add auto-updating ([Electron provides a module built on Squirrel](https://github.com/atom/electron/blob/master/docs/api/auto-updater.md))
-- [ ] Change initial position of where Nimble loads (the x and y values) [Maybe?]
-- [ ] Always offer a link to the Wolfram|Alpha page at the bottom
+- [x] Change initial position of where Nimble loads (the x and y values) [Centre Maybe?]
+- [x] Always offer a link to the Wolfram|Alpha page at the bottom
 
 ## Far Future Additions
 Some ideas we've been kicking around that we think might have a spot in future versions of Nimble once we've actually gotten it working.
 
 - Quick timezone conversions (possibly with Moment.js)
+- Possible natural language for simple queries
 
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
