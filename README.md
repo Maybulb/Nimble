@@ -76,9 +76,9 @@ Want to make a contribution? Fork the repo, add your changes, and submit a pull 
 - All of the wonderful open source software we use with Nimble, viewable in [package.json](https://github.com/madebybright/Nimble/blob/master/package.json)
     - Specifically, we'd like to thank the packages [math.js](http://mathjs.org/), [menubar](https://github.com/maxogden/menubar), and [wolfram-alpha](https://www.npmjs.com/package/wolfram-alpha) for making the bulk of this project possible.
 - Lastly, we'd like to thank everyone who's supported us from day one.
-    - Ethan would like to thank Lucas Steuber of [LanguageCraft](http://portlandlanguagecraft.com/), Willow Bumby of [Cosmic Labs](http://cosmiclabs.io), as well as the rest of the Bright team, Trevor, Logan, Aaron, and [/r/webdev](http://reddit.com/r/webdev) on Reddit.
+    - Ethan would like to thank Lucas Steuber of [LanguageCraft](http://portlandlanguagecraft.com/), as well as the rest of the Bright team, Trevor, Logan, Aaron, and [/r/webdev](http://reddit.com/r/webdev) on Reddit.
 
 ## License
-[LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE)
+[LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE.md)
 
 ![Tag](http://i.imgur.com/etWLNKJ.gif) ![Tag](http://i.imgur.com/c4J95hH.gif) ![Tag](http://i.imgur.com/Sl7UbNI.gif) ![Tag](http://i.imgur.com/xaoeuKp.gif)
