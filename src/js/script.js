@@ -218,7 +218,7 @@ var query = function() {
         var queryURL = util.format(URL, encodedQuery);
 
         window.links = {
-            google: "https://www.google.ca/#q=" + encodedQuery,
+            // google: "https://www.google.ca/#q=" + encodedQuery,
             wolfram: "http://www.wolframalpha.com/input/?i=" + encodedQuery
         };
 
@@ -270,7 +270,7 @@ var retry = function(input) {
 
     window.log("Error was thrown. Attempting to query again...");
 
-    var errorMsg = format("<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Look it up on <a href='#' onclick='Shell.openExternal(\"{}\")'>Google</a> or <a href='#' onclick='Shell.openExternal(\"{}\")'>WolframAlpha</a>.</p>", window.links.google, window.links.wolfram);
+    var errorMsg = format("<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Try searching it on <a href='#' onclick='Shell.openExternal(\"{}\")'>WolframAlpha</a>.</p>", window.links.wolfram);
 
     wolfram.query(input, function(err, queryResult) {
         try {
