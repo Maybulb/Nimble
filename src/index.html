@@ -110,7 +110,9 @@
         }, {
             label: 'Close',
             accelerator: 'CmdOrCtrl+W',
-            role: 'close'
+            click: function() {
+                ipcRenderer.send("quit");
+            }
         }, {
             label: "Toggle Nimble (Global)",
             accelerator: "CmdOrCtrl+Shift+=",

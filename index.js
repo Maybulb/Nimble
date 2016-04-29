@@ -146,7 +146,9 @@ var optfunc = {
     }
 }
 
-
+ipc.on("quit", function(){
+    app.quit();
+})
 
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
@@ -187,7 +189,7 @@ mb.on('after-create-window', function() {
             mb.showWindow();
         }
 
-        mb.window.setPosition(position[0], position[1], true);
+        mb.window.setPosition(position[0], position[1]);
     });
 });
 
