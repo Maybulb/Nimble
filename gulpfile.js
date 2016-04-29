@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
-		sass = require('gulp-sass'),
-		packager = require('electron-packager');
+	sass = require('gulp-sass'),
+	packager = require('electron-packager'),
+	rimraf = require("gulp-rimraf");
 
 require('shelljs/global');
 
@@ -11,7 +12,9 @@ gulp.task('sass', function() {
 })
 
 gulp.task('default', ['sass']);
-//create gulp task "production"/"prod" for both package and build
+
+// don't work too good
+// gulp.task('produce', ['package', 'build']);
 
 gulp.task('package', function() {7
 	var opts = {
@@ -23,7 +26,9 @@ gulp.task('package', function() {7
 		"out": "./",
 		"version": "0.36.5",
 		"prune": true, // prunes development packages off
+		"overwrite": true
 	}
+	gulp.src("./options.json").pipe(rimraf());
 	return packager(opts, function done (err, appPath) {
 		if (err) throw err;
 		console.log("Nimble packaged at " + appPath);

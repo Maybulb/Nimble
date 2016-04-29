@@ -66,7 +66,7 @@ var backdoor = {
 
         // if not resizing width to fit an image (when parameter "other" isn't true) then just resize to body width
         // this is a temporary fix for oversized images until we figure something else out...
-        // basically if you're not putting an image inside the output just put true as a parameter of backdoor.resizeWindow()x
+        // basically if you're not putting an image inside the output just put true as a parameter of backdoor.resizeWindow()
         if (other === false || other === undefined) {
             w = $("output").width();
 
