@@ -204,7 +204,6 @@ var query = function() {
     var queryURL = util.format(URL, encodedQuery);
 
     window.links = {
-        google: "https://www.google.ca/#q=" + encodedQuery,
         wolfram: "http://www.wolframalpha.com/input/?i=" + encodedQuery
     };
 

@@ -104,10 +104,6 @@
         label: 'Window',
         role: 'window',
         submenu: [{
-            label: 'Minimize',
-            accelerator: 'CmdOrCtrl+M',
-            role: 'minimize'
-        }, {
             label: 'Close',
             accelerator: 'CmdOrCtrl+W',
             click: function() {
@@ -185,7 +181,7 @@
         type: "separator"
     }];
 
-    var outputMenu = new Menu.buildFromTemplate(outputMenuItems.concat(menuItems));
+    var outputMenu = new Menu.buildFromTemplate(outputMenuItems.concat(menuItems[0], menuItems[1], menuItems[2]));
     var menuthing = new Menu.buildFromTemplate(menuItems);
     var menuthingGlobal = Menu.setApplicationMenu(menuthing);
 
