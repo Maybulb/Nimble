@@ -21,7 +21,11 @@ var clipboardCopy = {
         clipboard.writeText(window.links.wolfram);
     },
     text: function() {
-        clipboard.writeText(backdoor.unicodeRegex(window.json[1].subpods[0].text));
+        if ($("#image-output").length) {
+            clipboard.writeText(backdoor.unicodeRegex(window.json[1].subpods[0].text));
+        } else {
+            clipboard.writeText($("#output").text())
+        }
     },
     image: function() {
         // send with ipc to index.js, for now a WIP
@@ -62,7 +66,7 @@ var backdoor = {
 
         // if not resizing width to fit an image (when parameter "other" isn't true) then just resize to body width
         // this is a temporary fix for oversized images until we figure something else out...
-        // basically if you're not putting an image inside the output just put true as a parameter of backdoor.resizeWindow()x
+        // basically if you're not putting an image inside the output just put true as a parameter of backdoor.resizeWindow()
         if (other === false || other === undefined) {
             w = $("output").width();
 
@@ -183,12 +187,26 @@ $(document).ready(function() {
     ipcRenderer.on("window-open", function() {
         $("#input").focus().select();
     });
+
+    // on right click
+    ipcRenderer.on("tray-rightclick", function() {
+        // pop up menu
+        menuthing.popup(remote.getCurrentWindow());
+    });
 });
 
 // main shit here boys
 var query = function() {
     var input = $('#input').val();
     var result;
+
+    var encodedQuery = encodeURIComponent(input);
+    var queryURL = util.format(URL, encodedQuery);
+
+    window.links = {
+        google: "https://www.google.ca/#q=" + encodedQuery,
+        wolfram: "http://www.wolframalpha.com/input/?i=" + encodedQuery
+    };
 
     // in this try block, we try mathjs
     try {
@@ -203,13 +221,13 @@ var query = function() {
             throw(new Error("Math.js has been disabled by the user."))
         }
 
-        $(".output").html(result);
-        $(".interpret").css("display", "none");
+        $("#output").html(result);
+        $(".interpret, #wolfram-credit").css("display", "none");
         backdoor.resizeWindow(true);
 
         // speak result if speech is on
         if(window.options.speech === true) {
-            backdoor.speak($('.output').text())
+            backdoor.speak($('#output').text())
         }
     } catch (e) {
         // if input isn't math throw error and use wolfram code
@@ -232,8 +250,9 @@ var query = function() {
 
                 var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
-                $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
-                $(".interpret").css("display", "block");
+                $("#output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+                $(".interpret, #wolfram-credit").css("display", "block");
+                $("#wolframlink").attr("onclick", "Shell.openExternal(\"" + window.links.wolfram + "\");");
                 $("#queryInterpretation").html(inputInterpretation);
 
                 $("#image-output").load(function() {
@@ -278,7 +297,7 @@ var retry = function(input) {
             result = window.json[1].subpods[0];
             var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
-            $(".output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+            $("#output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
             $("#queryInterpretation").html(inputInterpretation);
 
             $("#image-output").load(function() {
@@ -290,15 +309,15 @@ var retry = function(input) {
                 }
             });
         } catch (e) {
-            $(".interpret").css("display", "none");
-            $(".output").html(errorMsg)
+            $(".interpret, #wolfram-credit").css("display", "none");
+            $("#output").html(errorMsg)
             loader(false);
             backdoor.resizeWindow(true);
             throw e;
         }
 
         if (err) {
-            $(".output").html(errorMsg)
+            $("#output").html(errorMsg)
             backdoor.resizeWindow(true);
             loader(false);
             throw err;

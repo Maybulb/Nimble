@@ -39,26 +39,24 @@ ipc.on('resize', function(event, arg) {
         width: null
     };
 
-    if (arg.height > 500) {
+    if (arg.height > 533) {
         // if height is way too big, then just set it short and scroll
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: 500,
-            animate: true
-        });
+            height: 533
+        }, true);
 
-        finalDim.height = 500;
+        finalDim.height = 533;
         finalDim.width = arg.width;
     } else {
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
             y: mb.window.getPosition()[1],
             width: arg.width,
-            height: arg.height,
-            animate: true
-        });
+            height: arg.height
+        }, true);
 
         finalDim.height = arg.height;
         finalDim.width = arg.width;
@@ -78,8 +76,8 @@ ipc.on("toggleview", function(event) {
         mb.showWindow();
     }
 
-    mb.window.setPosition(position[0], position[1]);
-})
+    mb.window.setPosition(position[0], position[1], true);
+});
 
 ipc.on("reset-window", function(event) {
     mb.window.setBounds({
@@ -87,8 +85,7 @@ ipc.on("reset-window", function(event) {
         y: mb.window.getPosition()[1],
         width: 380,
         height: 42,
-        animate: true
-    });
+    }, true);
 
     optfunc.position();
 });
@@ -149,7 +146,9 @@ var optfunc = {
     }
 }
 
-
+ipc.on("quit", function(){
+    app.quit();
+})
 
 mb.on('after-create-window', function() {
     mb.window.setResizable(false);
@@ -160,8 +159,7 @@ mb.on('after-create-window', function() {
         y: mb.window.getPosition()[1],
         width: 380,
         height: 42,
-        animate: true
-    });
+    }, true);
 
     mb.tray
         .on('click', click)
@@ -178,7 +176,7 @@ mb.on('after-create-window', function() {
     }
 
     function rightClick(e, bounds) {
-        app.quit();
+        mb.window.webContents.send("tray-rightclick");
     }
 
     // global hotkey to toggle nimble
