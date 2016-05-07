@@ -5,7 +5,8 @@ var $ = require('jquery'),
     format = require('string-format'),
     key = require('./js/key.json'),
     wolfram = require('wolfram-alpha').createClient(key.api, {
-        width: 348
+        width: 348,
+        maxwidth: 380
     }),
     math = require("mathjs"),
     Shell = electron.shell,

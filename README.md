@@ -7,7 +7,7 @@ The cross-platform personal assistant that just works. Built with the wonderful 
 For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
 
 ## Development
-Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`). You'll also need a [Wolfram Alpha API Key](http://products.wolframalpha.com/api/).
+Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`), as well as the Xcode Command Line Tools. You'll also need a [Wolfram Alpha API Key](http://products.wolframalpha.com/api/).
 
 Clone the repository, install dependencies, then run gulp.
 
