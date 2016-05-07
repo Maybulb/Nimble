@@ -16,7 +16,8 @@ var $ = require('jquery'),
     ipcRenderer = electron.ipcRenderer,
     URL = "https://nimble-backend.herokuapp.com/input?i=%s",
     unicode = /(?:\\:)(([a-z]|[0-9])+)/g,
-    imagesLoaded = require('imagesLoaded');
+    imagesLoaded = require('imagesLoaded'),
+    WebFrame = require('web-frame');
 
 var clipboardCopy = {
     link: function() {
@@ -193,6 +194,9 @@ $(document).ready(function() {
 
     // make image loaded checker a jquery plugin for god's sake
     imagesLoaded.makeJQueryPlugin($);
+
+    // set zoom level limits
+    WebFrame.setZoomLevelLimits(1,1);
 });
 
 // main shit here boys

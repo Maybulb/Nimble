@@ -6,6 +6,7 @@ var fs = require("fs");
 var globalShortcut = electron.globalShortcut;
 var AutoLaunch = require('auto-launch');
 
+
 var mb = menubar({
     height: 42,
     width: 380,
