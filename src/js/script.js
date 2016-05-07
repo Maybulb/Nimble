@@ -14,15 +14,16 @@ var $ = require('jquery'),
     nativeImage = electron.nativeImage,
     ipcRenderer = electron.ipcRenderer,
     URL = "https://nimble-backend.herokuapp.com/input?i=%s",
-    unicode = /(?:\\:)(([a-z]|[0-9])+)/g;
+    unicode = /(?:\\:)(([a-z]|[0-9])+)/g,
+    imagesLoaded = require('imagesLoaded');
 
 var clipboardCopy = {
     link: function() {
         clipboard.writeText(window.links.wolfram);
     },
     text: function() {
-        if ($("#image-output").length) {
-            clipboard.writeText(backdoor.unicodeRegex(window.json[1].subpods[0].text));
+        if ($(".image-output").length) {
+            clipboard.writeText(backdoor.unicodeRegex(window.json[window.imgHover[0]].subpods[window.imgHover[1]].text)[1]);
         } else {
             clipboard.writeText($("#output").text())
         }
@@ -49,9 +50,8 @@ var preferences = {
 
         window.options = {
             mathjs: submenu[0].checked,
-            speech: submenu[1].checked,
-            startup: submenu[2].checked,
-            center: submenu[3].checked
+            startup: submenu[1].checked,
+            center: submenu[2].checked
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -60,24 +60,13 @@ var preferences = {
 
 // most misc backdoor/electron/helper functions here
 var backdoor = {
-    resizeWindow: function(other) {
+    resizeWindow: function(error) {
         var h = $("body").height();
-        var w;
+        var w = $(".output").width() + 32;
 
-        // if not resizing width to fit an image (when parameter "other" isn't true) then just resize to body width
-        // this is a temporary fix for oversized images until we figure something else out...
-        // basically if you're not putting an image inside the output just put true as a parameter of backdoor.resizeWindow()
-        if (other === false || other === undefined) {
-            w = $("output").width();
-
-            // if the width isn't oversized just roll with it
-            if (w < 348) {
-                w = 380; // default
-            }
-        } else if (other === true) {
-            w = $("body").width();
+        if (w < 380 && error !== true) {
+            w = 380;
         }
-
 
         ipcRenderer.send("resize", {
             height: h,
@@ -97,11 +86,17 @@ var backdoor = {
         speechSynthesis.speak(msg);
     },
     unicodeRegex: function(text) {
-        var newText = text.replace(unicode, function(match, p1, p2) {
+        // html encoded unicode string (&#unicode;)
+        var newHtml = text.replace(unicode, function(match, p1, p2) {
             return "&#" + parseInt(p1, 16).toString(10) + ";";
         });
 
-        return newText;
+        // plain ol straight unicode string (used for copying to clipboard)
+        var newText = text.replace(unicode, function(match, p1, p2) {
+            return String.fromCodePoint(parseInt(p1, 16).toString(10))
+        });
+
+        return [newHtml, newText]
     }
 }
 
@@ -115,7 +110,7 @@ var loader = function(state) {
         $("div.input i").slideUp(200, function() {
             $("div.input i").attr("class", "fa fa-search").removeAttr("disabled").removeClass("animateLoader");
         }).slideDown(500);
-        backdoor.resizeWindow(false);
+        backdoor.resizeWindow();
     }
 }
 
@@ -154,6 +149,7 @@ function preQuery() {
 }
 
 $(document).keypress(function(event) {
+    // if the key ya pressed is enter, start to query
     if(event.which === 13) {
         preQuery();
     }
@@ -193,6 +189,9 @@ $(document).ready(function() {
         // pop up menu
         menuthing.popup(remote.getCurrentWindow());
     });
+
+    // make image loaded checker a jquery plugin for god's sake
+    imagesLoaded.makeJQueryPlugin($);
 });
 
 // main shit here boys
@@ -222,7 +221,7 @@ var query = function() {
 
         $("#output").html(result);
         $(".interpret, #wolfram-credit").css("display", "none");
-        backdoor.resizeWindow(true);
+        backdoor.resizeWindow();
 
         // speak result if speech is on
         if(window.options.speech === true) {
@@ -245,22 +244,48 @@ var query = function() {
         wolfram.query(input, function(err, queryResult) {
             try {
                 window.json = queryResult;
-                result = window.json[1].subpods[0];
 
-                var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
-
-                $("#output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+                var inputInterpretation = backdoor.unicodeRegex(window.json.shift().subpods[0].text)[0];
+                
                 $(".interpret, #wolfram-credit").css("display", "block");
                 $("#wolframlink").attr("onclick", "Shell.openExternal(\"" + window.links.wolfram + "\");");
                 $("#queryInterpretation").html(inputInterpretation);
 
-                $("#image-output").load(function() {
-                    window.log("Image is ready, resizing window.");
-                    loader(false);
-                    
-                    if(window.options.speech === true) {
-                        backdoor.speak(result.text)
+                var output = "";
+
+                // look through each pod
+                for (i = 0; i !== window.json.length; i++) {
+                    // title each pod
+                    output += "<h3>" + window.json[i].title + "</h3>"
+
+                    // look through the subpods of each pod
+                    for (j = 0; j !== window.json[i].subpods.length; j++) {
+                        // add each subpod
+                        // sidenote: the onmouseover thing is a hacky solution
+                        //           that tells the copy plaintext function what 
+                        //           subpod's text to copy based on what you're hovering over
+
+                        output += "<img onmouseover='window.imgHover = [" + i + "," + j + "]' alt=\"" + window.json[i].subpods[j].text + "\" class=\"image-output\" src=\"" + window.json[i].subpods[j].image + "\">";
+
+                        // if the for loop hasn't reached it's last subpod, 
+                        // remember to put in a line break because the images would just be on one line
+
+                        if (j !== window.json[i].subpods.length - 1) {
+                            output += "<br>";
+                        }
                     }
+                }
+
+                // set the output to inline block because whenever the error shows up it switches to block
+                // hacky solutions!!! yay!
+                $(".output").css("display", "inline-block");
+                $("#output").html(output)
+
+                // when all images are loaded, remember to resize the window and turn off the loader
+                $("#output").imagesLoaded(function() {
+                    window.log("Images are ready, resizing window.");
+                    loader(false);
+                    backdoor.resizeWindow();
                 });
             } catch (e) {
                 window.log(e.toString())
@@ -293,23 +318,54 @@ var retry = function(input) {
     wolfram.query(input, function(err, queryResult) {
         try {
             window.json = queryResult;
-            result = window.json[1].subpods[0];
-            var inputInterpretation = backdoor.unicodeRegex(window.json[0].subpods[0].text);
 
-            $("#output").html("<img alt=\"" + result.text + "\" id=\"image-output\" src=\"" + result.image + "\">");
+            var inputInterpretation = backdoor.unicodeRegex(window.json.shift().subpods[0].text)[0];
+            
+            $(".interpret, #wolfram-credit").css("display", "block");
+            $("#wolframlink").attr("onclick", "Shell.openExternal(\"" + window.links.wolfram + "\");");
             $("#queryInterpretation").html(inputInterpretation);
 
-            $("#image-output").load(function() {
-                window.log("Image is ready, resizing window.");
-                loader(false);
-                
-                if(window.options.speech === true) {
-                    backdoor.speak(result.text)
+            var output = "";
+
+            // look through each pod
+            for (i = 0; i !== window.json.length; i++) {
+                // title each pod
+                output += "<h3>" + window.json[i].title + "</h3>"
+
+                // look through the subpods of each pod
+                for (j = 0; j !== window.json[i].subpods.length; j++) {
+                    // add each subpod
+                    // sidenote: the onmouseover thing is a hacky solution
+                    //           that tells the copy plaintext function what 
+                    //           subpod's text to copy based on what you're hovering over
+
+                    output += "<img onmouseover='window.imgHover = [" + i + "," + j + "]' alt=\"" + window.json[i].subpods[j].text + "\" class=\"image-output\" src=\"" + window.json[i].subpods[j].image + "\">";
+
+                    // if the for loop hasn't reached it's last subpod, 
+                    // remember to put in a line break because the images would just be on one line
+
+                    if (j !== window.json[i].subpods.length - 1) {
+                        output += "<br>";
+                    }
                 }
+            }
+
+            // set the output to inline block because whenever the error shows up it switches to block
+            // hacky solutions!!! yay!
+            $(".output").css("display", "inline-block");
+            $("#output").html(output)
+
+            // when all images are loaded, remember to resize the window and turn off the loader
+            $("#output").imagesLoaded(function() {
+                window.log("Images are ready, resizing window.");
+                loader(false);
+                backdoor.resizeWindow();
             });
         } catch (e) {
             $(".interpret, #wolfram-credit").css("display", "none");
             $("#output").html(errorMsg)
+            $(".output").css("display", "block");
+
             loader(false);
             backdoor.resizeWindow(true);
             throw e;
@@ -317,6 +373,9 @@ var retry = function(input) {
 
         if (err) {
             $("#output").html(errorMsg)
+            // couldn't get the error msg to work on inline block so I just decided to change it back and forth depending on the output
+            $(".output").css("display", "block");
+
             backdoor.resizeWindow(true);
             loader(false);
             throw err;

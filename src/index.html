@@ -37,14 +37,12 @@
     try {
         window.options = require("../options.json") || {
             "mathjs": true,
-            "speech": false,
             "startup": true,
             "center": false
         };
     } catch (e) {
         window.options = {
             "mathjs": true,
-            "speech": false,
             "startup": true,
             "center": false
         };
@@ -122,13 +120,6 @@
             label: "Simple offline Math",
             type: "checkbox",
             checked: window.options.mathjs,
-            click: function() {
-                preferences.save();
-            }
-        }, {
-            label: "Speech (experimental)",
-            type: "checkbox",
-            checked: window.options.speech,
             click: function() {
                 preferences.save();
             }

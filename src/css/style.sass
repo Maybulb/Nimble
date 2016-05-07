@@ -52,7 +52,7 @@ p.err
     line-height: 1.4
 
 div.output
-    display: block
+    display: inline-block
     position: relative
     border: 0
     pointer-events: auto
@@ -63,6 +63,8 @@ div.output
     outline: none
     z-index: 1
     overflow-y: scroll
+    margin: 0 auto !important
+
     // 380 is the magic number
     max-height: 380px
 
@@ -123,14 +125,8 @@ hr
     background: black
     border: 1px solid black
 
-#image-output
-    // please style this @gthn to your fancy
-    // tweak it until images work. this is the image itself
-    // should center align and be a block... also padding/width/something is off for the output because the images/text are/is cut off
-    // idk you're the designer figure it out lol
-
+.image-output
     display: block
-    margin: 0 auto
 
 .animateLoader
     -webkit-animation: spin 0.75s ease-in-out infinite alternate
@@ -142,3 +138,18 @@ hr
 
     to
         -webkit-transform: rotate(360deg)
+
+h3
+    border-top: 1px solid rgba(0, 0, 0, 0.3)
+    font-size: 18px
+    margin-top: 20px
+    padding-top: 20px
+
+h3:first-of-type
+    border: 0
+    margin-top: 0
+    padding-top: 0
+
+h5
+    font-size: 14px
+    margin: 0
