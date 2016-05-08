@@ -159,6 +159,13 @@ $(document).keypress(function(event) {
     }
 });
 
+$(document).keydown(function(event) {
+    // placeholder plop
+    if(event.which === 39 && $("#input").val() === "") {
+        $("#input").val($("#input").attr("placeholder"))
+    }
+});
+
 $(document).ready(function() {
     // set placeholder
     $.getJSON('js/suggestions.json', function(json) {
