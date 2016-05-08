@@ -261,7 +261,9 @@ var query = function() {
                 // look through each pod
                 for (i = 0; i !== window.json.length; i++) {
                     // title each pod
-                    output += "<h3>" + window.json[i].title + "</h3>"
+                    if (window.json.length !== 1) {
+                        output += "<h3>" + window.json[i].title + "</h3>"
+                    }
 
                     // look through the subpods of each pod
                     for (j = 0; j !== window.json[i].subpods.length; j++) {
@@ -335,7 +337,9 @@ var retry = function(input) {
             // look through each pod
             for (i = 0; i !== window.json.length; i++) {
                 // title each pod
-                output += "<h3>" + window.json[i].title + "</h3>"
+                if (window.json.length !== 1) {
+                    output += "<h3>" + window.json[i].title + "</h3>"
+                }
 
                 // look through the subpods of each pod
                 for (j = 0; j !== window.json[i].subpods.length; j++) {
