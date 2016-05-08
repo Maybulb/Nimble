@@ -1,10 +1,14 @@
-Nimble
-======
-<img align="right" width="20%" style="float:right;padding:20px;" src="https://raw.githubusercontent.com/madebybright/Nimble/master/assets/512.png">
+# <img src="http://i.imgur.com/cxoAh6L.png" width="80%">
 
-The cross-platform personal assistant that just works. Built with the wonderful [Electron](http://electron.atom.io/), as well as many useful libraries. [Follow us on Twitter for updates](https://twitter.com/madebybright).
+Seamless Wolfram-Alpha® in your OS X menubar.
 
-For the Xcode (Swift) build of the same name, see [Nimble-Swift](https://github.com/madebybright/Nimble-Swift).
+> “The menubar client is every bit as intuitive as the web interface, meaning it’s easy to use...” – [TheNextWeb](http://thenextweb.com/insider/2016/02/08/nimble-brings-wolfram-alpha-to-your-menubar-on-os-x/)
+
+> “Nimble can handle pretty much anything you’d normally throw at Wolfram Alpha...” – [LifeHacker](http://lifehacker.com/nimble-crams-wolfram-alpha-into-your-macs-menu-bar-1758071364)
+
+## Installation
+
+[Download Nimble](https://github.com/madebybright/Nimble/releases/latest), mount the .dmg, and move it to your Applications. You can open it by clicking on its menubar icon, or by using the <kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>=</kbd> hotkey.
 
 ## Development
 Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`). You'll also need a [Wolfram Alpha API Key](http://products.wolframalpha.com/api/).
@@ -21,9 +25,7 @@ cd Nimble && npm install
 Create `src/js/key.json` for your key.
 
 ```js
-{
-  "api": "KEY"
-}
+{ "api": "KEY" }
  ```
 
 Run electron in the project directory to get it up and running.
@@ -59,14 +61,9 @@ If you're bundling it, make sure to package it beforehand so that the `.app` exi
 - [x] Graphing?
 - [x] Indeterminate Loading indicator
 - [ ] Add auto-updating ([Electron provides a module built on Squirrel](https://github.com/atom/electron/blob/master/docs/api/auto-updater.md))
+- [ ] Add URL Scheme (and Alfred workflow to go with it)
 - [x] Change initial position of where Nimble loads (the x and y values) [Centre Maybe?]
 - [x] Always offer a link to the Wolfram|Alpha page at the bottom
-
-## Far Future Additions
-Some ideas we've been kicking around that we think might have a spot in future versions of Nimble once we've actually gotten it working.
-
-- Quick timezone conversions (possibly with Moment.js)
-- Possible natural language for simple queries
 
 ## Contribution
 Want to make a contribution? Fork the repo, add your changes, and submit a pull request. Any type of contributions (ideas, bug fixes, fixing typos, etc.) will be appreciated!
@@ -79,6 +76,4 @@ Want to make a contribution? Fork the repo, add your changes, and submit a pull 
     - Ethan would like to thank Lucas Steuber of [LanguageCraft](http://portlandlanguagecraft.com/), as well as the rest of the Bright team, Trevor, Logan, Aaron, and [/r/webdev](http://reddit.com/r/webdev) on Reddit.
 
 ## License
-[LICENSE](https://github.com/madebybright/Nimble/blob/master/LICENSE.md)
-
-![Tag](http://i.imgur.com/etWLNKJ.gif) ![Tag](http://i.imgur.com/c4J95hH.gif) ![Tag](http://i.imgur.com/Sl7UbNI.gif) ![Tag](http://i.imgur.com/xaoeuKp.gif)
+Nimble is licensed under [Creative Commons Attribution-NonCommercial 4.0](https://github.com/madebybright/Nimble/blob/master/LICENSE.md).
