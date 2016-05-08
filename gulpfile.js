@@ -21,7 +21,7 @@ gulp.task('package', function() {7
 		"arch": "x64",
 		"dir": "./",
 		"platform": "darwin",
-		"build-version": "1.0.2",
+		"build-version": "1.2.0",
 		"icon": "assets/512.ico",
 		"out": "./",
 		"version": "0.36.5",
