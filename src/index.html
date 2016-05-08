@@ -38,13 +38,15 @@
         window.options = require("../options.json") || {
             "mathjs": true,
             "startup": true,
-            "center": false
+            "center": false,
+            "bugreport": true
         };
     } catch (e) {
         window.options = {
             "mathjs": true,
             "startup": true,
-            "center": false
+            "center": false,
+            "bugreport": true
         };
     } finally {
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -134,6 +136,13 @@
             label: "Open Nimble in the center of your screen",
             type: "checkbox",
             checked: window.options.center,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Report bugs to Bright HQ",
+            type: "checkbox",
+            checked: window.options.bugreport,
             click: function() {
                 preferences.save();
             }

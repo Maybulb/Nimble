@@ -53,7 +53,8 @@ var preferences = {
         window.options = {
             mathjs: submenu[0].checked,
             startup: submenu[1].checked,
-            center: submenu[2].checked
+            center: submenu[2].checked,
+            bugreport: submenu[3].checked
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options));
