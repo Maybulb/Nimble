@@ -2,6 +2,7 @@ $nimble-orange: #FF8C12
 $bright-yellow: #FFCA30
 $font-family: 'BlinkMacSystemFont', system, -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", "Lucida Grande"
 
+
 body, html
     width: 100%
     display: block
@@ -69,6 +70,11 @@ div.output
     // 380 is the magic number
     max-height: 380px
 
+    // leaving this here for adam
+    // ::selection
+        // background: $nimble-orange
+        // color: white
+
 div.output::-webkit-scrollbar
     display: none
 
@@ -115,6 +121,10 @@ div.input
         z-index: 2
         border: none
         overflow: hidden
+    // leaving this here for adam to touch
+    // ::selection
+        // color: $nimble-orange
+        // background: white
 
 h1
     text-align: center
