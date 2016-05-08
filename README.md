@@ -2,9 +2,9 @@
 
 Seamless Wolfram-Alpha® in your OS X menubar.
 
-> “The menubar client is every bit as intuitive as the web interface, meaning it’s easy to use...” – [TheNextWeb](http://thenextweb.com/insider/2016/02/08/nimble-brings-wolfram-alpha-to-your-menubar-on-os-x/)
+> “The menubar client is every bit as intuitive as the web interface, meaning it’s easy to use...” – [The Next Web](http://thenextweb.com/insider/2016/02/08/nimble-brings-wolfram-alpha-to-your-menubar-on-os-x/)
 
-> “Nimble can handle pretty much anything you’d normally throw at Wolfram Alpha...” – [LifeHacker](http://lifehacker.com/nimble-crams-wolfram-alpha-into-your-macs-menu-bar-1758071364)
+> “Nimble can handle pretty much anything you’d normally throw at Wolfram Alpha...” – [Lifehacker](http://lifehacker.com/nimble-crams-wolfram-alpha-into-your-macs-menu-bar-1758071364)
 
 ## Installation
 
