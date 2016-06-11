@@ -1,10 +1,12 @@
 var electron = require('electron');
 var app = electron.app;
 var ipc = electron.ipcMain;
-var menubar = require('menubar');
-var fs = require("fs");
 var globalShortcut = electron.globalShortcut;
+var autoUpdater = require('auto-updater');
+var menubar = require('menubar');
+var fs = require('fs');
 var AutoLaunch = require('auto-launch');
+var pjson = require('./package.json');
 
 
 var mb = menubar({
@@ -68,7 +70,7 @@ ipc.on('resize', function(event, arg) {
     console.log("Resizing window to " + finalDim.width + " x " + finalDim.height + "\n");
 });
 
-ipc.on("toggleview", function(event) {
+ipc.on('toggleview', function(event) {
     var position = [mb.window.getPosition()[0], mb.window.getPosition()[1]];
         
     if(mb.window.isVisible() === true) {
@@ -80,7 +82,7 @@ ipc.on("toggleview", function(event) {
     mb.window.setPosition(position[0], position[1], true);
 });
 
-ipc.on("reset-window", function(event) {
+ipc.on('reset-window', function(event) {
     mb.window.setBounds({
         x: mb.window.getPosition()[0],
         y: mb.window.getPosition()[1],
@@ -147,7 +149,7 @@ var optfunc = {
     }
 }
 
-ipc.on("quit", function(){
+ipc.on('quit', function(){
     app.quit();
 })
 
@@ -194,7 +196,7 @@ mb.on('after-create-window', function() {
     });
 });
 
-mb.on("after-show", function() {
+mb.on('after-show', function() {
     if (mb.window) {
         mb.window.webContents.send("window-open");
     }
@@ -204,6 +206,21 @@ mb.on('ready', function() {
     // screen size
     var screen = electron.screen;
     global.screenSize = screen.getPrimaryDisplay().size;
+
+    // auto update
+    var updateFeed = 'https://nimble-latest-version.herokuapp.com/updates/latest';
+    autoUpdater.setFeedURL(updateFeed + '?v=' + pjson.version);
+
+    autoUpdater.checkForUpdates();
+
+    autoUpdater.on('update-available', function() {
+        console.log('update available and downloading');
+    });
+
+    autoUpdater.on('update-downloaded', function(event) {
+        console.log('update downloaded: ' + event);
+        autoUpdater.quitAndInstall();
+    });
 });
 
 mb.on('will-quit', function() {
