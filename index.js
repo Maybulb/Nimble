@@ -118,12 +118,13 @@ var optfunc = {
     startup: function() {
         var nimbleAutoLauncher = new AutoLaunch({
             name: 'Nimble',
-            path: '/Applications/Nimble.app',
+            path: app.getAppPath() + "/Nimble.app",
         });
 
         // startup?
         if (global.options.startup === true) {
             console.log("Loading Nimble on startup: on.\n")
+            console.log(app.getAppPath())
             nimbleAutoLauncher.enable();
         } else {
             console.log("Loading Nimble on startup: off.\n")
