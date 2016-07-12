@@ -217,7 +217,7 @@ mb.on('ready', function() {
         console.log('update available and downloading');
         electron.dialog.showMessageBox({
             "message": "Update Downloading",
-            "detail": "A new update is currently available and downloading. Nimble will let you know before it quits to install the update."
+            "detail": "A new update is currently available and downloading. Nimble will let you know before it quits to install the update.",
             "buttons": []
         })
     });
