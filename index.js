@@ -215,11 +215,27 @@ mb.on('ready', function() {
 
     autoUpdater.on('update-available', function() {
         console.log('update available and downloading');
+        electron.dialog.showMessageBox({
+            "message": "Update Downloading",
+            "detail": "A new update is currently available and downloading. Nimble will let you know before it quits to install the update."
+        })
     });
 
     autoUpdater.on('update-downloaded', function(event) {
         console.log('update downloaded: ' + event);
-        autoUpdater.quitAndInstall();
+        electron.dialog.showMessageBox({
+            "message": "Update Ready To Install",
+            "detail": "Nimble has downloaded a new update. Would you like to quit Nimble and install it?",
+            "buttons": ["No", "Yes"],
+        }, function(response) {
+            switch(response) {
+                case 0:
+                    break;
+                case 1:
+                    autoUpdater.quitAndInstall();
+                    break;
+            }
+        });
     });
 });
 
