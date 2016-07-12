@@ -209,8 +209,8 @@ mb.on('ready', function() {
     global.screenSize = screen.getPrimaryDisplay().size;
 
     // auto update
-    var updateFeed = 'https://nimble-latest-version.herokuapp.com/updates/latest';
-    autoUpdater.setFeedURL(updateFeed + '?v=' + pjson.version);
+    var updateFeed = 'https://nimble-autoupdate.herokuapp.com/update/osx/';
+    autoUpdater.setFeedURL(updateFeed + pjson.version);
 
     autoUpdater.checkForUpdates();
 
