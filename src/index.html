@@ -6,8 +6,29 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet"><!-- loaders.css -->
     <link href="../node_modules/loaders.css/loaders.min.css" rel="stylesheet">
-    <script src="js/script.js">
+    <script src="../node_modules/bugsnag-js/src/bugsnag.js"></script>
+    <script>
+        Bugsnag.apiKey = '153b1e381816379c9004a05c21587e8b';
+        Bugsnag.autoNotify = true;
+        Bugsnag.appVersion = require('../package.json').version;
+        Bugsnag.metaData = {
+            process: {
+                arch: process.arch,
+                argv: process.argv,
+                pid: process.pid,
+                platform: process.platform,
+                version: process.version,
+                cwd: process.cwd(),
+                features: process.features,
+                uptime: process.uptime(),
+                versions: process.versions
+            }
+        };
+        Bugsnag.beforeNotify = function beforeNotify(payload) {
+            return window.options.bugreport;
+        };
     </script>
+    <script src="js/script.js"></script>
 </head>
 <body id="body-thing-idk">
     <div class="input">
@@ -38,13 +59,15 @@
         window.options = require("../options.json") || {
             "mathjs": true,
             "startup": true,
-            "center": false
+            "center": false,
+            "bugreport": true
         };
     } catch (e) {
         window.options = {
             "mathjs": true,
             "startup": true,
-            "center": false
+            "center": false,
+            "bugreport": true
         };
     } finally {
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -134,6 +157,13 @@
             label: "Open Nimble in the center of your screen",
             type: "checkbox",
             checked: window.options.center,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Report bugs to Bright HQ",
+            type: "checkbox",
+            checked: window.options.bugreport,
             click: function() {
                 preferences.save();
             }

@@ -1,10 +1,11 @@
 {
   "name": "Nimble",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Wolfram|Alpha® menu bar app",
   "main": "index.js",
   "dependencies": {
     "auto-launch": "^1.1.1",
+    "bugsnag-js": "^2.5.0",
     "font-awesome": "^4.5.0",
     "imagesloaded": "^4.1.0",
     "jquery": "^2.1.4",

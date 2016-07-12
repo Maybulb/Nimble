@@ -53,7 +53,8 @@ var preferences = {
         window.options = {
             mathjs: submenu[0].checked,
             startup: submenu[1].checked,
-            center: submenu[2].checked
+            center: submenu[2].checked,
+            bugreport: submenu[3].checked
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -83,7 +84,7 @@ var backdoor = {
         msg.text = text;
         msg.lang = 'en-UK';
 
-        window.log("Nimble just said \"" + text + "\" using the Speech Synthesizer.")
+        console.log("Nimble just said \"" + text + "\" using the Speech Synthesizer.")
         speechSynthesis.cancel();
         speechSynthesis.speak(msg);
     },
@@ -117,20 +118,21 @@ var loader = function(state) {
 }
 
 // error forwarding
+var _windowonerror = window.onerror;
 window.onerror = function(e) {
     ipcRenderer.send('node_console', {
         m: e
-    })
+    });
+    if (typeof _windowonerror === 'function') {
+        _windowonerror.apply(this, arguments);
+    }
 }
 
-// please use window.log instead of console.log, as it forwards it to the backend (node.js console)
-// therefore bugs are easier to troubleshoot :)
-window.log = function(log) {
-    ipcRenderer.send('node_console', {
-        m: log
-    })
-    console.log(log)
-}
+var _consolelog = console.log.bind(console);
+console.log = function log(message) {
+    ipcRenderer.send('node_console', {m: message});
+    _consolelog(message);
+};
 
 // check if everything is alright before querying wolfram
 function preQuery() {
@@ -154,6 +156,13 @@ $(document).keypress(function(event) {
     // if the key ya pressed is enter, start to query
     if(event.which === 13) {
         preQuery();
+    }
+});
+
+$(document).keydown(function(event) {
+    // placeholder plop
+    if(event.which === 39 && $("#input").val() === "") {
+        $("#input").val($("#input").attr("placeholder"))
     }
 });
 
@@ -234,7 +243,7 @@ var query = function() {
         }
     } catch (e) {
         // if input isn't math throw error and use wolfram code
-        window.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
+        console.log("Input is not math. Using Wolfram|Alpha. If you'd like, the error message given by MathJS is as follows:\n" + e);
         var encodedQuery = encodeURIComponent(input);
         var queryURL = util.format(URL, encodedQuery);
 
@@ -261,7 +270,9 @@ var query = function() {
                 // look through each pod
                 for (i = 0; i !== window.json.length; i++) {
                     // title each pod
-                    output += "<h3>" + window.json[i].title + "</h3>"
+                    if (window.json.length !== 1) {
+                        output += "<h3>" + window.json[i].title + "</h3>"
+                    }
 
                     // look through the subpods of each pod
                     for (j = 0; j !== window.json[i].subpods.length; j++) {
@@ -288,26 +299,26 @@ var query = function() {
 
                 // when all images are loaded, remember to resize the window and turn off the loader
                 $("#output").imagesLoaded(function() {
-                    window.log("Images are ready, resizing window.");
+                    console.log("Images are ready, resizing window.");
                     loader(false);
                     backdoor.resizeWindow();
                 });
             } catch (e) {
-                window.log(e.toString())
+                console.log(e.toString())
 
                 // try again if error
                 retry(input)
             }
 
             if (err) {
-                window.log(err.toString())
+                console.log(err.toString())
 
                 // try again
                 retry(input);
             }
         });
 
-        window.log('Queried with: ' + queryURL);
+        console.log('Queried with: ' + queryURL);
     }
 }
 
@@ -316,7 +327,7 @@ var retry = function(input) {
     var encodedInput = encodeURIComponent(input);
     var result;
 
-    window.log("Error was thrown. Attempting to query again...");
+    console.log("Error was thrown. Attempting to query again...");
 
     var errorMsg = format("<div class=\"sorry\">&#61721;</div><p class=\"err\">Sorry! I can't find the answer.<br/>Try searching it on <a href='#' onclick='Shell.openExternal(\"{}\")'>WolframAlpha</a>.</p>", window.links.wolfram);
 
@@ -335,7 +346,9 @@ var retry = function(input) {
             // look through each pod
             for (i = 0; i !== window.json.length; i++) {
                 // title each pod
-                output += "<h3>" + window.json[i].title + "</h3>"
+                if (window.json.length !== 1) {
+                    output += "<h3>" + window.json[i].title + "</h3>"
+                }
 
                 // look through the subpods of each pod
                 for (j = 0; j !== window.json[i].subpods.length; j++) {
@@ -362,7 +375,7 @@ var retry = function(input) {
 
             // when all images are loaded, remember to resize the window and turn off the loader
             $("#output").imagesLoaded(function() {
-                window.log("Images are ready, resizing window.");
+                console.log("Images are ready, resizing window.");
                 loader(false);
                 backdoor.resizeWindow();
             });
