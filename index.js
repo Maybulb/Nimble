@@ -7,7 +7,7 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
-
+const path = require('path')
 
 var mb = menubar({
     height: 42,
@@ -120,13 +120,12 @@ var optfunc = {
     startup: function() {
         var nimbleAutoLauncher = new AutoLaunch({
             name: 'Nimble',
-            path: app.getAppPath() + "/Nimble.app",
+            path: path.resolve(app.getAppPath(), '../../../')
         });
 
         // startup?
         if (global.options.startup === true) {
             console.log("Loading Nimble on startup: on.\n")
-            console.log(app.getAppPath())
             nimbleAutoLauncher.enable();
         } else {
             console.log("Loading Nimble on startup: off.\n")

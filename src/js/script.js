@@ -16,7 +16,7 @@ var $ = require('jquery'),
     ipcRenderer = electron.ipcRenderer,
     URL = "https://nimble-backend.herokuapp.com/input?i=%s",
     unicode = /(?:\\:)(([a-z]|[0-9])+)/g,
-    imagesLoaded = require('imagesLoaded'),
+    imagesLoaded = require('imagesloaded'),
     WebFrame = require('web-frame');
 
 var clipboardCopy = {
