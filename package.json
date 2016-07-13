@@ -4,23 +4,23 @@
   "description": "A Wolfram|Alpha® menu bar app",
   "main": "index.js",
   "dependencies": {
-    "auto-launch": "^1.1.1",
+    "auto-launch": "^2.1.0",
     "bugsnag-js": "^2.5.0",
     "font-awesome": "^4.5.0",
     "imagesloaded": "^4.1.0",
-    "jquery": "^2.1.4",
+    "jquery": "^3.1.0",
     "loaders.css": "^0.1.2",
-    "mathjs": "^2.6.0",
-    "menubar": "^2.3.0",
+    "mathjs": "^3.3.0",
+    "menubar": "^5.0.0",
     "rand-paul": "^2.0.0",
-    "shelljs": "^0.5.3",
+    "shelljs": "^0.7.0",
     "string-format": "^0.5.0",
-    "wolfram-alpha": "^0.3.0"
+    "wolfram-alpha": "^0.5.0"
   },
   "devDependencies": {
-    "electron-builder": "^2.6.0",
-    "electron-packager": "^5.2.1",
-    "electron-prebuilt": "^0.36.0",
+    "electron-builder": "^5.12.1",
+    "electron-packager": "^7.3.0",
+    "electron-prebuilt": "^1.2.6",
     "gulp": "^3.9.0",
     "gulp-rimraf": "^0.2.0",
     "gulp-sass": "^2.1.0"
@@ -43,5 +43,30 @@
   "bugs": {
     "url": "https://github.com/madebybright/nimble/issues"
   },
-  "homepage": "https://github.com/madebybright/nimble#readme"
+  "homepage": "https://github.com/madebybright/nimble#readme",
+  "build": {
+    "osx": {
+      "target": "default",
+      "icon": "assets/512.icns"
+    },
+    "dmg": {
+      "title": "Nimble",
+      "icon": "assets/512.icns",
+      "icon-size": 80,
+      "background": "assets/nimback.png",
+      "contents": [
+        {
+          "x": 438,
+          "y": 344,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 192,
+          "y": 344,
+          "type": "file"
+        }
+      ]
+    }
+  }
 }

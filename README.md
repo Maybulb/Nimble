@@ -36,11 +36,10 @@ npm start
 ```
 
 ## Packaging/Bundling
-If you'd like to package Nimble as an app, or build it as a DMG, you can use our gulp tasks.
+If you'd like to package Nimble, you can use our Gulp task for building Nimble.
 
 ```bash
-gulp package # nimble -> .app
-gulp build # .app -> .dmg
+gulp build # packages and builds Nimble into a ZIP and a DMG
 ```
 
 If you're bundling it, make sure to package it beforehand so that the `.app` exists for the disk image.
