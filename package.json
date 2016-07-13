@@ -4,18 +4,18 @@
   "description": "A Wolfram|Alpha® menu bar app",
   "main": "index.js",
   "dependencies": {
-    "auto-launch": "^2.1.0",
+    "auto-launch": "^1.1.1",
     "bugsnag-js": "^2.5.0",
     "font-awesome": "^4.5.0",
     "imagesloaded": "^4.1.0",
-    "jquery": "^3.1.0",
+    "jquery": "^2.1.4",
     "loaders.css": "^0.1.2",
-    "mathjs": "^3.3.0",
-    "menubar": "^5.0.0",
+    "mathjs": "^2.6.0",
+    "menubar": "^2.3.0",
     "rand-paul": "^2.0.0",
-    "shelljs": "^0.7.0",
+    "shelljs": "^0.5.3",
     "string-format": "^0.5.0",
-    "wolfram-alpha": "^0.5.0"
+    "wolfram-alpha": "^0.3.0"
   },
   "devDependencies": {
     "electron-builder": "^5.12.1",
