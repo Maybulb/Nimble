@@ -15,15 +15,13 @@
     "rand-paul": "^2.0.0",
     "shelljs": "^0.5.3",
     "string-format": "^0.5.0",
-    "wolfram-alpha": "^0.3.0"
+    "wolfram-alpha": "^0.5.0"
   },
   "devDependencies": {
     "electron-builder": "^5.12.1",
-    "electron-packager": "^7.3.0",
-    "electron-prebuilt": "^1.2.6",
+    "electron-prebuilt": "^0.36.0",
     "gulp": "^3.9.0",
-    "gulp-rimraf": "^0.2.0",
-    "gulp-sass": "^2.1.0"
+    "gulp-sass": "^2.3.2"
   },
   "scripts": {
     "start": "gulp && electron ."

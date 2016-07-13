@@ -1,7 +1,5 @@
 var gulp = require('gulp'),
-	sass = require('gulp-sass'),
-	packager = require('electron-packager'),
-	rimraf = require("gulp-rimraf");
+	sass = require('gulp-sass');
 
 require('shelljs/global');
 
