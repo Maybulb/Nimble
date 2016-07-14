@@ -15,16 +15,15 @@ body
     background: white
 
 div.interpret
-    background: black
+    background: lighten($nimble-orange, 15%)
     font-family: $font-family
     font-size: 14px
     padding: 6px 16px
     width: calc(100% - 32px)
     color: white
-    border-top: 1px solid rgba(255, 255, 255, 0.5)
 
 div#wolfram-credit
-    background: black
+    background: $nimble-orange
     font-family: $font-family
     font-size: 14px
     color: white
@@ -35,6 +34,7 @@ div#wolfram-credit
     span
         float: right
         height: 100%
+        opacity: 0.8
     span, img
         vertical-align: middle
         -webkit-user-drag: none
@@ -45,7 +45,7 @@ div#wolfram-credit
 // is it too late now to say sorry
 div.sorry
     font: normal normal normal 14px/1 FontAwesome
-    color: #000
+    color: $nimble-orange
     font-size: 72px
     text-align: center
     margin: 12px 0 6px 0
@@ -66,10 +66,14 @@ div.output
     outline: none
     z-index: 1
     overflow-y: scroll
+
+    // 380 is the magic number
     max-height: 380px
-    ::selection
-        background: white
-        color: #000
+
+    // leaving this here for adam
+    // ::selection
+        // background: $nimble-orange
+        // color: white
 
 div.output::-webkit-scrollbar
     display: none
@@ -77,7 +81,7 @@ div.output::-webkit-scrollbar
 div.input
     display: relative
     width: 100%
-    background: #000
+    background: $nimble-orange
     color: white
     input[type=text]
         display: block
@@ -113,19 +117,20 @@ div.input
         opacity: 0.7
         background: white
         transition: 0.25s /* fadey */
-        color: black
+        color: $nimble-orange
         z-index: 2
         border: none
         overflow: hidden
-        ::selection
-          color: white
-          background: #000
+    // leaving this here for adam to touch
+    // ::selection
+        // color: $nimble-orange
+        // background: white
 
 h1
     text-align: center
 
 a
-    color: #000
+    color: $nimble-orange
 
 hr
     background: black
