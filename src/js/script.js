@@ -57,8 +57,14 @@ var preferences = {
             center: submenu[2].checked,
             bugreport: submenu[3].checked,
             theme: {
-                "default": themeMenu[0].checked,
-                "contrast": themeMenu[1].checked
+                "red": themeMenu[0].checked,
+                "orange": themeMenu[1].checked,
+                "yellow": themeMenu[2].checked,
+                "green": themeMenu[3].checked,
+                "blue": themeMenu[4].checked,
+                "purple": themeMenu[5].checked,
+                "pink": themeMenu[6].checked,
+                "contrast": themeMenu[7].checked
             }
         };
 
@@ -67,10 +73,22 @@ var preferences = {
         preferences.theme();
     },
     theme: function() {
-        if (window.options.theme["default"] === true) {
-            $("#style").attr("href", "css/style.css")
+        if (window.options.theme["red"] === true) {
+            $("#style").attr("href", "css/colours/red.css")
         } else if (window.options.theme["contrast"] === true) {
             $("#style").attr("href", "css/highcontrast.css")
+        } else if (window.options.theme["orange"] === true) {
+            $("#style").attr("href", "css/style.css")
+        } else if (window.options.theme["yellow"] === true) {
+            $("#style").attr("href", "css/colours/bright-yellow.css")
+        } else if (window.options.theme["green"] === true) {
+            $("#style").attr("href", "css/colours/green.css")
+        } else if (window.options.theme["blue"] === true) {
+            $("#style").attr("href", "css/colours/blue.css")
+        } else if (window.options.theme["purple"] === true) {
+            $("#style").attr("href", "css/colours/purple.css")
+        } else if (window.options.theme["pink"] === true) {
+            $("#style").attr("href", "css/colours/pink.css")
         }
     }
 };

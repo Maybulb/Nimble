@@ -64,7 +64,13 @@
             "center": false,
             "bugreport": true,
             theme: {
-                "default": true,
+                "red": false,
+                "orange": true,
+                "yellow": false,
+                "green": false,
+                "blue": false,
+                "purple": false,
+                "pink": false,
                 "contrast": false
             }
         };
@@ -75,7 +81,13 @@
             "center": false,
             "bugreport": true,
             theme: {
-                "default": true,
+                "red": false,
+                "orange": true,
+                "yellow": false,
+                "green": false,
+                "blue": false,
+                "purple": false,
+                "pink": false,
                 "contrast": false
             }
         };
@@ -150,9 +162,51 @@
     }, {
         label: "Themes",
         submenu: [{
-            label: "Default",
+            label: "Red",
             type: "radio",
-            checked: window.options.theme["default"],
+            checked: window.options.theme["red"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Orange",
+            type: "radio",
+            checked: window.options.theme["orange"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Yellow",
+            type: "radio",
+            checked: window.options.theme["yellow"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Green",
+            type: "radio",
+            checked: window.options.theme["green"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Blue",
+            type: "radio",
+            checked: window.options.theme["blue"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Pink",
+            type: "radio",
+            checked: window.options.theme["pink"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Purple",
+            type: "radio",
+            checked: window.options.theme["purple"],
             click: function() {
                 preferences.save();
             }

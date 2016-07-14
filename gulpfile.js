@@ -4,9 +4,12 @@ var gulp = require('gulp'),
 require('shelljs/global');
 
 gulp.task('sass', function() {
-	return gulp.src('src/css/*.sass')
+	gulp.src('src/css/*.sass')
 		.pipe(sass())
 		.pipe(gulp.dest('src/css'))
+	gulp.src('src/css/colours/*.sass')
+		.pipe(sass())
+		.pipe(gulp.dest('src/css/colours'))
 })
 
 gulp.task('default', ['sass']);
