@@ -3,7 +3,7 @@
 <head>
     <title>Nimble</title>
     <meta charset="utf-8">
-    <link href="css/style.css" rel="stylesheet">
+    <link id="style" href="css/style.css" rel="stylesheet">
     <link href="../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet"><!-- loaders.css -->
     <link href="../node_modules/loaders.css/loaders.min.css" rel="stylesheet">
     <script src="../node_modules/bugsnag-js/src/bugsnag.js"></script>
@@ -60,14 +60,22 @@
             "mathjs": true,
             "startup": true,
             "center": false,
-            "bugreport": true
+            "bugreport": true,
+            theme: {
+                "default": true,
+                "contrast": false
+            }
         };
     } catch (e) {
         window.options = {
             "mathjs": true,
             "startup": true,
             "center": false,
-            "bugreport": true
+            "bugreport": true,
+            theme: {
+                "default": true,
+                "contrast": false
+            }
         };
     } finally {
         ipcRenderer.send("save_options", JSON.stringify(window.options));
@@ -135,6 +143,23 @@
             accelerator: "CmdOrCtrl+Shift+=",
             click: function() {
                 ipcRenderer.send("toggleview");
+            }
+        }]
+    }, {
+        label: "Themes",
+        submenu: [{
+            label: "Default",
+            type: "radio",
+            checked: window.options.theme["default"],
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "High Contrast",
+            type: "radio",
+            checked: window.options.theme["contrast"],
+            click: function() {
+                preferences.save();
             }
         }]
     }, {

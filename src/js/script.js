@@ -49,15 +49,29 @@ var shareButton = {
 var preferences = {
     save: function() {
         var submenu = menuthing.items[menuthing.items.length - 1].submenu.items;
+        var themeMenu = menuthing.items[menuthing.items.length - 2].submenu.items;
 
         window.options = {
             mathjs: submenu[0].checked,
             startup: submenu[1].checked,
             center: submenu[2].checked,
-            bugreport: submenu[3].checked
+            bugreport: submenu[3].checked,
+            theme: {
+                "default": themeMenu[0].checked,
+                "contrast": themeMenu[1].checked
+            }
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options));
+
+        preferences.theme();
+    },
+    theme: function() {
+        if (window.options.theme["default"] === true) {
+            $("#style").attr("href", "css/style.css")
+        } else if (window.options.theme["contrast"] === true) {
+            $("#style").attr("href", "css/highcontrast.css")
+        }
     }
 };
 
