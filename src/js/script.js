@@ -220,6 +220,9 @@ $(document).ready(function() {
 
     // set zoom level limits
     WebFrame.setZoomLevelLimits(1,1);
+
+    // set theme
+    preferences.theme();
 });
 
 // main shit here boys
