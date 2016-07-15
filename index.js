@@ -7,7 +7,6 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
-global.options = require('./options.json');
 const path = require('path')
 require('shelljs/global')
 
@@ -150,9 +149,13 @@ var optfunc = {
         return null
     },
     getYValue: function() {
-        if (global.autohide === true && global.options.center === false) {
-            return 22
-        } else {
+        try {
+            if (global.autohide === true && global.options.center === false) {
+                return 22
+            } else {
+                return mb.window.getPosition()[1]
+            }
+        } catch (e) {
             return mb.window.getPosition()[1]
         }
     }
