@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/madebybright/nimble#readme",
   "build": {
-    "osx": {
+    "mac": {
       "target": "default",
       "icon": "assets/512.icns"
     },
