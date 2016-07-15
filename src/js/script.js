@@ -62,8 +62,8 @@ var preferences = {
                 "yellow": themeMenu[2].checked,
                 "green": themeMenu[3].checked,
                 "blue": themeMenu[4].checked,
-                "purple": themeMenu[5].checked,
-                "pink": themeMenu[6].checked,
+                "purple": themeMenu[6].checked,
+                "pink": themeMenu[5].checked,
                 "contrast": themeMenu[7].checked
             }
         };
