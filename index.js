@@ -7,7 +7,9 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
+global.options = require('./options.json');
 const path = require('path')
+require('shelljs/global')
 
 var mb = menubar({
     height: 42,
@@ -46,7 +48,7 @@ ipc.on('resize', function(event, arg) {
         // if height is way too big, then just set it short and scroll
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
-            y: mb.window.getPosition()[1],
+            y: optfunc.getYValue(),
             width: arg.width,
             height: 533
         }, true);
@@ -56,7 +58,7 @@ ipc.on('resize', function(event, arg) {
     } else {
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
-            y: mb.window.getPosition()[1],
+            y: optfunc.getYValue(),
             width: arg.width,
             height: arg.height
         }, true);
@@ -72,20 +74,20 @@ ipc.on('resize', function(event, arg) {
 
 ipc.on('toggleview', function(event) {
     var position = [mb.window.getPosition()[0], mb.window.getPosition()[1]];
-        
+    
     if(mb.window.isVisible() === true) {
         mb.hideWindow();
     } else if (mb.window.isVisible() === false) {
         mb.showWindow();
     }
 
-    mb.window.setPosition(position[0], position[1], true);
+    mb.window.setPosition(position[0], position[1]);
 });
 
 ipc.on('reset-window', function(event) {
     mb.window.setBounds({
         x: mb.window.getPosition()[0],
-        y: mb.window.getPosition()[1],
+        y: optfunc.getYValue(),
         width: 380,
         height: 42,
     }, true);
@@ -146,6 +148,13 @@ var optfunc = {
         }
 
         return null
+    },
+    getYValue: function() {
+        if (global.autohide === true && global.options.center === false) {
+            return 22
+        } else {
+            return mb.window.getPosition()[1]
+        }
     }
 }
 
@@ -157,16 +166,28 @@ mb.on('after-create-window', function() {
     mb.window.setResizable(false);
     mb.tray.setPressedImage(__dirname + '/assets/img/menubar_icon_pressed.png');
 
-    mb.window.setBounds({
-        x: mb.window.getPosition()[0],
-        y: mb.window.getPosition()[1],
-        width: 380,
-        height: 42,
-    }, true);
-
     mb.tray
         .on('click', click)
         .on('right-click', rightClick)
+
+    // check if menubar is set to autohide
+    var script = "defaults read NSGlobalDomain _HIHideMenuBar -bool"
+    var output = exec(script, {async:true})
+
+    output.stdout.on("data", function(data) {
+        if (data == 1) {
+            global.autohide = true
+        } else if (data == 0) {
+            global.autohide = false
+        }
+
+        mb.window.setBounds({
+            x: mb.window.getPosition()[0],
+            y: optfunc.getYValue(),
+            width: 380,
+            height: 42
+        });
+    })  
 
     function click(e, bounds) {
         if (e.shiftKey) {
@@ -199,6 +220,7 @@ mb.on('after-create-window', function() {
 mb.on('after-show', function() {
     if (mb.window) {
         mb.window.webContents.send("window-open");
+        mb.window.setPosition(mb.window.getPosition()[0], optfunc.getYValue());
     }
 })
 
