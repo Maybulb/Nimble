@@ -190,6 +190,17 @@ ipc.on('quit', function(){
 })
 
 mb.on('after-create-window', function() {
+    // error/log forwarding
+    process.on("uncaughtException", function(err) {
+        mb.window.webContents.send("error", err);
+    })
+
+    var _consolelog = console.log.bind(console);
+    console.log = function log(message) {
+        mb.window.webContents.send('log', message);
+        _consolelog(message);
+    };
+
     mb.window.setResizable(false);
     mb.tray.setPressedImage(__dirname + '/assets/img/menubar_icon_pressed.png');
 
@@ -204,6 +215,7 @@ mb.on('after-create-window', function() {
     output.stdout.on("data", function(data) {
         if (data == 1) {
             global.autohide = true
+            console.log("menubar is set to autohide")
         } else if (data == 0) {
             global.autohide = false
         }
@@ -214,7 +226,7 @@ mb.on('after-create-window', function() {
             width: 380,
             height: 42
         });
-    })  
+    })
 
     function click(e, bounds) {
         if (e.shiftKey) {

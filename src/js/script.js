@@ -229,6 +229,14 @@ $(document).ready(function() {
         $("#input").focus().select();
     });
 
+    ipcRenderer.on("log", function(m) {
+        _consolelog(m)
+    }) 
+
+    ipcRenderer.on("error", function(e) {
+        _consolelog("Error from backend:" + e)
+    })
+
     // on right click
     ipcRenderer.on("tray-rightclick", function() {
         // pop up menu
