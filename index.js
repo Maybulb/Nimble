@@ -325,9 +325,9 @@ mb.on('ready', function() {
                 "buttons": ["Yes", "No"],
             }, function(response) {
                 switch(response) {
-                    case 0:
-                        break;
                     case 1:
+                        break;
+                    case 0:
                         autoUpdater.quitAndInstall();
                         break;
                 }
