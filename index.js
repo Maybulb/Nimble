@@ -1,5 +1,38 @@
-var electron = require('electron');
-var app = require('electron').app;
+const bugsnag = require('bugsnag');
+const electron = require('electron');
+const app = require('electron').app;
+const path = require('path');
+
+bugsnag.register('b3d3a88f13b0f8e22b4485b8b04939bd', {
+    releaseStage: process.env.NODE_ENV,
+    appVersion: require('./package.json').version,
+    sendCode: true,
+    projectRoot: path.resolve(app.getPath('exe'), '../..'), // Locates `Content` directory within the .app
+    metaData: {
+        process: {
+            arch: process.arch,
+            argv: process.argv,
+            pid: process.pid,
+            platform: process.platform,
+            version: process.version,
+            cwd: process.cwd(),
+            features: process.features,
+            uptime: process.uptime(),
+            versions: process.versions,
+        }
+    }
+});
+
+bugsnag.onBeforeNotify(function () {
+    // Notifies us of initial startup runtime errors & normal errors when user has specified allowing bugreports
+    return !global.options || global.options.bugreport === true;
+});
+
+process.on('unhandledRejection', function (err) {
+    console.error('Unhandled error: ' + (err && err.stack || err));
+    bugsnag.notify(err);
+});
+
 var ipc = require('electron').ipcMain;
 var globalShortcut = require('electron').globalShortcut;
 var autoUpdater = require('electron').autoUpdater;
@@ -32,7 +65,6 @@ try {
     }
 }
 
-const path = require('path');
 require('shelljs/global');
 
 var mb = menubar({
