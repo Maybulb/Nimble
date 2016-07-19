@@ -7,7 +7,8 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
-var os = require('os')
+var os = require('os');
+var Bugsnag = require("bugsnag-js");
 
 try {
     global.options = require(os.homedir() + '/.nimble-options.json');
@@ -269,6 +270,26 @@ mb.on('ready', function() {
     // screen size
     var screen = require('electron').screen;
     global.screenSize = screen.getPrimaryDisplay().size;
+
+    Bugsnag.apiKey = '153b1e381816379c9004a05c21587e8b';
+    Bugsnag.autoNotify = true;
+    Bugsnag.appVersion = pjson.version;
+    Bugsnag.metaData = {
+        process: {
+            arch: process.arch,
+            argv: process.argv,
+            pid: process.pid,
+            platform: process.platform,
+            version: process.version,
+            cwd: process.cwd(),
+            features: process.features,
+            uptime: process.uptime(),
+            versions: process.versions
+        }
+    };
+    Bugsnag.beforeNotify = function beforeNotify(payload) {
+        return global.options.bugreport;
+    };
 
     // auto update
     if (global.options.autoupdate === true) {
