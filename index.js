@@ -7,23 +7,44 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
-global.options = require('./options.json') || {
-    "mathjs": true,
-    "startup": true,
-    "center": false,
-    "bugreport": true,
-    "autoupdate": true,
-    theme: {
-        "red": false,
-        "orange": true,
-        "yellow": false,
-        "green": false,
-        "blue": false,
-        "purple": false,
-        "pink": false,
-        "contrast": false
+try {
+    global.options = require('./options.json') || {
+        "mathjs": true,
+        "startup": true,
+        "center": false,
+        "bugreport": true,
+        "autoupdate": true,
+        theme: {
+            "red": false,
+            "orange": true,
+            "yellow": false,
+            "green": false,
+            "blue": false,
+            "purple": false,
+            "pink": false,
+            "contrast": false
+        }
+    }
+} catch (e) {
+    global.options = {
+        "mathjs": true,
+        "startup": true,
+        "center": false,
+        "bugreport": true,
+        "autoupdate": true,
+        theme: {
+            "red": false,
+            "orange": true,
+            "yellow": false,
+            "green": false,
+            "blue": false,
+            "purple": false,
+            "pink": false,
+            "contrast": false
+        }
     }
 }
+
 const path = require('path');
 require('shelljs/global');
 
