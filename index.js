@@ -218,6 +218,8 @@ mb.on('after-create-window', function() {
             console.log("menubar is set to autohide")
         } else if (data == 0) {
             global.autohide = false
+        } else {
+            global.autohide = false
         }
 
         mb.window.setBounds({
