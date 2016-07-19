@@ -7,8 +7,25 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
-const path = require('path')
-require('shelljs/global')
+global.options = require('./options.json') || {
+    "mathjs": true,
+    "startup": true,
+    "center": false,
+    "bugreport": true,
+    "autoupdate": true,
+    theme: {
+        "red": false,
+        "orange": true,
+        "yellow": false,
+        "green": false,
+        "blue": false,
+        "purple": false,
+        "pink": false,
+        "contrast": false
+    }
+}
+const path = require('path');
+require('shelljs/global');
 
 var mb = menubar({
     height: 42,
@@ -233,36 +250,37 @@ mb.on('ready', function() {
     global.screenSize = screen.getPrimaryDisplay().size;
 
     // auto update
-    var updateFeed = 'https://nimble-autoupdate.herokuapp.com/update/osx/';
-    autoUpdater.setFeedURL(updateFeed + pjson.version);
+    if (global.options.autoupdate === true) {
+        var updateFeed = 'https://nimble-autoupdate.herokuapp.com/update/osx/';
+        autoUpdater.setFeedURL(updateFeed + pjson.version);
+        autoUpdater.checkForUpdates();
 
-    autoUpdater.checkForUpdates();
-
-    autoUpdater.on('update-available', function() {
-        console.log('update available and downloading');
-        require('electron').dialog.showMessageBox({
-            "message": "Update Downloading",
-            "detail": "A new update is currently available and downloading. Nimble will let you know before it quits to install the update.",
-            "buttons": []
-        })
-    });
-
-    autoUpdater.on('update-downloaded', function(event) {
-        console.log('update downloaded: ' + event);
-        require('electron').dialog.showMessageBox({
-            "message": "Update Ready To Install",
-            "detail": "Nimble has downloaded a new update. Would you like to quit Nimble and install it?",
-            "buttons": ["No", "Yes"],
-        }, function(response) {
-            switch(response) {
-                case 0:
-                    break;
-                case 1:
-                    autoUpdater.quitAndInstall();
-                    break;
-            }
+        autoUpdater.on('update-available', function() {
+            console.log('update available and downloading');
+            require('electron').dialog.showMessageBox({
+                "message": "Update Downloading",
+                "detail": "A new update is currently available and downloading. Nimble will let you know before it quits to install the update.",
+                "buttons": []
+            })
         });
-    });
+
+        autoUpdater.on('update-downloaded', function(event) {
+            console.log('update downloaded: ' + event);
+            require('electron').dialog.showMessageBox({
+                "message": "Update Ready To Install",
+                "detail": "Nimble has downloaded a new update. Would you like to quit Nimble and install it?",
+                "buttons": ["Yes", "No"],
+            }, function(response) {
+                switch(response) {
+                    case 0:
+                        break;
+                    case 1:
+                        autoUpdater.quitAndInstall();
+                        break;
+                }
+            });
+        });
+    }
 });
 
 mb.on('will-quit', function() {

@@ -56,6 +56,7 @@ var preferences = {
             startup: submenu[1].checked,
             center: submenu[2].checked,
             bugreport: submenu[3].checked,
+            autoupdate: submenu[4].checked,
             theme: {
                 "red": themeMenu[0].checked,
                 "orange": themeMenu[1].checked,

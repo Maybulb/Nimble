@@ -63,6 +63,7 @@
             "startup": true,
             "center": false,
             "bugreport": true,
+            "autoupdate": true,
             theme: {
                 "red": false,
                 "orange": true,
@@ -80,6 +81,7 @@
             "startup": true,
             "center": false,
             "bugreport": true,
+            "autoupdate": true,
             theme: {
                 "red": false,
                 "orange": true,
@@ -245,6 +247,13 @@
             label: "Report bugs to Bright HQ",
             type: "checkbox",
             checked: window.options.bugreport,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Autoupdate Nimble if there is a new version",
+            type: "checkbox",
+            checked: window.options.autoupdate,
             click: function() {
                 preferences.save();
             }
