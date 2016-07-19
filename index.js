@@ -2,10 +2,11 @@ const bugsnag = require('bugsnag');
 const electron = require('electron');
 const app = require('electron').app;
 const path = require('path');
+const pjson = require('./package.json');
 
 bugsnag.register('b3d3a88f13b0f8e22b4485b8b04939bd', {
     releaseStage: process.env.NODE_ENV,
-    appVersion: require('./package.json').version,
+    appVersion: pjson.version,
     sendCode: true,
     projectRoot: path.resolve(app.getPath('exe'), '../..'), // Locates `Content` directory within the .app
     metaData: {
@@ -39,7 +40,6 @@ var autoUpdater = require('electron').autoUpdater;
 var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
-var pjson = require('./package.json');
 var os = require('os')
 
 try {
