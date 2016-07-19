@@ -7,6 +7,7 @@
     "auto-launch": "^1.1.1",
     "bugsnag": "^1.7.0",
     "bugsnag-js": "^2.5.0",
+    "electron-is-dev": "^0.1.1",
     "font-awesome": "^4.5.0",
     "imagesloaded": "^4.1.0",
     "jquery": "^2.1.4",

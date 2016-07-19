@@ -41,6 +41,7 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var os = require('os')
+const isDev = require('electron-is-dev');
 
 try {
     global.options = require(os.homedir() + '/.nimble-options.json');
@@ -253,6 +254,11 @@ mb.on('after-create-window', function() {
         } else {
             global.autohide = false
         }
+    })
+
+    output.stderr.on("data", function(data) {
+        console.log("no autohide setting was found, setting to default")
+        global.autohide = false
 
         mb.window.setBounds({
             x: mb.window.getPosition()[0],
@@ -303,7 +309,7 @@ mb.on('ready', function() {
     global.screenSize = screen.getPrimaryDisplay().size;
 
     // auto update
-    if (global.options.autoupdate === true) {
+    if (global.options.autoupdate === true && isDev === false) {
         var updateFeed = 'https://nimble-autoupdate.herokuapp.com/update/osx/';
         autoUpdater.setFeedURL(updateFeed + pjson.version);
         autoUpdater.checkForUpdates();
