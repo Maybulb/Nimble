@@ -17,7 +17,8 @@ var $ = require('jquery'),
     URL = "https://nimble-backend.herokuapp.com/input?i=%s",
     unicode = /(?:\\:)(([a-z]|[0-9])+)/g,
     imagesLoaded = require('imagesloaded'),
-    WebFrame = require('web-frame');
+    WebFrame = require('web-frame'),
+    os = require('os');
 
 var clipboardCopy = {
     link: function() {

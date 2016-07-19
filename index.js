@@ -7,24 +7,10 @@ var menubar = require('menubar');
 var fs = require('fs');
 var AutoLaunch = require('auto-launch');
 var pjson = require('./package.json');
+var os = require('os')
+
 try {
-    global.options = require('./options.json') || {
-        "mathjs": true,
-        "startup": true,
-        "center": false,
-        "bugreport": true,
-        "autoupdate": true,
-        theme: {
-            "red": false,
-            "orange": true,
-            "yellow": false,
-            "green": false,
-            "blue": false,
-            "purple": false,
-            "pink": false,
-            "contrast": false
-        }
-    }
+    global.options = require(os.homedir() + '/.nimble-options.json');
 } catch (e) {
     global.options = {
         "mathjs": true,
@@ -138,7 +124,7 @@ ipc.on('node_console', function(event, arg) {
 });
 
 ipc.on('save_options', function(event, arg) {
-    fs.writeFile(__dirname + "/options.json", arg, function(err) {
+    fs.writeFile(os.homedir() + '/.nimble-options.json', arg, function(err) {
         if(err) {
             console.log(err);
         }

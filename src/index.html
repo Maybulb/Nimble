@@ -58,23 +58,8 @@
     </script> 
     <script>
     try {
-        window.options = require("../options.json") || {
-            "mathjs": true,
-            "startup": true,
-            "center": false,
-            "bugreport": true,
-            "autoupdate": true,
-            theme: {
-                "red": false,
-                "orange": true,
-                "yellow": false,
-                "green": false,
-                "blue": false,
-                "purple": false,
-                "pink": false,
-                "contrast": false
-            }
-        };
+        window.options = require(os.homedir() + '/.nimble-options.json');
+        console.log(require(os.homedir() + '/.nimble-options.json'))
     } catch (e) {
         window.options = {
             "mathjs": true,
