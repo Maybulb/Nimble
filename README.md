@@ -40,6 +40,7 @@ If you'd like to package Nimble, you can use our Gulp task for building Nimble.
 
 ```bash
 gulp build # packages and builds Nimble into a ZIP and a DMG
+sh clean-build.sh # clean build, reinstalls node modules and such
 ```
 
 If you're bundling it, make sure to package it beforehand so that the `.app` exists for the disk image.
