@@ -61,7 +61,9 @@ try {
             "purple": false,
             "pink": false,
             "contrast": false
-        }
+        },
+        enableDefaultSuggestions: true,
+        customSuggestions: []
     }
 }
 
@@ -72,7 +74,7 @@ var mb = menubar({
     width: 380,
     icon: __dirname + '/assets/img/menubar_iconTemplate.png',
     index: 'file://' + __dirname + '/src/index.html',
-    "preload-window": true
+    preloadWindow: true
 });
 
 ipc.on('resize', function(event, arg) {
@@ -161,7 +163,7 @@ ipc.on('save_options', function(event, arg) {
         if(err) {
             console.log(err);
         }
-
+        mb.window.webContents.send('did-save-options', !err);
         console.log("Options were saved.\n");
     });
 

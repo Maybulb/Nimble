@@ -79,7 +79,7 @@
             }
         };
     } finally {
-        ipcRenderer.send("save_options", JSON.stringify(window.options));
+        ipcRenderer.send("save_options", JSON.stringify(window.options, null, "  "));
     }
 
     const remote = require('electron').remote;

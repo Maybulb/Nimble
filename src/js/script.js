@@ -4,6 +4,8 @@ var $ = require('jquery'),
     electron = require('electron'),
     format = require('string-format'),
     key = require('./js/key.json'),
+    os = require('os'),
+    suggestions = getSuggestions(),
     wolfram = require('wolfram-alpha').createClient(key.api, {
         width: 348,
         maxwidth: 380
@@ -17,8 +19,28 @@ var $ = require('jquery'),
     URL = "https://nimble-backend.herokuapp.com/input?i=%s",
     unicode = /(?:\\:)(([a-z]|[0-9])+)/g,
     imagesLoaded = require('imagesloaded'),
-    WebFrame = require('web-frame'),
-    os = require('os');
+    WebFrame = require('web-frame');
+
+function getSuggestions() {
+    var suggestions = [];
+    var defaultSuggestions = require('./js/suggestions.json');
+    suggestions = suggestions.concat(defaultSuggestions);
+    try {
+        var rc = require(os.homedir() + '/.nimble-options.json');
+        if (rc.enableDefaultSuggestions === false) {
+            suggestions.length = 0;
+        }
+        if (rc.customSuggestions) {
+            suggestions = suggestions.concat(rc.customSuggestions);
+        }
+    } catch(err) {
+        Bugsnag.notifyException(err);
+    }
+    if (!suggestions.length) {
+        suggestions.push('Enter query...');
+    }
+    return suggestions;
+}
 
 var clipboardCopy = {
     link: function() {
@@ -46,11 +68,17 @@ var shareButton = {
     }
 }
 
+function defaults(test, fallback) {
+    return typeof test !== 'undefined' ? test : fallback;
+}
+
 // options
 var preferences = {
     save: function() {
         var submenu = menuthing.items[menuthing.items.length - 1].submenu.items;
         var themeMenu = menuthing.items[menuthing.items.length - 2].submenu.items;
+
+        console.log('existing options', window.options);
 
         window.options = {
             mathjs: submenu[0].checked,
@@ -67,10 +95,12 @@ var preferences = {
                 "purple": themeMenu[6].checked,
                 "pink": themeMenu[5].checked,
                 "contrast": themeMenu[7].checked
-            }
+            },
+            enableDefaultSuggestions: defaults(options.enableDefaultSuggestions, true),
+            customSuggestions: defaults(options.customSuggestions, []),
         };
 
-        ipcRenderer.send("save_options", JSON.stringify(window.options));
+        ipcRenderer.send("save_options", JSON.stringify(window.options, null, "  "));
 
         preferences.theme();
     },
@@ -201,19 +231,13 @@ $(document).keydown(function(event) {
 });
 
 $(document).ready(function() {
-    // set placeholder
-    $.getJSON('js/suggestions.json', function(json) {
-        var placeholder = rand.paul(json);
+    function newPlaceholder() {
+        // set placeholder
+        var placeholder = rand.paul(suggestions);
         $('#input').attr('placeholder', placeholder);
-    });
+    }
 
-    window.setInterval(function() {
-        // new placeholder every 10 seconds
-        $.getJSON('js/suggestions.json', function(json) {
-            var placeholder = rand.paul(json);
-            $('#input').attr('placeholder', placeholder);
-        });
-    }, 10000);
+    setInterval(newPlaceholder, 10000);
 
     // search button
     $("#input").keyup(function() {
@@ -236,6 +260,11 @@ $(document).ready(function() {
     ipcRenderer.on("error", function(e) {
         _consolelog("Error from backend:" + e)
     })
+
+    ipcRenderer.on("did-save-options", function(e) {
+        suggestions = getSuggestions();
+        newPlaceholder();
+    });
 
     // on right click
     ipcRenderer.on("tray-rightclick", function() {
