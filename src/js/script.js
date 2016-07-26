@@ -77,9 +77,7 @@ var preferences = {
     save: function() {
         var submenu = menuthing.items[menuthing.items.length - 1].submenu.items;
         var themeMenu = menuthing.items[menuthing.items.length - 2].submenu.items;
-
-        console.log('existing options', window.options);
-
+        
         window.options = {
             mathjs: defaults(submenu[0].checked, true),
             startup: defaults(submenu[1].checked, true),

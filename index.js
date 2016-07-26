@@ -185,10 +185,8 @@ var optfunc = {
 
         // startup?
         if (global.options.startup === true) {
-            console.log("Loading Nimble on startup: on.\n")
             nimbleAutoLauncher.enable();
         } else {
-            console.log("Loading Nimble on startup: off.\n")
             nimbleAutoLauncher.disable();
         }
 
