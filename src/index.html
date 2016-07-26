@@ -27,7 +27,7 @@
             }
         };
         Bugsnag.beforeNotify = function beforeNotify(payload) {
-            return window.options.bugreport;
+            return typeof window.options !== 'undefined' ? window.options.bugreport : false;
         };
     </script>
     <script src="js/script.js"></script>
@@ -76,7 +76,9 @@
                 "purple": false,
                 "pink": false,
                 "contrast": false
-            }
+            },
+            "enableDefaultSuggestions": true,
+            "customSuggestions": []
         };
     } finally {
         ipcRenderer.send("save_options", JSON.stringify(window.options, null, "  "));
@@ -239,6 +241,13 @@
             label: "Autoupdate Nimble if there is a new version",
             type: "checkbox",
             checked: window.options.autoupdate,
+            click: function() {
+                preferences.save();
+            }
+        }, {
+            label: "Use default suggestions",
+            type: "checkbox",
+            checked: window.options.enableDefaultSuggestions,
             click: function() {
                 preferences.save();
             }

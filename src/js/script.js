@@ -5,7 +5,6 @@ var $ = require('jquery'),
     format = require('string-format'),
     key = require('./js/key.json'),
     os = require('os'),
-    suggestions = getSuggestions(),
     wolfram = require('wolfram-alpha').createClient(key.api, {
         width: 348,
         maxwidth: 380
@@ -21,23 +20,24 @@ var $ = require('jquery'),
     imagesLoaded = require('imagesloaded'),
     WebFrame = require('web-frame');
 
+window.suggestions = getSuggestions();
+
 function getSuggestions() {
     var suggestions = [];
     var defaultSuggestions = require('./js/suggestions.json');
     suggestions = suggestions.concat(defaultSuggestions);
     try {
-        var rc = require(os.homedir() + '/.nimble-options.json');
-        if (rc.enableDefaultSuggestions === false) {
+        if (window.options.enableDefaultSuggestions === false) {
             suggestions.length = 0;
         }
-        if (rc.customSuggestions) {
+        if (window.options.customSuggestions) {
             suggestions = suggestions.concat(rc.customSuggestions);
         }
     } catch(err) {
         Bugsnag.notifyException(err);
     }
     if (!suggestions.length) {
-        suggestions.push('Enter query...');
+        suggestions.push('');
     }
     return suggestions;
 }
@@ -81,11 +81,11 @@ var preferences = {
         console.log('existing options', window.options);
 
         window.options = {
-            mathjs: submenu[0].checked,
-            startup: submenu[1].checked,
-            center: submenu[2].checked,
-            bugreport: submenu[3].checked,
-            autoupdate: submenu[4].checked,
+            mathjs: defaults(submenu[0].checked, true),
+            startup: defaults(submenu[1].checked, true),
+            center: defaults(submenu[2].checked, false),
+            bugreport: defaults(submenu[3].checked, true),
+            autoupdate: defaults(submenu[4].checked, true),
             theme: {
                 "red": themeMenu[0].checked,
                 "orange": themeMenu[1].checked,
@@ -96,8 +96,8 @@ var preferences = {
                 "pink": themeMenu[5].checked,
                 "contrast": themeMenu[7].checked
             },
-            enableDefaultSuggestions: defaults(options.enableDefaultSuggestions, true),
-            customSuggestions: defaults(options.customSuggestions, []),
+            enableDefaultSuggestions: defaults(submenu[5].checked, true),
+            customSuggestions: defaults(window.options.customSuggestions, [])
         };
 
         ipcRenderer.send("save_options", JSON.stringify(window.options, null, "  "));
@@ -233,7 +233,7 @@ $(document).keydown(function(event) {
 $(document).ready(function() {
     function newPlaceholder() {
         // set placeholder
-        var placeholder = rand.paul(suggestions);
+        var placeholder = rand.paul(window.suggestions);
         $('#input').attr('placeholder', placeholder);
     }
 
@@ -262,7 +262,7 @@ $(document).ready(function() {
     })
 
     ipcRenderer.on("did-save-options", function(e) {
-        suggestions = getSuggestions();
+        window.suggestions = getSuggestions();
         newPlaceholder();
     });
 
