@@ -254,6 +254,13 @@ mb.on('after-create-window', function() {
         } else {
             global.autohide = false
         }
+
+        mb.window.setBounds({
+            x: mb.window.getPosition()[0],
+            y: optfunc.getYValue(),
+            width: 380,
+            height: 42
+        });
     })
 
     output.stderr.on("data", function(data) {
