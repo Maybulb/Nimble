@@ -167,14 +167,14 @@ var backdoor = {
 
 var loader = function(state) {
     if (state === true) {
-        $("div.input i").slideUp(200, function() {
+        $("div.input i").fadeOut(200, function() {
             $("div.input i").attr("class", "fa fa-refresh").attr("disabled", "disabled").addClass("animateLoader");
-        }).slideDown(500);
+        }).fadeIn(500);
         ipcRenderer.send("reset-window");
     } else {
-        $("div.input i").slideUp(200, function() {
+        $("div.input i").fadeOut(200, function() {
             $("div.input i").attr("class", "fa fa-search").removeAttr("disabled").removeClass("animateLoader");
-        }).slideDown(500);
+        }).fadeIn(500);
         backdoor.resizeWindow();
     }
 }
