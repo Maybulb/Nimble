@@ -44,10 +44,8 @@
         <em>Interpreted as:</em> <span id="queryInterpretation">query interpretation</span>
     </div>
 
-    <div class="output" id="outputParent">
-        <div id="output">
-            <!-- this is where output goes -->
-        </div>
+    <div id="output">
+        <!-- this is where output goes -->
     </div>
 
     <div id="wolfram-credit">
@@ -290,7 +288,7 @@
     var menuthing = new Menu.buildFromTemplate(menuItems);
     var menuthingGlobal = Menu.setApplicationMenu(menuthing);
 
-    var output = document.getElementById("outputParent");
+    var output = document.getElementById("output");
 
     $(".input, .interpret, #wolfram-credit").bind('contextmenu', function(e) {
         e.preventDefault();

@@ -78,25 +78,6 @@ var mb = menubar({
 });
 
 ipc.on('resize', function(event, arg) {
-
-
-    // this is the animation code that crashes
-    /*
-    var h = mb.window.getSize()[1];
-    while(h !== arg.height) {
-        setTimeout(function () {
-            if(h > arg.height) {
-                h--;
-            } else if (h < arg.height) {
-                h++;
-            }
-
-            console.log(h)
-            mb.window.setSize(mb.window.getSize()[0], h)
-        }, 1)
-    }
-    */
-
     var finalDim = {
         height: null,
         width: null
@@ -147,7 +128,7 @@ ipc.on('reset-window', function(event) {
         x: mb.window.getPosition()[0],
         y: optfunc.getYValue(),
         width: 380,
-        height: 42,
+        height: 42
     }, true);
 
     optfunc.position();

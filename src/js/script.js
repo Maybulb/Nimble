@@ -127,7 +127,7 @@ var preferences = {
 var backdoor = {
     resizeWindow: function(error) {
         var h = $("body").height();
-        var w = $(".output").width() + 32;
+        var w = $("#output").width() + 32;
 
         if (w < 380 && error !== true) {
             w = 380;

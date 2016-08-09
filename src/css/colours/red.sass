@@ -58,30 +58,23 @@ p.err
     text-align: center
     line-height: 1.4
 
-div.output
+div#output
     display: inline-block
     position: relative
     border: 0
     pointer-events: auto
     font-size: 1m
-    padding: 12px 16px
+    margin: 12px 16px
     font-family: $font-family
     letter-spacing: 0.5px
     outline: none
     z-index: 1
     overflow-y: scroll
-
-    // 380 is the magic number
     max-height: 380px
+    min-width: 380px
 
-    // leaving this here for adam
-    // ::selection
-        // background: $red
-        // color: white
-
-div.output::-webkit-scrollbar
+div#output::-webkit-scrollbar
     display: none
-
 div.input
     display: relative
     width: 100%
@@ -145,14 +138,14 @@ hr
     -webkit-user-drag: none
 
 .animateLoader
-    -webkit-animation: spin 0.75s ease-in-out infinite alternate
+    -webkit-animation: spin 0.75s ease-in-out infinite
     -webkit-transform-origin: center
 
 @-webkit-keyframes spin
-    from
+    0%
         -webkit-transform: rotate(0deg)
 
-    to
+    100%
         -webkit-transform: rotate(360deg)
 
 h3
