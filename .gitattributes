@@ -1,2 +1,2 @@
-src/css/colours/* linguist-vendored=false
-src/css/highcontrast.* linquist-vendored=false
+src/css/colours/* linguist-vendored=true
+src/css/highcontrast.* linquist-vendored=true
