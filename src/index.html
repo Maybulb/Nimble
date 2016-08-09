@@ -85,6 +85,8 @@
     const remote = require('electron').remote;
     const Menu = remote.Menu;
     const MenuItem = remote.MenuItem;
+    const dialog = remote.dialog;
+    const path = require('path');
 
     var menuItems = [{
         label: 'Edit',
@@ -127,6 +129,19 @@
                 label: 'Contact Support',
                 click: function() {
                     require('electron').shell.openExternal('mailto:team@maybulb.com')
+                }
+            }, {
+                label: 'About Nimble',
+                click: function() {
+                    const version = require("../package.json").version
+                    const license = require("../package.json").license
+                    const message = "You are running Nimble v" + version + ".\n\nNimble is © Maybulb, 2016 and usable under the " + license + " license.\n\nFor more information please refer to our support email or on Maybulb.com."
+
+                    dialog.showMessageBox({
+                        title: "Nimble " + version,
+                        message: message,
+                        buttons: ["Done"]
+                    })
                 }
             }
         ]
