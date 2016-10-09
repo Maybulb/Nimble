@@ -8,7 +8,7 @@ Seamless Wolfram-Alpha® in your OS X menubar.
 
 ## Installation
 
-[Download Nimble](https://github.com/madebybright/Nimble/releases/latest), mount the .dmg, and move it to your Applications. You can open it by clicking on its menubar icon, or by using the <kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>=</kbd> hotkey.
+[Download Nimble](https://github.com/Maybulb/Nimble/releases/latest), mount the .dmg, and move it to your Applications. You can open it by clicking on its menubar icon, or by using the <kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>=</kbd> hotkey.
 
 ## Development
 Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`), as well as the Xcode Command Line Tools. You'll also need a [Wolfram Alpha API Key](http://products.wolframalpha.com/api/).
@@ -16,7 +16,7 @@ Electron and gulp required to be installed on your machine (`npm install -g elec
 Clone the repository, install dependencies, then run gulp.
 
 ```bash
-git clone https://github.com/madebybright/Nimble.git
+git clone https://github.com/Maybulb/Nimble.git
 
 # cd into the directory and install dependencies
 cd Nimble && npm install
@@ -50,4 +50,4 @@ Want to make a contribution? Fork the repo, add your changes, and submit a pull 
 
 
 ## License
-Nimble is licensed under [Creative Commons Attribution-NonCommercial 4.0](https://github.com/madebybright/Nimble/blob/master/LICENSE.md).
+Nimble is licensed under [Creative Commons Attribution-NonCommercial 4.0](https://github.com/Maybulb/Nimble/blob/master/LICENSE.md).
