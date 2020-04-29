@@ -10,7 +10,7 @@
     "electron-is-dev": "^0.1.1",
     "font-awesome": "^4.5.0",
     "imagesloaded": "^4.1.0",
-    "jquery": "~> 3.0.0",
+    "jquery": "~> 3.5.0",
     "loaders.css": "^0.1.2",
     "mathjs": "~> 3.17.0",
     "menubar": "^2.3.0",
