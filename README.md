@@ -6,9 +6,8 @@ Seamless Wolfram-Alpha® in your OS X menubar.
 
 > “Nimble can handle pretty much anything you’d normally throw at Wolfram Alpha...” – [Lifehacker](http://lifehacker.com/nimble-crams-wolfram-alpha-into-your-macs-menu-bar-1758071364)
 
-## Installation
-
-[Download Nimble](https://github.com/Maybulb/Nimble/releases/latest), mount the .dmg, and move it to your Applications. You can open it by clicking on its menubar icon, or by using the <kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>=</kbd> hotkey.
+## Notice of Deprecation
+Nimble is **deprecated as of June 2020.** Within the current version are multiple privacy concerns (BugSnag bug reporting is on by default) and outdated dependencies. Really, we **don't think you should run Nimble as it is today.** If you must run it, compile it at your own risk following the development guide. 
 
 ## Development
 Electron and gulp required to be installed on your machine (`npm install -g electron-prebuilt gulp`), as well as the Xcode Command Line Tools. You'll also need a [Wolfram Alpha API Key](http://products.wolframalpha.com/api/).
